@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Lean.Touch;
 
-public class asd : MonoBehaviour
+public class LineWriter : MonoBehaviour
 {
     List<GameObject> ListLR;
     List<Vector3> pos;
