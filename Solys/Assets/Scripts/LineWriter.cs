@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Lean.Touch;
 
@@ -8,16 +7,27 @@ public class LineWriter : MonoBehaviour
     List<GameObject> ListLR;
     List<Vector3> pos;
     List<Vector2> posCol;
-    // Use this for initialization
-    void Start()
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
     {
-
         pos = new List<Vector3>();
         posCol = new List<Vector2>();
         ListLR = new List<GameObject>();
         LeanTouch.OnFingerSet += OnFingerSet;
         LeanTouch.OnFingerDown += OnFingerDown;
         LeanTouch.OnFingerUp += OnFingerUp;
+    }
+
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        LeanTouch.OnFingerSet -= OnFingerSet;
+        LeanTouch.OnFingerDown -= OnFingerDown;
+        LeanTouch.OnFingerUp -= OnFingerUp;
     }
 
     // Update is called once per frame
