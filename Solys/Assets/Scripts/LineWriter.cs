@@ -101,6 +101,10 @@ public class LineWriter : MonoBehaviour
 
     public void OnFingerUp(LeanFinger finger)
     {
+        float temporalDistance = DistanceBetweenDots;
+        DistanceBetweenDots = 0;
+        OnFingerSet(finger);
+        DistanceBetweenDots = temporalDistance;
         pos = new List<Vector3>();
         posCol = new List<Vector2>();
 
