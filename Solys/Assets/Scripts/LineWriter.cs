@@ -8,6 +8,7 @@ public class LineWriter : MonoBehaviour
     List<Vector3> pos;
     List<Vector2> posCol;
     public GameObject LineRenderer;
+    public float DistanceBetweenDots;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -50,7 +51,7 @@ public class LineWriter : MonoBehaviour
         }
         else
         {
-            if (Vector2.Distance(finger.ScreenPosition, posCol[posCol.Count - 1]) > 10)
+            if (Vector2.Distance(finger.GetWorldPosition(10, Camera.current), posCol[posCol.Count - 1]) > DistanceBetweenDots)
             {
                 pos.Add(finger.GetWorldPosition(10, Camera.current));
 
