@@ -7,6 +7,7 @@ public class LineWriter : MonoBehaviour
     List<GameObject> ListLR;
     List<Vector3> pos;
     List<Vector2> posCol;
+    public GameObject LineRenderer;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -93,7 +94,7 @@ public class LineWriter : MonoBehaviour
     }
     public void OnFingerDown(LeanFinger finger)
     {
-        ListLR.Add(GameObject.Instantiate(GameObject.Find("LR")));
+        ListLR.Add(GameObject.Instantiate(LineRenderer));
 
     }
 
