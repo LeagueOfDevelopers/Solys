@@ -9,6 +9,7 @@ public class LineWriter : MonoBehaviour
     List<Vector2> posCol;
     public GameObject LineRenderer;
     public float DistanceBetweenDots;
+    public float FrequencyPoints;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -83,10 +84,9 @@ public class LineWriter : MonoBehaviour
                     }
                 };
                 posCol.Clear();
-                foreach (Vector3 vect in pos)
-                {
-                    posCol.Add(vect);
-                }
+                for(int i =0;i<drawingDots.Count;i++)
+                    posCol.Add(drawingDots[i]);
+                
                 ListLR[ListLR.Count - 1].GetComponent<LineRenderer>().numPositions = drawingDots.ToArray().Length;
                 ListLR[ListLR.Count - 1].GetComponent<LineRenderer>().SetPositions(drawingDots.ToArray());
                 ListLR[ListLR.Count - 1].GetComponent<EdgeCollider2D>().points = posCol.ToArray();
@@ -109,10 +109,15 @@ public class LineWriter : MonoBehaviour
     private List<Vector3> GetDrawingDots(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
     {
         List<Vector3> drawingDots = new List<Vector3>();
-        for (float t = 0.0f; t <= 1.0F; t += 0.2f)
+        float t = 0.0f;
+        while (t < 1.0f)
         {
             drawingDots.Add(CalculateBezierPoint(t, p0, p1, p2, p3));
+            t += 1.0f / FrequencyPoints;
+
         }
+        drawingDots.Add(CalculateBezierPoint(1.0f, p0, p1, p2, p3));
+
 
 
         return drawingDots;
@@ -120,10 +125,14 @@ public class LineWriter : MonoBehaviour
     private List<Vector3> GetDrawingDots(Vector3 p0, Vector3 p1, Vector3 p2)
     {
         List<Vector3> drawingDots = new List<Vector3>();
-        for (float t = 0.0f; t <= 1.0F; t += 0.2f)
+        float t = 0.0f;
+        while (t < 1.0f)
         {
             drawingDots.Add(CalculateBezierPoint(t, p0, p1, p2));
+            t += 1.0f / FrequencyPoints;
+
         }
+        drawingDots.Add(CalculateBezierPoint(1.0f, p0, p1, p2));
 
 
         return drawingDots;
@@ -131,10 +140,14 @@ public class LineWriter : MonoBehaviour
     private List<Vector3> GetDrawingDots(Vector3 p0, Vector3 p1)
     {
         List<Vector3> drawingDots = new List<Vector3>();
-        for (float t = 0.0f; t <= 1.0F; t += 0.2f)
+        float t = 0.0f;
+        while (t < 1.0f)
         {
             drawingDots.Add(CalculateBezierPoint(t, p0, p1));
+            t += 1.0f / FrequencyPoints;
+
         }
+        drawingDots.Add(CalculateBezierPoint(1.0f, p0, p1));
 
 
         return drawingDots;
