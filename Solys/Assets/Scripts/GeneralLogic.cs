@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class GeneralLogic : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+	public delegate void Action();
+	public static Action StartSimulationEvent;
+	public static Action StopSimulationEvent;
+	public static Action ResetSimulationEvent;
+
+	public void StartSimulation()
+	{
+		if(StartSimulationEvent != null)
+			StartSimulationEvent();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void StopSimulation()
+	{
+		if(StopSimulationEvent != null)
+			StopSimulationEvent();
+	}
+
+	public void ResetSimulation()
+	{
+		if(ResetSimulationEvent != null)
+			ResetSimulationEvent();
 	}
 }
