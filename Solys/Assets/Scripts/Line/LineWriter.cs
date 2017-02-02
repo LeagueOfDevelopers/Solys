@@ -148,6 +148,11 @@ public class LineWriter : MonoBehaviour
     public void ResetSimulation()
     {
         Debug.Log("LineWriter Was Reset");
+        for (int i = 0; i < ListLineRenderers.Count; i++)
+        {
+            Destroy(ListLineRenderers[i]);
+        }
+        ListLineRenderers.Clear();
         Debug.Log("LineWriter Now Enabled");
         isEnabled = true;
     }
