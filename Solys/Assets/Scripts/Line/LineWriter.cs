@@ -19,7 +19,6 @@ public class LineWriter : MonoBehaviour
         CollidersPositions = new List<Vector2>();
         ListLineRenderers = new List<GameObject>();
         LeanTouch.OnFingerSet += OnFingerSet;
-        LeanTouch.OnFingerDown += OnFingerDown;
         LeanTouch.OnFingerUp += OnFingerUp;
     }
 
@@ -29,7 +28,6 @@ public class LineWriter : MonoBehaviour
     void OnDisable()
     {
         LeanTouch.OnFingerSet -= OnFingerSet;
-        LeanTouch.OnFingerDown -= OnFingerDown;
         LeanTouch.OnFingerUp -= OnFingerUp;
     }
 
@@ -42,6 +40,9 @@ public class LineWriter : MonoBehaviour
     {
         if (Positions.Count == 0) // Когда только что поставили палец на экран
         {
+            GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
+            lineRenderer.transform.parent = transform;
+            ListLineRenderers.Add(lineRenderer); //при каждом касании создавать новую линию.
             Positions.Add(finger.GetWorldPosition(10, Camera.current)); //Самая первая точка касания
             CollidersPositions.Clear();
             CollidersPositions.Add(finger.GetWorldPosition(10, Camera.current)); // для коллайдера надо минимум две точки, поэтому создаем две!
@@ -94,14 +95,7 @@ public class LineWriter : MonoBehaviour
             }
         }
     }
-    public void OnFingerDown(LeanFinger finger)
-    {
-        GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
-        lineRenderer.transform.parent = transform;
-        ListLineRenderers.Add(lineRenderer); //при каждом касании создавать новую линию.
-
-    }
-
+ 
     public void OnFingerUp(LeanFinger finger)
     {
         float temporalDistance = DistanceBetweenDots; // Переменная для временного хранения дистанции между точек.
