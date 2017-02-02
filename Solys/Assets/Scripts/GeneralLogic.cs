@@ -24,6 +24,7 @@ public class GeneralLogic : MonoBehaviour {
 
 	public void ResetSimulation()
 	{
+		Debug.Log("RESET");
 		if(ResetSimulationEvent != null)
 			ResetSimulationEvent();
 	}

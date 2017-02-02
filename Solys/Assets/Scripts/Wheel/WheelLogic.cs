@@ -14,7 +14,7 @@ public class WheelLogic : MonoBehaviour {
 	{
 		rb = GetComponent<Rigidbody2D>();
 		startPosition = transform.position;
-		rb.Sleep();
+		StopRigidbodySimulation();
 		GeneralLogic.StartSimulationEvent += StartSimulation;
 		GeneralLogic.ResetSimulationEvent += ResetSimulation;
 	}
@@ -30,18 +30,19 @@ public class WheelLogic : MonoBehaviour {
 
 	public void StartSimulation()
 	{
-		rb.WakeUp();
+		rb.simulated = true;
 	}
 
 	public void ResetSimulation()
 	{
-		rb.Sleep();
 		transform.position = startPosition;
+		StopRigidbodySimulation();
+		Debug.Log(rb.IsSleeping());
 	}
 
 	public void ResetSimulationInNewPosition()
 	{
-		rb.Sleep();
+		StopRigidbodySimulation();
 		startPosition = transform.position;
 	}
 	public void AddForce(Vector2 force)
@@ -50,4 +51,10 @@ public class WheelLogic : MonoBehaviour {
 	}
 
 
+	private void StopRigidbodySimulation()
+	{
+		rb.simulated = false;
+		rb.velocity = Vector2.zero;
+		rb.angularVelocity = 0;
+	}
 }
