@@ -96,7 +96,9 @@ public class LineWriter : MonoBehaviour
     }
     public void OnFingerDown(LeanFinger finger)
     {
-        ListLineRenderers.Add(GameObject.Instantiate(LineRenderer)); //при каждом касании создавать новую линию.
+        GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
+        lineRenderer.transform.parent = transform;
+        ListLineRenderers.Add(lineRenderer); //при каждом касании создавать новую линию.
 
     }
 
