@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class WheelLogic : MonoBehaviour {
 
-	public Vector2 gravityForce;
 	private Vector2 startPosition;
-	private Rigidbody rb;
+	private Rigidbody2D rb;
 
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
 	/// </summary>
 	void OnEnable()
 	{
-		rb = GetComponent<Rigidbody>();
+		rb = GetComponent<Rigidbody2D>();
 		startPosition = transform.position;
-		rb.useGravity = false;
 		rb.Sleep();
+		GeneralLogic.StartSimulationEvent += StartSimulation;
+		GeneralLogic.ResetSimulationEvent += ResetSimulation;
+	}
+
+	/// <summary>
+	/// This function is called when the behaviour becomes disabled or inactive.
+	/// </summary>
+	void OnDisable()
+	{
+		GeneralLogic.StartSimulationEvent -= StartSimulation;
+		GeneralLogic.ResetSimulationEvent -= ResetSimulation;
 	}
 
 	public void StartSimulation()
 	{
 		rb.WakeUp();
-		SetGravitationVector(gravityForce);
 	}
 
 	public void ResetSimulation()
@@ -36,13 +44,9 @@ public class WheelLogic : MonoBehaviour {
 		rb.Sleep();
 		startPosition = transform.position;
 	}
-	public void SetGravitationVector(Vector2 force)
+	public void AddForce(Vector2 force)
 	{
-		if(gravityForce!=null)
-			rb.AddForce(-gravityForce);
-		gravityForce = force;
-		rb.AddForce(gravityForce);
-
+		rb.AddForce(force);
 	}
 
 

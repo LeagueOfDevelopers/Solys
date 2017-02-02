@@ -11,6 +11,7 @@ public class GeneralLogic : MonoBehaviour {
 
 	public void StartSimulation()
 	{
+		Debug.Log("START");
 		if(StartSimulationEvent != null)
 			StartSimulationEvent();
 	}
