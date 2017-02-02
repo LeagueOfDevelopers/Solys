@@ -45,7 +45,7 @@ public class LineWriter : MonoBehaviour
     }
     public void OnFingerSet(LeanFinger finger)
     {
-        if (isEnabled)
+        if (isEnabled&&LeanTouch.RaycastGui(finger.ScreenPosition).gameObject==null)
         {
             if (Positions.Count == 0) // Когда только что поставили палец на экран
             {
