@@ -49,7 +49,7 @@ public class LineWriter : MonoBehaviour
         {
             if (Positions.Count == 0) // Когда только что поставили палец на экран
             {
-                if (LeanTouch.RaycastGui(finger.ScreenPosition).gameObject == null)
+                if (!finger.IsOverGui)
                 {
                     GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
                     lineRenderer.transform.parent = transform;
@@ -69,7 +69,7 @@ public class LineWriter : MonoBehaviour
             }
             else //Движение пальца на экране
             {
-                if (LeanTouch.RaycastGui(finger.ScreenPosition).gameObject == null)
+                if (!finger.IsOverGui)
                 {
                     if (
                             Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
