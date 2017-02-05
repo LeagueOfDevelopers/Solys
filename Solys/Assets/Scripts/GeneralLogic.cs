@@ -9,6 +9,22 @@ public class GeneralLogic : MonoBehaviour {
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
 
+
+	/// <summary>
+	/// This function is called when the object becomes enabled and active.
+	/// </summary>
+	void OnEnable()
+	{
+		TargetLogic.TargetReached += TargetReched;
+	}
+
+	/// <summary>
+	/// This function is called when the behaviour becomes disabled or inactive.
+	/// </summary>
+	void OnDisable()
+	{
+		TargetLogic.TargetReached -= TargetReched;
+	}
 	public void StartSimulation()
 	{
 		Debug.Log("START");
@@ -27,5 +43,17 @@ public class GeneralLogic : MonoBehaviour {
 		Debug.Log("RESET");
 		if(ResetSimulationEvent != null)
 			ResetSimulationEvent();
+	}
+
+	private void TargetReched()
+	{
+		StopSimulation();
+		ResetSimulation();
+		OpenEndLevelMenu();
+	}
+
+	private void OpenEndLevelMenu()
+	{
+		///TODO
 	}
 }
