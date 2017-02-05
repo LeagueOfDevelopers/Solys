@@ -48,7 +48,6 @@ public class GeneralLogic : MonoBehaviour {
 	private void TargetReched()
 	{
 		StopSimulation();
-		ResetSimulation();
 		OpenEndLevelMenu();
 	}
 

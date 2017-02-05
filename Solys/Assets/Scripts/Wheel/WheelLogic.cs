@@ -17,6 +17,7 @@ public class WheelLogic : MonoBehaviour {
 		StopRigidbodySimulation();
 		GeneralLogic.StartSimulationEvent += StartSimulation;
 		GeneralLogic.ResetSimulationEvent += ResetSimulation;
+		GeneralLogic.StopSimulationEvent += StopRigidbodySimulation;
 	}
 
 	/// <summary>
@@ -26,6 +27,7 @@ public class WheelLogic : MonoBehaviour {
 	{
 		GeneralLogic.StartSimulationEvent -= StartSimulation;
 		GeneralLogic.ResetSimulationEvent -= ResetSimulation;
+		GeneralLogic.StopSimulationEvent -= StopRigidbodySimulation;
 	}
 
 	public void StartSimulation()
@@ -37,7 +39,6 @@ public class WheelLogic : MonoBehaviour {
 	{
 		transform.position = startPosition;
 		StopRigidbodySimulation();
-		Debug.Log(rb.IsSleeping());
 	}
 
 	public void ResetSimulationInNewPosition()
