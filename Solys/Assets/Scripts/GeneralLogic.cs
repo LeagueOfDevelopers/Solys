@@ -8,6 +8,7 @@ public class GeneralLogic : MonoBehaviour {
 	public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
+    private bool ShowMenu = false;
 
 
 	/// <summary>
@@ -53,6 +54,30 @@ public class GeneralLogic : MonoBehaviour {
 
 	private void OpenEndLevelMenu()
 	{
-		///TODO
+	    ShowMenu = true;
 	}
+
+    void OnGUI()
+    {
+        if (ShowMenu)
+        {
+            GUILayout.BeginArea(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 70));
+            GUILayout.BeginVertical();
+            if (GUILayout.Button("Начать игру"))
+            {
+               Debug.Log("Next Level selected");
+                ShowMenu = false;
+                Application.LoadLevel("TestScene");
+            }
+            GUILayout.FlexibleSpace();
+            
+            if (GUILayout.Button("Выход"))
+            {
+                Debug.Log("Exit selected");
+                Application.Quit();
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
+        }
+    }
 }
