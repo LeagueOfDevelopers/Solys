@@ -22,7 +22,6 @@ public class LineWriter : MonoBehaviour
         LeanTouch.OnFingerSet += OnFingerSet;
         LeanTouch.OnFingerUp += OnFingerUp;
         GeneralLogic.StartSimulationEvent += StartSimulation;
-        GeneralLogic.StopSimulationEvent += StopSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
     }
 
@@ -34,7 +33,6 @@ public class LineWriter : MonoBehaviour
         LeanTouch.OnFingerSet -= OnFingerSet;
         LeanTouch.OnFingerUp -= OnFingerUp;
         GeneralLogic.StartSimulationEvent -= StartSimulation;
-        GeneralLogic.StopSimulationEvent -= StopSimulation;
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
     }
 
@@ -152,11 +150,7 @@ public class LineWriter : MonoBehaviour
         Debug.Log("LineWriter Now Disabled");
         isEnabled = false;
     }
-    public void StopSimulation()
-    {
-        Debug.Log("LineWriter Now Enabled");
-        isEnabled = true;
-    }
+  
     public void ResetSimulation()
     {
         Debug.Log("LineWriter Was Reset");
