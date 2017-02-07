@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GeneralLogic : MonoBehaviour {
 
@@ -67,7 +68,7 @@ public class GeneralLogic : MonoBehaviour {
             {
                Debug.Log("Next Level selected");
                 ShowMenu = false;
-                Application.LoadLevel("TestScene");
+                SceneManager.LoadScene("TestScene");
             }
             GUILayout.FlexibleSpace();
             
