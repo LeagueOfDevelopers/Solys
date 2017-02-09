@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 public class GeneralLogic : MonoBehaviour {
 
 	public delegate void Action();
+    public GameObject NextLevelButton;
+    public GameObject ExitButton;
 	public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
-    private bool ShowMenu = false;
 
 
 	/// <summary>
@@ -55,30 +56,21 @@ public class GeneralLogic : MonoBehaviour {
 
 	private void OpenEndLevelMenu()
 	{
-	    ShowMenu = true;
+	   
+        NextLevelButton.SetActive(true);
+        ExitButton.SetActive(true);
 	}
 
-    void OnGUI()
+    public void NextLevelButtonClick()
     {
-        if (ShowMenu)
-        {
-            GUILayout.BeginArea(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 70));
-            GUILayout.BeginVertical();
-            if (GUILayout.Button("Начать игру"))
-            {
-               Debug.Log("Next Level selected");
-                ShowMenu = false;
-                SceneManager.LoadScene("TestScene");
-            }
-            GUILayout.FlexibleSpace();
-            
-            if (GUILayout.Button("Выход"))
-            {
-                Debug.Log("Exit selected");
-                Application.Quit();
-            }
-            GUILayout.EndVertical();
-            GUILayout.EndArea();
-        }
+        Debug.Log("Next Level selected");
+        SceneManager.LoadScene("TestScene");
     }
+
+    public void ExitButtonClick()
+    {
+        Debug.Log("Exit selected");
+        Application.Quit();
+    }
+    
 }
