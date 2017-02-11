@@ -61,16 +61,16 @@ public class GeneralLogic : MonoBehaviour {
         ExitButton.SetActive(true);
 	}
 
-    public void NextLevelButtonClick()
+    public void NextLevelButtonClick(int scene)
     {
         Debug.Log("Next Level selected");
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene(scene);
     }
 
     public void ExitButtonClick()
     {
-        Debug.Log("Exit selected");
-        Application.Quit();
+       Debug.Log("Next Level selected");
+        SceneManager.LoadScene(0);
     }
     
 }
