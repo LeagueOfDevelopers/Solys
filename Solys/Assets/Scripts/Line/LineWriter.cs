@@ -11,6 +11,9 @@ public class LineWriter : MonoBehaviour
     public float DistanceBetweenDots; //Input number. 
     public float FrequencyPoints; //Input number.
     private bool isEnabled=true; //On/Off LineWriter
+    public GameObject Wheel;
+    public float DistanceBetweenWheelAndLine;
+    public int FrequencePointsAtCircle;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -69,6 +72,52 @@ public class LineWriter : MonoBehaviour
             {
                 if (!finger.IsOverGui)
                 {
+                    if (Vector2.Distance(finger.GetWorldPosition(10, Camera.current), Wheel.transform.position) <=
+                        Wheel.GetComponent<CircleCollider2D>().radius*Wheel.transform.localScale.x)
+                    {
+                        Vector2 PosStart = Positions[Positions.Count - 1];
+                        Vector2 PosEnd = finger.GetWorldPosition(10, Camera.current);
+                        Vector2 SpeedPos = (PosEnd - PosStart) / FrequencePointsAtCircle;
+                            for (int i = 0; i < FrequencePointsAtCircle; i++, PosStart+=SpeedPos)
+                        {
+
+                            if (
+                                    Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
+                                        CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
+                                if (Vector2.Distance(PosStart, Wheel.transform.position) <=
+                                Wheel.GetComponent<CircleCollider2D>().radius * Wheel.transform.localScale.x)
+                            {
+                                var a = PosStart.y - Wheel.transform.position.y;
+                                var b = PosStart.x - Wheel.transform.position.x;
+                                var alpha = Mathf.Atan2(a, b);
+                                alpha =alpha *180 / Mathf.PI;;
+                                    //    if (alpha < 0) alpha += 360;
+                                    alpha = (alpha < 0) ? alpha + 360 : alpha;   //Без этого диапазон от 0...180 и -1...-180
+
+                                    var R = Wheel.GetComponent<CircleCollider2D>().radius * Wheel.transform.localScale.x +
+                                        DistanceBetweenWheelAndLine;
+                                float x = Wheel.transform.position.x + R * Mathf.Cos(alpha*Mathf.PI/180);
+                                float y = Wheel.transform.position.y + R * Mathf.Sin(alpha * Mathf.PI / 180);
+                                Positions.Add(new Vector2(x,y)); // Добавляем точку касания.
+
+                             
+                                
+                                CollidersPositions.Add(new Vector2(x,y));
+
+                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
+                                    Positions.ToArray().Length;
+                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                                    .SetPositions(Positions.ToArray());
+                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
+                                    CollidersPositions.ToArray();
+                            }
+
+                        }
+
+
+                    }
+                    else
+
                     if (
                             Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
                                 CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
