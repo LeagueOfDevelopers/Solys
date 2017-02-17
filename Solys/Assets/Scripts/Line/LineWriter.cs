@@ -13,6 +13,7 @@ public class LineWriter : MonoBehaviour
     private bool isEnabled=true; //On/Off LineWriter
     public GameObject Wheel;
     public float DistanceBetweenWheelAndLine;
+    public int FrequencePointsAtCircle;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -76,8 +77,8 @@ public class LineWriter : MonoBehaviour
                     {
                         Vector2 PosStart = Positions[Positions.Count - 1];
                         Vector2 PosEnd = finger.GetWorldPosition(10, Camera.current);
-                        Vector2 SpeedPos = (PosEnd - PosStart) / 2;
-                            for (int i = 0; i <= 2; i++, PosStart+=SpeedPos)
+                        Vector2 SpeedPos = (PosEnd - PosStart) / FrequencePointsAtCircle;
+                            for (int i = 0; i < FrequencePointsAtCircle; i++, PosStart+=SpeedPos)
                         {
 
                             if (
