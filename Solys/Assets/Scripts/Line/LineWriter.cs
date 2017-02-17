@@ -8,12 +8,10 @@ public class LineWriter : MonoBehaviour
     private List<Vector3> Positions; //It keeps all finger's positions, until u hold your finger on the screen.
     private List<Vector2> CollidersPositions; //It keeps all collider's positions, until u hold your finger on the screen.
     public GameObject LineRenderer; //Our line. It will create, when you touch the screen.
+    public GameObject Wheel;
     public float DistanceBetweenDots; //Input number. 
     public float FrequencyPoints; //Input number.
     private bool isEnabled=true; //On/Off LineWriter
-    public GameObject Wheel;
-    public float DistanceBetweenWheelAndLine;
-    public int FrequencePointsAtCircle;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -72,52 +70,6 @@ public class LineWriter : MonoBehaviour
             {
                 if (!finger.IsOverGui)
                 {
-                    if (Vector2.Distance(finger.GetWorldPosition(10, Camera.current), Wheel.transform.position) <=
-                        Wheel.GetComponent<CircleCollider2D>().radius*Wheel.transform.localScale.x)
-                    {
-                        Vector2 PosStart = Positions[Positions.Count - 1];
-                        Vector2 PosEnd = finger.GetWorldPosition(10, Camera.current);
-                        Vector2 SpeedPos = (PosEnd - PosStart) / FrequencePointsAtCircle;
-                            for (int i = 0; i < FrequencePointsAtCircle; i++, PosStart+=SpeedPos)
-                        {
-
-                            if (
-                                    Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
-                                        CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
-                                if (Vector2.Distance(PosStart, Wheel.transform.position) <=
-                                Wheel.GetComponent<CircleCollider2D>().radius * Wheel.transform.localScale.x)
-                            {
-                                var a = PosStart.y - Wheel.transform.position.y;
-                                var b = PosStart.x - Wheel.transform.position.x;
-                                var alpha = Mathf.Atan2(a, b);
-                                alpha =alpha *180 / Mathf.PI;;
-                                    //    if (alpha < 0) alpha += 360;
-                                    alpha = (alpha < 0) ? alpha + 360 : alpha;   //Без этого диапазон от 0...180 и -1...-180
-
-                                    var R = Wheel.GetComponent<CircleCollider2D>().radius * Wheel.transform.localScale.x +
-                                        DistanceBetweenWheelAndLine;
-                                float x = Wheel.transform.position.x + R * Mathf.Cos(alpha*Mathf.PI/180);
-                                float y = Wheel.transform.position.y + R * Mathf.Sin(alpha * Mathf.PI / 180);
-                                Positions.Add(new Vector2(x,y)); // Добавляем точку касания.
-
-                             
-                                
-                                CollidersPositions.Add(new Vector2(x,y));
-
-                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
-                                    Positions.ToArray().Length;
-                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
-                                    .SetPositions(Positions.ToArray());
-                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
-                                    CollidersPositions.ToArray();
-                            }
-
-                        }
-
-
-                    }
-                    else
-
                     if (
                             Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
                                 CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
@@ -135,21 +87,21 @@ public class LineWriter : MonoBehaviour
                                 Positions[i - 1], Positions[i]);
                             // Данный лист хранит 4 точки, а также дополнительные между ними.
                             for (int ii = 0; ii < drawingDotsInFourDots.Count - 1; ii++)
-                                dotsForDrawing.Add(drawingDotsInFourDots[ii]);
+                                dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInFourDots[ii]));
                             // Из данного листа мы переносим точки в лист точек для отрисовки.
                         }
 
                         if (Positions.Count % 4 != 0)
                             //Прорабатываем остаток.(если точек 6, то выше мы использовали формулу только для первых четырех точек, оставшиеся две имеют свою фомрулу безье)
                         {
-                            if (Positions.Count % 4 == 1) dotsForDrawing.Add(Positions[Positions.Count - 1]);
+                            if (Positions.Count % 4 == 1) dotsForDrawing.Add(GetOffsetWheelDots(Positions[Positions.Count - 1]));
 
                             if (Positions.Count % 4 == 2)
                             {
                                 List<Vector3> drawingDotsInTwoDots = GetAdditionalPoints(Positions[Positions.Count - 2],
                                     Positions[Positions.Count - 1]);
                                 for (int ii = 0; ii < drawingDotsInTwoDots.Count - 1; ii++)
-                                    dotsForDrawing.Add(drawingDotsInTwoDots[ii]);
+                                    dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInTwoDots[ii]));
                             }
 
                             if (Positions.Count % 4 == 3)
@@ -158,7 +110,7 @@ public class LineWriter : MonoBehaviour
                                     GetAdditionalPoints(Positions[Positions.Count - 3],
                                         Positions[Positions.Count - 2], Positions[Positions.Count - 1]);
                                 for (int ii = 0; ii < drawingDotsInThreeDots.Count - 1; ii++)
-                                    dotsForDrawing.Add(drawingDotsInThreeDots[ii]);
+                                    dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInThreeDots[ii]));
                             }
                         }
 
@@ -272,7 +224,11 @@ public class LineWriter : MonoBehaviour
         p += 3 * u * tt * p2; //third term
         p += ttt * p3; //fourth term
 
-        return p;
+        Vector2 temp = new Vector2(p.x,p.y);
+        temp = GetOffsetWheelDots(temp);
+
+
+        return new Vector3(temp.x,temp.y,0);
     }
     private Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)//Формула безье для 3 точек.
     {
@@ -285,7 +241,11 @@ public class LineWriter : MonoBehaviour
         p += 2 * u * t * p1; //second term
         p += tt * p2; //third term
 
-        return p;
+        Vector2 temp = new Vector2(p.x,p.y);
+        temp = GetOffsetWheelDots(temp);
+
+
+        return new Vector3(temp.x,temp.y,0);
     }
     private Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1)//Формула безье для 2 точек.
     {
@@ -295,6 +255,23 @@ public class LineWriter : MonoBehaviour
 
         p += t * p1; //second term
 
-        return p;
+        Vector2 temp = new Vector2(p.x,p.y);
+        temp = GetOffsetWheelDots(temp);
+
+
+        return new Vector3(temp.x,temp.y,0);
+    }
+
+    private Vector2 GetOffsetWheelDots(Vector2 dot)
+    {
+        Vector2 wheelPos = new Vector2(Wheel.transform.position.x,Wheel.transform.position.y);
+        if(Vector2.Distance(dot, wheelPos)<Wheel.GetComponent<CircleCollider2D>().radius*Wheel.transform.localScale.x)
+        {
+            Vector2 direction = dot-wheelPos;
+            direction = direction.normalized;
+            dot = wheelPos+direction*(Wheel.GetComponent<CircleCollider2D>().radius)*Wheel.transform.localScale.x;
+            Debug.Log(direction);
+        }
+        return dot;
     }
 }
