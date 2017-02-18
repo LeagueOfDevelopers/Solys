@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Accel : MonoBehaviour
+public class AccelBlock : MonoBehaviour
 {
     public float AccelForce;
     void OnTriggerStay2D(Collider2D other)
@@ -14,5 +14,6 @@ public class Accel : MonoBehaviour
             var y = Mathf.Sin(rotationInEuler.z * Mathf.PI / 180);
             other.attachedRigidbody.AddForce(new Vector3(x,y) *AccelForce);
         }
+
     }
 }
