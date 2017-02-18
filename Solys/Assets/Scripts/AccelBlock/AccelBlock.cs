@@ -12,7 +12,7 @@ public class AccelBlock : MonoBehaviour
             Vector3 rotationInEuler = transform.rotation.eulerAngles;
             var x = Mathf.Cos(rotationInEuler.z*Mathf.PI/180);
             var y = Mathf.Sin(rotationInEuler.z * Mathf.PI / 180);
-            other.attachedRigidbody.AddForce(new Vector3(x,y) *AccelForce);
+            other.GetComponent<WheelLogic>().AddForce(new Vector3(x,y) *AccelForce);
         }
 
     }
