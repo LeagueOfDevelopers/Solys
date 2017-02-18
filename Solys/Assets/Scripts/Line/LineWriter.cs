@@ -8,7 +8,7 @@ public class LineWriter : MonoBehaviour
     private List<Vector3> Positions; //It keeps all finger's positions, until u hold your finger on the screen.
     private List<Vector2> CollidersPositions; //It keeps all collider's positions, until u hold your finger on the screen.
     public GameObject LineRenderer; //Our line. It will create, when you touch the screen.
-    public GameObject Wheel;
+    private GameObject Wheel;
     public float DistanceBetweenDots; //Input number. 
     public float FrequencyPoints; //Input number.
     private bool isEnabled=true; //On/Off LineWriter
@@ -18,6 +18,7 @@ public class LineWriter : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
+        Wheel = GameObject.Find("Wheel");
         Positions = new List<Vector3>();
         CollidersPositions = new List<Vector2>();
         ListLineRenderers = new List<GameObject>();
@@ -278,7 +279,7 @@ public class LineWriter : MonoBehaviour
         {
             Vector2 direction = dot-wheelPos;
             direction = direction.normalized;
-            dot = wheelPos+direction*(Wheel.GetComponent<CircleCollider2D>().radius)*Wheel.transform.localScale.x;
+            dot = wheelPos+direction*(Wheel.GetComponent<CircleCollider2D>().radius+0.1f)*Wheel.transform.localScale.x;
             Debug.Log(direction);
         }
         return dot;
