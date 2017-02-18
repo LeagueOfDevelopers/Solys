@@ -13,6 +13,8 @@ public class LineWriter : MonoBehaviour
     public float FrequencyPoints; //Input number.
     private bool isEnabled=true; //On/Off LineWriter
     private float distancePerDot;
+    private List<Vector3> dotsForDrawing;
+    private int LastPoint;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -27,6 +29,8 @@ public class LineWriter : MonoBehaviour
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         distancePerDot = DistanceBetweenDots / FrequencyPoints;
+        LastPoint = 3;
+        dotsForDrawing = new List<Vector3>();
     }
 
     /// <summary>
@@ -67,6 +71,9 @@ public class LineWriter : MonoBehaviour
                         .SetPositions(Positions.ToArray());
                     ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
                         CollidersPositions.ToArray();
+
+                    LastPoint = 3;
+                    dotsForDrawing = new List<Vector3>();
                 }
             }
             else //Движение пальца на экране
@@ -84,11 +91,10 @@ public class LineWriter : MonoBehaviour
                         FrequencyPoints /= distancePerDot;
                         FrequencyPoints = (int) FrequencyPoints + temporedFrequencyPoints;
                         Positions.Add(finger.GetWorldPosition(10, Camera.current)); // Добавляем точку касания.
-
-                        List<Vector3> dotsForDrawing = new List<Vector3>();
+                        
                         //Это лист для хранения точек, которые мы будем рисовать на экране.
 
-                        for (int i = 3; i < (Positions.Count / 4) * 4; i += 3)
+                        for (int i = LastPoint; i < (Positions.Count / 4) * 4; i += 3)
                             // Для каждых 4 точек мы используем формулу безье для нахождения дополнительных точек. (Positions.Count / 4) * 4 используется для того, чтобы убрать остаток. остаток прорабатывается в конце.
                         {
                             List<Vector3> drawingDotsInFourDots = GetAdditionalPoints(Positions[i - 3], Positions[i - 2],
@@ -97,8 +103,9 @@ public class LineWriter : MonoBehaviour
                             for (int ii = 0; ii < drawingDotsInFourDots.Count - 1; ii++)
                                 dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInFourDots[ii]));
                             // Из данного листа мы переносим точки в лист точек для отрисовки.
+                            LastPoint = i;
                         }
-
+                        LastPoint += 3;
                         if (Positions.Count % 4 != 0)
                             //Прорабатываем остаток.(если точек 6, то выше мы использовали формулу только для первых четырех точек, оставшиеся две имеют свою фомрулу безье)
                         {
@@ -153,6 +160,8 @@ public class LineWriter : MonoBehaviour
         DistanceBetweenDots = temporalDistance; // Возвращаем значение дистанции между точек.
         Positions = new List<Vector3>();
         CollidersPositions = new List<Vector2>();
+        LastPoint = 3;
+        dotsForDrawing = new List<Vector3>();
 
     }
     public void StartSimulation()
