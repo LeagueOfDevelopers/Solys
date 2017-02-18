@@ -12,6 +12,7 @@ public class LineWriter : MonoBehaviour
     public float DistanceBetweenDots; //Input number. 
     public float FrequencyPoints; //Input number.
     private bool isEnabled=true; //On/Off LineWriter
+    private float distancePerDot;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -24,6 +25,7 @@ public class LineWriter : MonoBehaviour
         LeanTouch.OnFingerUp += OnFingerUp;
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
+        distancePerDot = DistanceBetweenDots / FrequencyPoints;
     }
 
     /// <summary>
@@ -75,6 +77,11 @@ public class LineWriter : MonoBehaviour
                                 CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
                         //Проверка на минимальное расстояние между точками
                     {
+                        var temporedFrequencyPoints = FrequencyPoints;
+                        FrequencyPoints = Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
+                                              CollidersPositions[CollidersPositions.Count - 1]) - DistanceBetweenDots;
+                        FrequencyPoints /= distancePerDot;
+                        FrequencyPoints = (int) FrequencyPoints + temporedFrequencyPoints;
                         Positions.Add(finger.GetWorldPosition(10, Camera.current)); // Добавляем точку касания.
 
                         List<Vector3> dotsForDrawing = new List<Vector3>();
@@ -125,6 +132,7 @@ public class LineWriter : MonoBehaviour
                             .SetPositions(dotsForDrawing.ToArray());
                         ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
                             CollidersPositions.ToArray();
+                        FrequencyPoints = temporedFrequencyPoints;
                     }
                 }
                 else
@@ -150,6 +158,7 @@ public class LineWriter : MonoBehaviour
     {
         Debug.Log("LineWriter Now Disabled");
         isEnabled = false;
+        distancePerDot = DistanceBetweenDots / FrequencyPoints;
     }
   
     public void ResetSimulation()
