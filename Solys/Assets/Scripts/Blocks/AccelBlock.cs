@@ -5,7 +5,7 @@ using UnityEngine;
 public class AccelBlock : MonoBehaviour
 {
     public float AccelForce;
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.attachedRigidbody)
         {
