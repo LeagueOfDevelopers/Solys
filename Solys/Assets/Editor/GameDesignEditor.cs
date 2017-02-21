@@ -9,11 +9,13 @@ public class GameDesignEditor : EditorWindow {
 	AnimBool OpenWheelDialog;
 	AnimBool OpenLineDialog;
 	AnimBool OpenWallDialog;
-	AnimBool OpenGravityDialog;
+	AnimBool OpenGravityBlockDialog;
+	AnimBool OpenAccelBlockDialog;
 	GameObject WheelPrefab;
 	GameObject LinePrefab;
 	GameObject WallPrefab;
-	GameObject GravityPrefab;
+	GameObject GravityBlockPrefab;
+	GameObject AccelBlockPrefab;
 
 	[MenuItem("Edit/GameDesign")]
 
@@ -34,8 +36,10 @@ public class GameDesignEditor : EditorWindow {
 		OpenLineDialog.valueChanged.AddListener(Repaint);
 		OpenWallDialog = new AnimBool();
 		OpenWallDialog.valueChanged.AddListener(Repaint);
-		OpenGravityDialog = new AnimBool();
-		OpenGravityDialog.valueChanged.AddListener(Repaint);
+		OpenGravityBlockDialog = new AnimBool();
+		OpenGravityBlockDialog.valueChanged.AddListener(Repaint);
+		OpenAccelBlockDialog = new AnimBool();
+		OpenAccelBlockDialog.valueChanged.AddListener(Repaint);
 		
 
 	}
@@ -127,27 +131,55 @@ public class GameDesignEditor : EditorWindow {
 		EditorGUILayout.EndFadeGroup();
 
 		//Блок гравитации-------------------------------------------------------------------------------------------------------------------------------------------
-		OpenGravityDialog.target = EditorGUILayout.Foldout(OpenGravityDialog.target, "Gravity Block");
+		OpenGravityBlockDialog.target = EditorGUILayout.Foldout(OpenGravityBlockDialog.target, "Gravity Block");
 
-		if(EditorGUILayout.BeginFadeGroup(OpenGravityDialog.faded))
+		if(EditorGUILayout.BeginFadeGroup(OpenGravityBlockDialog.faded))
 		{
 		EditorGUI.indentLevel++;
 		EditorGUILayout.PrefixLabel("Object");
-		GravityPrefab = (GameObject)EditorGUILayout.ObjectField(GravityPrefab, typeof(GameObject));
-		if(GravityPrefab)
+		GravityBlockPrefab = (GameObject)EditorGUILayout.ObjectField(GravityBlockPrefab, typeof(GameObject));
+		if(GravityBlockPrefab)
 		{
 			GameObject[] BlocksList = GameObject.FindGameObjectsWithTag("GravityBlock");
 			if(BlocksList.Length == 0)
-				BlocksList = new GameObject[]{GravityPrefab};
+				BlocksList = new GameObject[]{GravityBlockPrefab};
 			
 			
 			
 			EditorGUILayout.PrefixLabel("Force");
-			GravityPrefab.GetComponent<GravityBlock>().Force = 
-					EditorGUILayout.Slider(GravityPrefab.GetComponent<GravityBlock>().Force,0,20);	
+			GravityBlockPrefab.GetComponent<GravityBlock>().Force = 
+					EditorGUILayout.Slider(GravityBlockPrefab.GetComponent<GravityBlock>().Force,0,20);	
 
 			foreach(GameObject block in BlocksList)
-				block.GetComponent<GravityBlock>().Force = GravityPrefab.GetComponent<GravityBlock>().Force;
+				block.GetComponent<GravityBlock>().Force = GravityBlockPrefab.GetComponent<GravityBlock>().Force;
+				
+		}
+		EditorGUI.indentLevel--;
+		}
+		EditorGUILayout.EndFadeGroup();
+
+		//Блок Ускорения-------------------------------------------------------------------------------------------------------------------------------------------
+		OpenAccelBlockDialog.target = EditorGUILayout.Foldout(OpenAccelBlockDialog.target, "Accel Block");
+
+		if(EditorGUILayout.BeginFadeGroup(OpenAccelBlockDialog.faded))
+		{
+		EditorGUI.indentLevel++;
+		EditorGUILayout.PrefixLabel("Object");
+		AccelBlockPrefab = (GameObject)EditorGUILayout.ObjectField(AccelBlockPrefab, typeof(GameObject));
+		if(AccelBlockPrefab)
+		{
+			GameObject[] BlocksList = GameObject.FindGameObjectsWithTag("AccelBlock");
+			if(BlocksList.Length == 0)
+				BlocksList = new GameObject[]{AccelBlockPrefab};
+			
+			
+			
+			EditorGUILayout.PrefixLabel("Force");
+			AccelBlockPrefab.GetComponent<AccelBlock>().AccelForce = 
+					EditorGUILayout.Slider(AccelBlockPrefab.GetComponent<AccelBlock>().AccelForce,0,10000);	
+
+			foreach(GameObject block in BlocksList)
+				block.GetComponent<AccelBlock>().AccelForce = AccelBlockPrefab.GetComponent<AccelBlock>().AccelForce;
 				
 		}
 		EditorGUI.indentLevel--;
