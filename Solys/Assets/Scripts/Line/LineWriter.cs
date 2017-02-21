@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Lean.Touch;
 
@@ -15,6 +16,7 @@ public class LineWriter : MonoBehaviour
     private float distancePerDot;
     private List<Vector3> dotsForDrawing;
     private int LastPoint;
+    private int MainFinger;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -30,6 +32,7 @@ public class LineWriter : MonoBehaviour
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         distancePerDot = DistanceBetweenDots / FrequencyPoints;
         LastPoint = 3;
+        MainFinger = -1;
         dotsForDrawing = new List<Vector3>();
     }
 
@@ -55,6 +58,7 @@ public class LineWriter : MonoBehaviour
         {
             if (Positions.Count == 0) // Когда только что поставили палец на экран
             {
+                if(MainFinger==-1)
                 if (!finger.IsOverGui)
                 {
                     GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
@@ -72,14 +76,17 @@ public class LineWriter : MonoBehaviour
                     ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
                         CollidersPositions.ToArray();
 
+                     MainFinger = finger.Index;
                     LastPoint = 3;
                     dotsForDrawing = new List<Vector3>();
                 }
             }
             else //Движение пальца на экране
             {
+                if (finger.Index==MainFinger)
                 if (!finger.IsOverGui)
                 {
+                  
                     if (
                             Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
                                 CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
@@ -146,6 +153,8 @@ public class LineWriter : MonoBehaviour
                 else
                 {
                     Positions = new List<Vector3>();
+                    MainFinger = -1;
+                    LastPoint = 3;
                     CollidersPositions = new List<Vector2>();
                 }
             }
@@ -154,14 +163,19 @@ public class LineWriter : MonoBehaviour
 
     public void OnFingerUp(LeanFinger finger)
     {
-        float temporalDistance = DistanceBetweenDots; // Переменная для временного хранения дистанции между точек.
-        DistanceBetweenDots = 0; //Чтобы формула была применима к последней точки касания, мы устанавливаем дистанцию временно равной 0.
-        OnFingerSet(finger); //имитируем касание в точке отрыва пальца
-        DistanceBetweenDots = temporalDistance; // Возвращаем значение дистанции между точек.
-        Positions = new List<Vector3>();
-        CollidersPositions = new List<Vector2>();
-        LastPoint = 3;
-        dotsForDrawing = new List<Vector3>();
+        if (finger.Index == MainFinger)
+        {
+            float temporalDistance = DistanceBetweenDots; // Переменная для временного хранения дистанции между точек.
+            DistanceBetweenDots = 0;
+            //Чтобы формула была применима к последней точки касания, мы устанавливаем дистанцию временно равной 0.
+            OnFingerSet(finger); //имитируем касание в точке отрыва пальца
+            DistanceBetweenDots = temporalDistance; // Возвращаем значение дистанции между точек.
+            Positions = new List<Vector3>();
+            CollidersPositions = new List<Vector2>();
+            LastPoint = 3;
+            MainFinger = -1;
+            dotsForDrawing = new List<Vector3>();
+        }
 
     }
     public void StartSimulation()
