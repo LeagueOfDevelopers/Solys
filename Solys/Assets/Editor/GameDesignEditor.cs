@@ -9,9 +9,12 @@ public class GameDesignEditor : EditorWindow {
 	AnimBool OpenWheelDialog;
 	AnimBool OpenLineDialog;
 	AnimBool OpenWallDialog;
+	AnimBool OpenGravityDialog;
 	GameObject WheelPrefab;
 	GameObject LinePrefab;
 	GameObject WallPrefab;
+	GameObject GravityPrefab;
+
 	[MenuItem("Edit/GameDesign")]
 
 	static void Init()
@@ -48,13 +51,17 @@ public class GameDesignEditor : EditorWindow {
 			if(Wheel)
 				{
 				EditorGUILayout.PrefixLabel("Mass");
-				Wheel.GetComponent<Rigidbody2D>().mass = EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().mass,0,5);
+				Wheel.GetComponent<Rigidbody2D>().mass =
+						EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().mass,0,5);
 				EditorGUILayout.PrefixLabel("GravityScale");
-				Wheel.GetComponent<Rigidbody2D>().gravityScale = EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().gravityScale,0,10);
+				Wheel.GetComponent<Rigidbody2D>().gravityScale = 
+						EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().gravityScale,0,10);
 				EditorGUILayout.PrefixLabel("Drag");
-				Wheel.GetComponent<Rigidbody2D>().drag = EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().drag,0,1);
+				Wheel.GetComponent<Rigidbody2D>().drag = 
+						EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().drag,0,1);
 				EditorGUILayout.PrefixLabel("AngularDrag");
-				Wheel.GetComponent<Rigidbody2D>().angularDrag = EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().angularDrag,0,1);
+				Wheel.GetComponent<Rigidbody2D>().angularDrag = 
+						EditorGUILayout.Slider(Wheel.GetComponent<Rigidbody2D>().angularDrag,0,1);
 
 				EditorGUILayout.Space();
 
@@ -111,6 +118,34 @@ public class GameDesignEditor : EditorWindow {
 				edge.friction = EditorGUILayout.Slider(edge.friction, 0,1);
 				
 			}
+		EditorGUI.indentLevel--;
+		}
+		EditorGUILayout.EndFadeGroup();
+
+		//Блок гравитации-------------------------------------------------------------------------------------------------------------------------------------------
+		OpenGravityDialog.target = EditorGUILayout.Foldout(OpenGravityDialog.target, "Gravity Block");
+
+		if(EditorGUILayout.BeginFadeGroup(OpenGravityDialog.faded))
+		{
+		EditorGUI.indentLevel++;
+		EditorGUILayout.PrefixLabel("Object");
+		GravityPrefab = (GameObject)EditorGUILayout.ObjectField(GravityPrefab, typeof(GameObject));
+		if(GravityPrefab)
+		{
+			GameObject[] BlocksList = GameObject.FindGameObjectsWithTag("GravityBlock");
+			if(BlocksList.Length == 0)
+				BlocksList = new GameObject[]{GravityPrefab};
+			
+			
+			
+			EditorGUILayout.PrefixLabel("Force");
+			GravityPrefab.GetComponent<GravityBlock>().Force = 
+					EditorGUILayout.Slider(GravityPrefab.GetComponent<GravityBlock>().Force,0,20);	
+
+			foreach(GameObject block in BlocksList)
+				block.GetComponent<GravityBlock>().Force = GravityPrefab.GetComponent<GravityBlock>().Force;
+				
+		}
 		EditorGUI.indentLevel--;
 		}
 		EditorGUILayout.EndFadeGroup();
