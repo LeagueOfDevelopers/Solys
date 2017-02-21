@@ -9,6 +9,7 @@ public class GameDesignEditor : EditorWindow {
 	AnimBool OpenLineDialog;
 	GameObject WheelPrefab;
 	GameObject LinePrefab;
+	GameObject WallPrefab;
 	[MenuItem("Edit/GameDesign")]
 
 	static void Init()
@@ -90,6 +91,30 @@ public class GameDesignEditor : EditorWindow {
 		EditorGUI.indentLevel--;
 		}
 		EditorGUILayout.EndFadeGroup();
+
+		//Стена-------------------------------------------------------------------------------------------------------------------------------------------
+		/*OpenLineDialog.target = EditorGUILayout.Foldout(OpenLineDialog.target, "Line");
+
+		if(EditorGUILayout.BeginFadeGroup(OpenLineDialog.faded))
+		{
+		EditorGUI.indentLevel++;
+		EditorGUILayout.PrefixLabel("Object");
+		LinePrefab = (GameObject)EditorGUILayout.ObjectField(LinePrefab, typeof(GameObject));
+		if(LinePrefab){
+			GameObject Line = GameObject.Find(LinePrefab.name)? GameObject.Find(LinePrefab.name) :LinePrefab;
+			if(Line)
+				{
+				PhysicsMaterial2D edge = Line.GetComponent<EdgeCollider2D>().sharedMaterial;
+				EditorGUILayout.PrefixLabel("Bounciness");
+				edge.bounciness = EditorGUILayout.Slider(edge.bounciness, 0,1);
+				EditorGUILayout.PrefixLabel("Friction");
+				edge.friction = EditorGUILayout.Slider(edge.friction, 0,1);
+				if(GUILayout.Button("Save"))
+					PrefabUtility.ReplacePrefab(Line,LinePrefab);
+			}}
+		EditorGUI.indentLevel--;
+		}
+		EditorGUILayout.EndFadeGroup();*/ //TODO
 
 		EditorGUILayout.EndScrollView();
 		EditorGUILayout.EndVertical();
