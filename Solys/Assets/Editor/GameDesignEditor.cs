@@ -53,7 +53,7 @@ public class GameDesignEditor : EditorWindow {
 		{
 		EditorGUI.indentLevel++;
 		EditorGUILayout.PrefixLabel("Object");
-		WheelPrefab = (GameObject)EditorGUILayout.ObjectField(WheelPrefab, typeof(GameObject));
+		WheelPrefab = (GameObject)EditorGUILayout.ObjectField(WheelPrefab, typeof(GameObject), true);
 		if(WheelPrefab){
 			GameObject Wheel = GameObject.Find(WheelPrefab.name);
 			if(Wheel)
@@ -92,7 +92,7 @@ public class GameDesignEditor : EditorWindow {
 		{
 		EditorGUI.indentLevel++;
 		EditorGUILayout.PrefixLabel("Object");
-		LinePrefab = (GameObject)EditorGUILayout.ObjectField(LinePrefab, typeof(GameObject));
+		LinePrefab = (GameObject)EditorGUILayout.ObjectField(LinePrefab, typeof(GameObject), true);
 		if(LinePrefab){
 			
 				PhysicsMaterial2D edge = LinePrefab.GetComponent<EdgeCollider2D>().sharedMaterial;
@@ -113,7 +113,7 @@ public class GameDesignEditor : EditorWindow {
 		{
 		EditorGUI.indentLevel++;
 		EditorGUILayout.PrefixLabel("Object");
-		WallPrefab = (GameObject)EditorGUILayout.ObjectField(WallPrefab, typeof(GameObject));
+		WallPrefab = (GameObject)EditorGUILayout.ObjectField(WallPrefab, typeof(GameObject), true);
 		if(WallPrefab){
 			
 				PhysicsMaterial2D edge;
@@ -137,7 +137,7 @@ public class GameDesignEditor : EditorWindow {
 		{
 		EditorGUI.indentLevel++;
 		EditorGUILayout.PrefixLabel("Object");
-		GravityBlockPrefab = (GameObject)EditorGUILayout.ObjectField(GravityBlockPrefab, typeof(GameObject));
+		GravityBlockPrefab = (GameObject)EditorGUILayout.ObjectField(GravityBlockPrefab, typeof(GameObject),true);
 		if(GravityBlockPrefab)
 		{
 			GameObject[] BlocksList = GameObject.FindGameObjectsWithTag("GravityBlock");
@@ -165,7 +165,7 @@ public class GameDesignEditor : EditorWindow {
 		{
 		EditorGUI.indentLevel++;
 		EditorGUILayout.PrefixLabel("Object");
-		AccelBlockPrefab = (GameObject)EditorGUILayout.ObjectField(AccelBlockPrefab, typeof(GameObject));
+		AccelBlockPrefab = (GameObject)EditorGUILayout.ObjectField(AccelBlockPrefab, typeof(GameObject), true);
 		if(AccelBlockPrefab)
 		{
 			GameObject[] BlocksList = GameObject.FindGameObjectsWithTag("AccelBlock");
