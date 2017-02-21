@@ -17,6 +17,9 @@ public class LineWriter : MonoBehaviour
     private List<Vector3> dotsForDrawing;
     private int LastPoint;
     private int MainFinger;
+    public int tool; // 0 - Рисовалка линий, 1 - ластик
+    private Vector2 eraserPos;
+    public int EraseSize;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -34,6 +37,7 @@ public class LineWriter : MonoBehaviour
         LastPoint = 3;
         MainFinger = -1;
         dotsForDrawing = new List<Vector3>();
+        eraserPos = Vector2.zero;
     }
 
     /// <summary>
@@ -50,114 +54,224 @@ public class LineWriter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
+
+
+
+
     public void OnFingerSet(LeanFinger finger)
     {
-        if (isEnabled)
+        if (tool == 0) // РИСОВАЛКА ЛИНИЙ
         {
-            if (Positions.Count == 0) // Когда только что поставили палец на экран
+            if (isEnabled)
             {
-                if(MainFinger==-1)
-                if (!finger.IsOverGui)
+                if (Positions.Count == 0) // Когда только что поставили палец на экран
                 {
-                    GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
-                    lineRenderer.transform.parent = transform;
-                    ListLineRenderers.Add(lineRenderer); //при каждом касании создавать новую линию.
-                    Positions.Add(finger.GetWorldPosition(10, Camera.current)); //Самая первая точка касания
-                    CollidersPositions.Clear();
-                    CollidersPositions.Add(finger.GetWorldPosition(10, Camera.current));
-                    // для коллайдера надо минимум две точки, поэтому создаем две!
-                    CollidersPositions.Add(finger.GetWorldPosition(10, Camera.current));
-                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
-                        Positions.ToArray().Length;
-                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
-                        .SetPositions(Positions.ToArray());
-                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
-                        CollidersPositions.ToArray();
+                    if (MainFinger == -1)
+                        if (!finger.IsOverGui)
+                        {
+                            GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
+                            lineRenderer.transform.parent = transform;
+                            ListLineRenderers.Add(lineRenderer); //при каждом касании создавать новую линию.
+                            Positions.Add(finger.GetWorldPosition(10, Camera.current)); //Самая первая точка касания
+                            CollidersPositions.Clear();
+                            CollidersPositions.Add(finger.GetWorldPosition(10, Camera.current));
+                            // для коллайдера надо минимум две точки, поэтому создаем две!
+                            CollidersPositions.Add(finger.GetWorldPosition(10, Camera.current));
+                            ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
+                                Positions.ToArray().Length;
+                            ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                                .SetPositions(Positions.ToArray());
+                            ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
+                                CollidersPositions.ToArray();
 
-                     MainFinger = finger.Index;
-                    LastPoint = 3;
-                    dotsForDrawing = new List<Vector3>();
+                            MainFinger = finger.Index;
+                            LastPoint = 3;
+                            dotsForDrawing = new List<Vector3>();
+                        }
+                }
+                else //Движение пальца на экране
+                {
+                    if (finger.Index == MainFinger)
+                        if (!finger.IsOverGui)
+                        {
+
+                            if (
+                                    Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
+                                        CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
+                                //Проверка на минимальное расстояние между точками
+                            {
+                                var temporedFrequencyPoints = FrequencyPoints;
+                                FrequencyPoints = Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
+                                                      CollidersPositions[CollidersPositions.Count - 1]) -
+                                                  DistanceBetweenDots;
+                                FrequencyPoints /= distancePerDot;
+                                FrequencyPoints = (int) FrequencyPoints + temporedFrequencyPoints;
+                                Positions.Add(finger.GetWorldPosition(10, Camera.current)); // Добавляем точку касания.
+
+                                //Это лист для хранения точек, которые мы будем рисовать на экране.
+
+                                for (int i = LastPoint; i < (Positions.Count / 4) * 4; i += 3)
+                                    // Для каждых 4 точек мы используем формулу безье для нахождения дополнительных точек. (Positions.Count / 4) * 4 используется для того, чтобы убрать остаток. остаток прорабатывается в конце.
+                                {
+                                    List<Vector3> drawingDotsInFourDots = GetAdditionalPoints(Positions[i - 3],
+                                        Positions[i - 2],
+                                        Positions[i - 1], Positions[i]);
+                                    // Данный лист хранит 4 точки, а также дополнительные между ними.
+                                    for (int ii = 0; ii < drawingDotsInFourDots.Count - 1; ii++)
+                                        dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInFourDots[ii]));
+                                    // Из данного листа мы переносим точки в лист точек для отрисовки.
+                                    LastPoint = i;
+                                }
+                                LastPoint += 3;
+                                if (Positions.Count % 4 != 0)
+                                    //Прорабатываем остаток.(если точек 6, то выше мы использовали формулу только для первых четырех точек, оставшиеся две имеют свою фомрулу безье)
+                                {
+                                    if (Positions.Count % 4 == 1)
+                                        dotsForDrawing.Add(GetOffsetWheelDots(Positions[Positions.Count - 1]));
+
+                                    if (Positions.Count % 4 == 2)
+                                    {
+                                        List<Vector3> drawingDotsInTwoDots =
+                                            GetAdditionalPoints(Positions[Positions.Count - 2],
+                                                Positions[Positions.Count - 1]);
+                                        for (int ii = 0; ii < drawingDotsInTwoDots.Count - 1; ii++)
+                                            dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInTwoDots[ii]));
+                                    }
+
+                                    if (Positions.Count % 4 == 3)
+                                    {
+                                        List<Vector3> drawingDotsInThreeDots =
+                                            GetAdditionalPoints(Positions[Positions.Count - 3],
+                                                Positions[Positions.Count - 2], Positions[Positions.Count - 1]);
+                                        for (int ii = 0; ii < drawingDotsInThreeDots.Count - 1; ii++)
+                                            dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInThreeDots[ii]));
+                                    }
+                                }
+
+                                CollidersPositions.Clear(); //Сброс листа точек для коллайдера
+                                for (int i = 0; i < dotsForDrawing.Count; i++)
+                                    // Все точки для отрисовки мы добавляем в лист точек коллайдера
+                                    CollidersPositions.Add(dotsForDrawing[i]);
+
+                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions
+                                    =
+                                    dotsForDrawing.ToArray().Length;
+                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                                    .SetPositions(dotsForDrawing.ToArray());
+                                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
+                                    CollidersPositions.ToArray();
+                                FrequencyPoints = temporedFrequencyPoints;
+                            }
+                        }
+                        else
+                        {
+                            Positions = new List<Vector3>();
+                            MainFinger = -1;
+                            LastPoint = 3;
+                            CollidersPositions = new List<Vector2>();
+                        }
                 }
             }
-            else //Движение пальца на экране
+        }
+        else // ЛАСТИК
+        {
+            if (eraserPos == Vector2.zero)
             {
-                if (finger.Index==MainFinger)
-                if (!finger.IsOverGui)
+                eraserPos = finger.GetWorldPosition(10, Camera.current);
+            }
+            else
+            {
+                if (Vector2.Distance(finger.GetWorldPosition(10, Camera.current), eraserPos) > DistanceBetweenDots)
                 {
-                  
-                    if (
-                            Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
-                                CollidersPositions[CollidersPositions.Count - 1]) > DistanceBetweenDots)
-                        //Проверка на минимальное расстояние между точками
+                    Vector2 fingerNow = finger.GetWorldPosition(10, Camera.current);
+                    for (int i = 0; i < ListLineRenderers.Count; i++)
                     {
-                        var temporedFrequencyPoints = FrequencyPoints;
-                        FrequencyPoints = Vector2.Distance(finger.GetWorldPosition(10, Camera.current),
-                                              CollidersPositions[CollidersPositions.Count - 1]) - DistanceBetweenDots;
-                        FrequencyPoints /= distancePerDot;
-                        FrequencyPoints = (int) FrequencyPoints + temporedFrequencyPoints;
-                        Positions.Add(finger.GetWorldPosition(10, Camera.current)); // Добавляем точку касания.
-                        
-                        //Это лист для хранения точек, которые мы будем рисовать на экране.
+                        bool isCorrupt = false;  
+                        Vector2[] ExpectLine = ListLineRenderers[i].GetComponent<EdgeCollider2D>().points;
+                        List<Vector2> FirstArrayForNewLineCollider = new List<Vector2>();
+                        List<Vector2> SecondArrayForNewLineCollider = new List<Vector2>();
+                        List<Vector3> FirstArrayForNewLine = new List<Vector3>();
+                        List<Vector3> SecondArrayForNewLine = new List<Vector3>();
 
-                        for (int i = LastPoint; i < (Positions.Count / 4) * 4; i += 3)
-                            // Для каждых 4 точек мы используем формулу безье для нахождения дополнительных точек. (Positions.Count / 4) * 4 используется для того, чтобы убрать остаток. остаток прорабатывается в конце.
+                        for (int j = 1; j < ExpectLine.Length; j++)
                         {
-                            List<Vector3> drawingDotsInFourDots = GetAdditionalPoints(Positions[i - 3], Positions[i - 2],
-                                Positions[i - 1], Positions[i]);
-                            // Данный лист хранит 4 точки, а также дополнительные между ними.
-                            for (int ii = 0; ii < drawingDotsInFourDots.Count - 1; ii++)
-                                dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInFourDots[ii]));
-                            // Из данного листа мы переносим точки в лист точек для отрисовки.
-                            LastPoint = i;
-                        }
-                        LastPoint += 3;
-                        if (Positions.Count % 4 != 0)
-                            //Прорабатываем остаток.(если точек 6, то выше мы использовали формулу только для первых четырех точек, оставшиеся две имеют свою фомрулу безье)
-                        {
-                            if (Positions.Count % 4 == 1) dotsForDrawing.Add(GetOffsetWheelDots(Positions[Positions.Count - 1]));
-
-                            if (Positions.Count % 4 == 2)
+                            
+                            if (isIntersect(ExpectLine[j - 1].x, ExpectLine[j - 1].y, ExpectLine[j].x, ExpectLine[j].y,
+                                eraserPos.x, eraserPos.y, fingerNow.x, fingerNow.y))
                             {
-                                List<Vector3> drawingDotsInTwoDots = GetAdditionalPoints(Positions[Positions.Count - 2],
-                                    Positions[Positions.Count - 1]);
-                                for (int ii = 0; ii < drawingDotsInTwoDots.Count - 1; ii++)
-                                    dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInTwoDots[ii]));
-                            }
-
-                            if (Positions.Count % 4 == 3)
-                            {
-                                List<Vector3> drawingDotsInThreeDots =
-                                    GetAdditionalPoints(Positions[Positions.Count - 3],
-                                        Positions[Positions.Count - 2], Positions[Positions.Count - 1]);
-                                for (int ii = 0; ii < drawingDotsInThreeDots.Count - 1; ii++)
-                                    dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInThreeDots[ii]));
+                                for (int jj = 0; jj < j-EraseSize; jj++)
+                                {
+                                    FirstArrayForNewLine.Add(ExpectLine[jj]);
+                                    FirstArrayForNewLineCollider.Add(ExpectLine[jj]);
+                                }
+                                for (int jj = j +EraseSize; jj < ExpectLine.Length; jj++)
+                                {
+                                    SecondArrayForNewLine.Add(ExpectLine[jj]);
+                                    SecondArrayForNewLineCollider.Add(ExpectLine[jj]);
+                                }
+                                Destroy(ListLineRenderers[i]);
+                                ListLineRenderers.RemoveAt(i);
+                                i--;
+                                GameObject lineRenderer;
+                                if (FirstArrayForNewLine.Count > 2)
+                                {
+                                    lineRenderer = GameObject.Instantiate(LineRenderer);
+                                    lineRenderer.transform.parent = transform;
+                                    ListLineRenderers.Add(lineRenderer);
+                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                                            .numPositions =
+                                        FirstArrayForNewLine.ToArray().Length;
+                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                                        .SetPositions(FirstArrayForNewLine.ToArray());
+                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points
+                                        =
+                                        FirstArrayForNewLineCollider.ToArray();
+                                }
+                                if (SecondArrayForNewLine.Count > 2)
+                                {
+                                    lineRenderer = GameObject.Instantiate(LineRenderer);
+                                    lineRenderer.transform.parent = transform;
+                                    ListLineRenderers.Add(lineRenderer);
+                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                                            .numPositions =
+                                        SecondArrayForNewLine.ToArray().Length;
+                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                                        .SetPositions(SecondArrayForNewLine.ToArray());
+                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points
+                                        =
+                                        SecondArrayForNewLineCollider.ToArray();
+                                }
+                                isCorrupt = true;
+                                break;
                             }
                         }
+                        if (isCorrupt) break;
 
-                        CollidersPositions.Clear(); //Сброс листа точек для коллайдера
-                        for (int i = 0; i < dotsForDrawing.Count; i++)
-                            // Все точки для отрисовки мы добавляем в лист точек коллайдера
-                            CollidersPositions.Add(dotsForDrawing[i]);
-
-                        ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
-                            dotsForDrawing.ToArray().Length;
-                        ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
-                            .SetPositions(dotsForDrawing.ToArray());
-                        ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
-                            CollidersPositions.ToArray();
-                        FrequencyPoints = temporedFrequencyPoints;
                     }
-                }
-                else
-                {
-                    Positions = new List<Vector3>();
-                    MainFinger = -1;
-                    LastPoint = 3;
-                    CollidersPositions = new List<Vector2>();
+                    
+                    eraserPos = finger.GetWorldPosition(10, Camera.current);
                 }
             }
+
+        }
+    }
+
+    public bool isIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
+    {
+        var k1= (x2 - x1) / (y2 - y1);
+        var k2= (x4 - x3) / (y4 - y3);
+        if (Math.Abs(k1-k2)<0.1) return false;
+       var  x= -((x1 * y2 - x2 * y1) * (x4 - x3) - (x3 * y4 - x4 * y3) * (x2 - x1)) / ((y1 - y2) * (x4 - x3) - (y3 - y4) * (x2 - x1));
+       var  y= ((y3 - y4) * x - (x3 * y4 - x4 * y3)) / (x4 - x3);
+        if ((((x1 <= x)&&(x2 >= x)&&(x3 <= x)&&(x4 >= x))||((y1 <= y)&&(y2 >= y)&&(y3 <= y)&&(y4 >= y))))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -176,6 +290,8 @@ public class LineWriter : MonoBehaviour
             MainFinger = -1;
             dotsForDrawing = new List<Vector3>();
         }
+
+        eraserPos = Vector2.zero;
 
     }
     public void StartSimulation()
