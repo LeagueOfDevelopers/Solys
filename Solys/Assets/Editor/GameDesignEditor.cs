@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
+using System.Collections.Generic;
 
 public class GameDesignEditor : EditorWindow {
 
 	Vector2 scrollPos = new Vector2();
 	AnimBool OpenWheelDialog;
 	AnimBool OpenLineDialog;
+	AnimBool OpenWallDialog;
 	GameObject WheelPrefab;
 	GameObject LinePrefab;
 	GameObject WallPrefab;
@@ -77,44 +79,41 @@ public class GameDesignEditor : EditorWindow {
 		EditorGUILayout.PrefixLabel("Object");
 		LinePrefab = (GameObject)EditorGUILayout.ObjectField(LinePrefab, typeof(GameObject));
 		if(LinePrefab){
-			GameObject Line = GameObject.Find(LinePrefab.name)? GameObject.Find(LinePrefab.name) :LinePrefab;
-			if(Line)
-				{
-				PhysicsMaterial2D edge = Line.GetComponent<EdgeCollider2D>().sharedMaterial;
+			
+				PhysicsMaterial2D edge = LinePrefab.GetComponent<EdgeCollider2D>().sharedMaterial;
 				EditorGUILayout.PrefixLabel("Bounciness");
 				edge.bounciness = EditorGUILayout.Slider(edge.bounciness, 0,1);
 				EditorGUILayout.PrefixLabel("Friction");
 				edge.friction = EditorGUILayout.Slider(edge.friction, 0,1);
-				if(GUILayout.Button("Save"))
-					PrefabUtility.ReplacePrefab(Line,LinePrefab);
-			}}
+				
+			}
 		EditorGUI.indentLevel--;
 		}
 		EditorGUILayout.EndFadeGroup();
 
 		//Стена-------------------------------------------------------------------------------------------------------------------------------------------
-		/*OpenLineDialog.target = EditorGUILayout.Foldout(OpenLineDialog.target, "Line");
+		OpenWallDialog.target = EditorGUILayout.Foldout(OpenWallDialog.target, "Wall");
 
-		if(EditorGUILayout.BeginFadeGroup(OpenLineDialog.faded))
+		if(EditorGUILayout.BeginFadeGroup(OpenWallDialog.faded))
 		{
 		EditorGUI.indentLevel++;
 		EditorGUILayout.PrefixLabel("Object");
-		LinePrefab = (GameObject)EditorGUILayout.ObjectField(LinePrefab, typeof(GameObject));
-		if(LinePrefab){
-			GameObject Line = GameObject.Find(LinePrefab.name)? GameObject.Find(LinePrefab.name) :LinePrefab;
-			if(Line)
-				{
-				PhysicsMaterial2D edge = Line.GetComponent<EdgeCollider2D>().sharedMaterial;
+		WallPrefab = (GameObject)EditorGUILayout.ObjectField(WallPrefab, typeof(GameObject));
+		if(WallPrefab){
+			
+				PhysicsMaterial2D edge;
+				if(WallPrefab.GetComponent<PolygonCollider2D>())
+					edge = WallPrefab.GetComponent<PolygonCollider2D>().sharedMaterial;
+				else edge = WallPrefab.GetComponent<BoxCollider2D>().sharedMaterial;
 				EditorGUILayout.PrefixLabel("Bounciness");
 				edge.bounciness = EditorGUILayout.Slider(edge.bounciness, 0,1);
 				EditorGUILayout.PrefixLabel("Friction");
 				edge.friction = EditorGUILayout.Slider(edge.friction, 0,1);
-				if(GUILayout.Button("Save"))
-					PrefabUtility.ReplacePrefab(Line,LinePrefab);
-			}}
+				
+			}
 		EditorGUI.indentLevel--;
 		}
-		EditorGUILayout.EndFadeGroup();*/ //TODO
+		EditorGUILayout.EndFadeGroup();
 
 		EditorGUILayout.EndScrollView();
 		EditorGUILayout.EndVertical();
