@@ -32,6 +32,10 @@ public class GameDesignEditor : EditorWindow {
 		OpenWheelDialog.valueChanged.AddListener(Repaint);
 		OpenLineDialog = new AnimBool();
 		OpenLineDialog.valueChanged.AddListener(Repaint);
+		OpenWallDialog = new AnimBool();
+		OpenWallDialog.valueChanged.AddListener(Repaint);
+		OpenGravityDialog = new AnimBool();
+		OpenGravityDialog.valueChanged.AddListener(Repaint);
 		
 
 	}
