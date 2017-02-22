@@ -19,7 +19,7 @@ public class LineWriter : MonoBehaviour
     private int MainFinger;
     public int tool; // 0 - Рисовалка линий, 1 - ластик
     private Vector2 eraserPos;
-    public int EraseSize;
+    public float EraseSize;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -177,103 +177,74 @@ public class LineWriter : MonoBehaviour
         }
         else // ЛАСТИК
         {
-            if (eraserPos == Vector2.zero)
+            Vector2 PosNow = finger.GetWorldPosition(10, Camera.current);
+            for (int i = 0; i < ListLineRenderers.Count; i++)
             {
-                eraserPos = finger.GetWorldPosition(10, Camera.current);
-            }
-            else
-            {
-                if (Vector2.Distance(finger.GetWorldPosition(10, Camera.current), eraserPos) > DistanceBetweenDots)
+                Vector2[] Expectline = ListLineRenderers[i].GetComponent<EdgeCollider2D>().points;
+                int indexForStartErase = -1;
+                int indexForEndErase = -1;
+                for (int j = 0; j < Expectline.Length; j++)
                 {
-                    Vector2 fingerNow = finger.GetWorldPosition(10, Camera.current);
-                    for (int i = 0; i < ListLineRenderers.Count; i++)
+                    if (Vector2.Distance(PosNow, Expectline[j]) <= EraseSize)
                     {
-                        bool isCorrupt = false;  
-                        Vector2[] ExpectLine = ListLineRenderers[i].GetComponent<EdgeCollider2D>().points;
-                        List<Vector2> FirstArrayForNewLineCollider = new List<Vector2>();
-                        List<Vector2> SecondArrayForNewLineCollider = new List<Vector2>();
-                        List<Vector3> FirstArrayForNewLine = new List<Vector3>();
-                        List<Vector3> SecondArrayForNewLine = new List<Vector3>();
-
-                        for (int j = 1; j < ExpectLine.Length; j++)
-                        {
-                            
-                            if (isIntersect(ExpectLine[j - 1].x, ExpectLine[j - 1].y, ExpectLine[j].x, ExpectLine[j].y,
-                                eraserPos.x, eraserPos.y, fingerNow.x, fingerNow.y))
-                            {
-                                for (int jj = 0; jj < j-EraseSize; jj++)
-                                {
-                                    FirstArrayForNewLine.Add(ExpectLine[jj]);
-                                    FirstArrayForNewLineCollider.Add(ExpectLine[jj]);
-                                }
-                                for (int jj = j +EraseSize; jj < ExpectLine.Length; jj++)
-                                {
-                                    SecondArrayForNewLine.Add(ExpectLine[jj]);
-                                    SecondArrayForNewLineCollider.Add(ExpectLine[jj]);
-                                }
-                                Destroy(ListLineRenderers[i]);
-                                ListLineRenderers.RemoveAt(i);
-                                i--;
-                                GameObject lineRenderer;
-                                if (FirstArrayForNewLine.Count > 2)
-                                {
-                                    lineRenderer = GameObject.Instantiate(LineRenderer);
-                                    lineRenderer.transform.parent = transform;
-                                    ListLineRenderers.Add(lineRenderer);
-                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
-                                            .numPositions =
-                                        FirstArrayForNewLine.ToArray().Length;
-                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
-                                        .SetPositions(FirstArrayForNewLine.ToArray());
-                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points
-                                        =
-                                        FirstArrayForNewLineCollider.ToArray();
-                                }
-                                if (SecondArrayForNewLine.Count > 2)
-                                {
-                                    lineRenderer = GameObject.Instantiate(LineRenderer);
-                                    lineRenderer.transform.parent = transform;
-                                    ListLineRenderers.Add(lineRenderer);
-                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
-                                            .numPositions =
-                                        SecondArrayForNewLine.ToArray().Length;
-                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
-                                        .SetPositions(SecondArrayForNewLine.ToArray());
-                                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points
-                                        =
-                                        SecondArrayForNewLineCollider.ToArray();
-                                }
-                                isCorrupt = true;
-                                break;
-                            }
-                        }
-                        if (isCorrupt) break;
-
+                        if (indexForStartErase == -1) indexForStartErase = j;
+                        else indexForEndErase = j;
                     }
-                    
-                    eraserPos = finger.GetWorldPosition(10, Camera.current);
+                    else if (indexForEndErase != -1) break;
+
                 }
+
+                List<Vector3> FirstArrayForLine = new List<Vector3>();
+                List<Vector2> FirstArrayForLineForCollider = new List<Vector2>();
+                List<Vector3> SecondArrayForLine = new List<Vector3>();
+                List<Vector2> SecondArrayForLineForCollider = new List<Vector2>();
+
+
+                for (int ii = 0; ii < indexForStartErase; ii++)
+                {
+                    FirstArrayForLine.Add(Expectline[ii]);
+                    FirstArrayForLineForCollider.Add(Expectline[ii]);
+                }
+                for (int ii = indexForEndErase + 1; ii < Expectline.Length; ii++)
+                {
+                    SecondArrayForLine.Add(Expectline[ii]);
+                    SecondArrayForLineForCollider.Add(Expectline[ii]);
+                }
+
+                GameObject lineRenderer;
+                if (FirstArrayForLine.Count>=2)
+                {
+                    lineRenderer = GameObject.Instantiate(LineRenderer);
+                    lineRenderer.transform.parent = transform;
+                    ListLineRenderers.Add(lineRenderer); //при каждом касании создавать новую линию.
+                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
+                        FirstArrayForLine.ToArray().Length;
+                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                        .SetPositions(FirstArrayForLine.ToArray());
+                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
+                        FirstArrayForLineForCollider.ToArray();
+                }
+                if (SecondArrayForLine.Count >= 2)
+                {
+                    lineRenderer = GameObject.Instantiate(LineRenderer);
+                    lineRenderer.transform.parent = transform;
+                    ListLineRenderers.Add(lineRenderer); //при каждом касании создавать новую линию.
+                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
+                        SecondArrayForLine.ToArray().Length;
+                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
+                        .SetPositions(SecondArrayForLine.ToArray());
+                    ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
+                        SecondArrayForLineForCollider.ToArray();
+                }
+                Destroy(ListLineRenderers[i]);
+                ListLineRenderers.RemoveAt(i);
+                break;
             }
 
         }
     }
 
-    public bool isIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
-    {
-        var k1= (x2 - x1) / (y2 - y1);
-        var k2= (x4 - x3) / (y4 - y3);
-        if (Math.Abs(k1-k2)<0.1) return false;
-       var  x= -((x1 * y2 - x2 * y1) * (x4 - x3) - (x3 * y4 - x4 * y3) * (x2 - x1)) / ((y1 - y2) * (x4 - x3) - (y3 - y4) * (x2 - x1));
-       var  y= ((y3 - y4) * x - (x3 * y4 - x4 * y3)) / (x4 - x3);
-        if ((((x1 <= x)&&(x2 >= x)&&(x3 <= x)&&(x4 >= x))||((y1 <= y)&&(y2 >= y)&&(y3 <= y)&&(y4 >= y))))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+  
 
     public void OnFingerUp(LeanFinger finger)
     {
