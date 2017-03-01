@@ -55,8 +55,12 @@ public class WheelLogic : MonoBehaviour {
 		rb.AddForce(force);
 	}
 
+    public void AddVelocity(float strength)
+    {
+        rb.velocity *= strength;
+    }
 
-	private void StopRigidbodySimulation()
+    private void StopRigidbodySimulation()
 	{
 		rb.simulated = false;
 		rb.velocity = Vector2.zero;
