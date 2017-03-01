@@ -7,6 +7,10 @@ public class WheelLogic : MonoBehaviour {
 	private Vector2 startPosition;
 	private Rigidbody2D rb;
 	private Vector2 normalGravity;
+    public int FrequencyAcceleration;
+    private Vector2 VelocityAtStartAcceleration;
+    private float StrengthForAcceleration;
+    public float TimeInAcceleration;
 
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
@@ -57,7 +61,9 @@ public class WheelLogic : MonoBehaviour {
 
     public void AddVelocity(float strength)
     {
-        rb.velocity *= strength;
+        VelocityAtStartAcceleration = rb.velocity;
+        StrengthForAcceleration = strength;
+        StartCoroutine("Acceleration");
     }
 
     private void StopRigidbodySimulation()
@@ -72,4 +78,14 @@ public class WheelLogic : MonoBehaviour {
 		Debug.Log(Physics2D.gravity.magnitude);
 		Physics2D.gravity = gravity;
 	}
+
+    IEnumerator Acceleration()
+    {
+        for (int i = 1; i <= FrequencyAcceleration; i++)
+        {
+            rb.velocity = Vector2.Lerp(VelocityAtStartAcceleration,
+                VelocityAtStartAcceleration * StrengthForAcceleration, (float) i / (float) FrequencyAcceleration);
+            yield return new WaitForSeconds(TimeInAcceleration);
+        }
+}
 }
