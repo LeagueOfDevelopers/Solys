@@ -22,6 +22,8 @@ public class LineWriter : MonoBehaviour
     private Vector2 eraserPos;
     public float EraseSize;
     public float DistanceForContinueLine;
+    public GameObject ToolButtonErase;
+    public GameObject ToolButtonWriter;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -463,5 +465,22 @@ public class LineWriter : MonoBehaviour
             Debug.Log(direction);
         }
         return dot;
+    }
+
+    public void ChangeTool()
+    {
+        if (tool == 0)
+        {
+            tool = 1;
+            ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = false;
+            ToolButtonErase.GetComponent<SpriteRenderer>().enabled = true;
+
+        }
+        else
+        {
+            tool = 0;
+            ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = true;
+            ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 }
