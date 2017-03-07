@@ -1,16 +1,10 @@
 ﻿using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectLevelMenu : MonoBehaviour {
+public class SelectLevelMenuScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public GameObject content;
+	public Scene[] scenes;
 }
