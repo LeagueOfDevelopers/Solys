@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class AccelerationBlock : MonoBehaviour
 {
-
-    public GameObject wheel;
+    
     public float AccelStrength;
 	// Use this for initialization
 	void Start () {
@@ -19,6 +18,11 @@ public class AccelerationBlock : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        wheel.GetComponent<WheelLogic>().AddVelocity(AccelStrength);
+        if (other.attachedRigidbody)
+        {
+
+            other.gameObject.GetComponent<WheelLogic>().AddVelocity(AccelStrength);
+        }
+
     }
 }
