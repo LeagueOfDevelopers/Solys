@@ -6,6 +6,7 @@ using Lean.Touch;
 
 public class LineWriter : MonoBehaviour
 {
+    public float lifeBetweenLineWriterAndSwipe;
     private List<GameObject> ListLineRenderers; //It keeps all LineRenderers
     private List<Vector3> Positions; //It keeps all finger's positions, until u hold your finger on the screen.
     private List<Vector2> CollidersPositions; //It keeps all collider's positions, until u hold your finger on the screen.
@@ -77,13 +78,13 @@ public class LineWriter : MonoBehaviour
                         {
                             Vector2 PosNow = finger.GetWorldPosition(10, Camera.current);
                             float minDistance = DistanceBetweenDots + 1;
-                            string FoundDescription="Not Found";
+                            string FoundDescription = "Not Found";
                             for (int i = 0; i < ListLineRenderers.Count; i++)
                             {
                                 Vector2[] ExpectLine = ListLineRenderers[i].GetComponent<EdgeCollider2D>().points;
-                                if (Vector2.Distance(PosNow, ExpectLine[ExpectLine.Length-1]) <= minDistance)
+                                if (Vector2.Distance(PosNow, ExpectLine[ExpectLine.Length - 1]) <= minDistance)
                                 {
-                                    minDistance = Vector2.Distance(PosNow, ExpectLine[ExpectLine.Length-1]);
+                                    minDistance = Vector2.Distance(PosNow, ExpectLine[ExpectLine.Length - 1]);
                                     FoundDescription = i.ToString() + 'E';
                                 }
                                 if (Vector2.Distance(PosNow, ExpectLine[0]) <= minDistance)
@@ -110,11 +111,11 @@ public class LineWriter : MonoBehaviour
 
                                 for (int i = 0; i < ExpectLine.Length; i++)
                                 {
-                                   Positions.Add(ExpectLine[i]);
+                                    Positions.Add(ExpectLine[i]);
                                     CollidersPositions.Add(ExpectLine[i]);
 
                                 }
-                                
+
                                 ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions
                                     =
                                     Positions.ToArray().Length;
@@ -155,6 +156,7 @@ public class LineWriter : MonoBehaviour
                 else //Движение пальца на экране
                 {
                     if (finger.Index == MainFinger)
+                    {
                         if (!finger.IsOverGui)
                         {
 
@@ -233,6 +235,19 @@ public class LineWriter : MonoBehaviour
                             LastPoint = 3;
                             CollidersPositions = new List<Vector2>();
                         }
+                    }
+                    else
+                    {
+                        if (LeanTouch.Fingers.Count == 2&&(Mathf.Abs(LeanTouch.Fingers[0].Age-LeanTouch.Fingers[1].Age)<=lifeBetweenLineWriterAndSwipe))
+                        {
+                            GameObject.Destroy(ListLineRenderers[ListLineRenderers.Count-1]);
+                            ListLineRenderers.RemoveAt(ListLineRenderers.Count-1);
+                            Positions = new List<Vector3>();
+                            MainFinger = -1;
+                            LastPoint = 3;
+                            CollidersPositions = new List<Vector2>();
+                        }
+                    }
                 }
             }
         }

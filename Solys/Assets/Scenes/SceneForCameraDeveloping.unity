@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 101140232}
   - component: {fileID: 101140238}
   - component: {fileID: 101140237}
+  - component: {fileID: 101140239}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1054,8 +1055,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c081f1d9f0e1fdf43a0545207c2e594b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 2, y: 2}
+  CameraSpeed: 5
+  size: {x: 3, y: 3}
   position: {x: 1, y: 1}
+  distanceForSwipe: 5
 --- !u!114 &101140238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1069,6 +1072,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NextLevelButton: {fileID: 1354524387}
   ExitButton: {fileID: 965579082}
+--- !u!50 &101140239
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 101140231}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &104805237
 Prefab:
   m_ObjectHideFlags: 0
@@ -2995,6 +3018,11 @@ Prefab:
     - target: {fileID: 4824567022155526, guid: 8c5fe40b8578b924599bb0149a6c8dc1, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114569048662834572, guid: 8c5fe40b8578b924599bb0149a6c8dc1,
+        type: 2}
+      propertyPath: lifeBetweenLineWriterAndSwipe
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8c5fe40b8578b924599bb0149a6c8dc1, type: 2}
@@ -16328,11 +16356,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4322839850186498, guid: 24c658ee8d1ce654f8b30680334c8ee9, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -5.0970035
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4322839850186498, guid: 24c658ee8d1ce654f8b30680334c8ee9, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.3392024
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4322839850186498, guid: 24c658ee8d1ce654f8b30680334c8ee9, type: 2}
       propertyPath: m_LocalPosition.z
