@@ -43,7 +43,7 @@ public class CameraLogic : MonoBehaviour
 
                     if (Vector2.Distance(AveragePosEnd, AveragePosStart) > distanceForSwipe)
                     {
-                        accel = Vector2.Distance(AveragePosEnd, AveragePosStart) / 100;
+                        accel = (Vector2.Distance(AveragePosEnd, AveragePosStart)-distanceForSwipe) / distanceForSwipe;
                         Vector2 direction = AveragePosEnd - AveragePosStart;
                         direction = direction.normalized;
                         //   rb.AddForce(direction * CameraSpeed);
