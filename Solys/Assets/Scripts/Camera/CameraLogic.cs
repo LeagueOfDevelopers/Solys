@@ -10,6 +10,8 @@ public class CameraLogic : MonoBehaviour
     public float distanceForReSize;
     private float LastDistance;
     private Vector3 LastPosition;
+    public float[] CameraSizes;
+    private int state = 1;
 	void Start () {
 	    LeanTouch.OnFingerDown += OnFingerDown;
 	    LeanTouch.OnFingerUp += OnFingerUp;
@@ -26,16 +28,16 @@ public class CameraLogic : MonoBehaviour
             }
             if (LeanTouch.Fingers.Count == 2)
             {
-                if (Mathf.Abs((Vector2.Distance(LeanTouch.Fingers[0].GetWorldPosition(10, Camera.current), 
-                    LeanTouch.Fingers[1].GetWorldPosition(10, Camera.current)) - LastDistance))>distanceForReSize)
+                if (Mathf.Abs((Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
+                LeanTouch.Fingers[1].ScreenPosition) - LastDistance))>distanceForReSize)
                 {
-                    float difference = Vector2.Distance(LeanTouch.Fingers[0].GetWorldPosition(10, Camera.current),
-                    LeanTouch.Fingers[1].GetWorldPosition(10, Camera.current)) - LastDistance;
-                    if (difference > 0) CameraUp();
-                    else CameraDown();
+                    float difference = Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
+                LeanTouch.Fingers[1].ScreenPosition) - LastDistance;
+                    if (difference > 0) CameraDown();
+                    else CameraUp();
 
-                    LastDistance = Vector2.Distance(LeanTouch.Fingers[0].GetWorldPosition(10, Camera.current),
-                        LeanTouch.Fingers[1].GetWorldPosition(10, Camera.current));
+                    LastDistance = Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
+                LeanTouch.Fingers[1].ScreenPosition);
                 }
             }
 
@@ -44,16 +46,25 @@ public class CameraLogic : MonoBehaviour
     }
     public void CameraUp()
     {
-
+         if (state<2)
+            {
+                state++;
+                GetComponent<Camera>().orthographicSize = CameraSizes[state];
+            }
     }
     public void CameraDown()
     {
-
+        if (state > 0)
+        {
+            state--;
+            GetComponent<Camera>().orthographicSize = CameraSizes[state];
+            
+        }
     }
     public void OnFingerUp(LeanFinger finger)
     {
       
-
+       
     }
 
     public void OnFingerDown(LeanFinger finger)
@@ -64,8 +75,8 @@ public class CameraLogic : MonoBehaviour
         }
         if (LeanTouch.Fingers.Count == 2)
         {
-            LastDistance = Vector2.Distance(LeanTouch.Fingers[0].GetWorldPosition(10, Camera.current), 
-                LeanTouch.Fingers[1].GetWorldPosition(10,Camera.current));
+            LastDistance = Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition, 
+                LeanTouch.Fingers[1].ScreenPosition);
         }
     }
 
