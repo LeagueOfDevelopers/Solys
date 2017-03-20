@@ -12,6 +12,7 @@ public class GeneralLogic : MonoBehaviour {
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
 
+	public static int SnapValueForMapElements = 1;	///TODO move away from this file!
 
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
@@ -64,7 +65,12 @@ public class GeneralLogic : MonoBehaviour {
     public void NextLevelButtonClick(int scene)
     {
         Debug.Log("Next Level selected");
-        SceneManager.LoadScene(scene);
+		Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(scene);
+		if(SceneManager.sceneCountInBuildSettings>SceneManager.GetActiveScene().buildIndex+1)
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+		else
+			SceneManager.LoadScene("Menu");
     }
 
     public void ExitButtonClick()
@@ -73,4 +79,11 @@ public class GeneralLogic : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
     
+	/// <summary>
+	/// Update is called every frame, if the MonoBehaviour is enabled.
+	/// </summary>
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("Menu");
+	}
 }

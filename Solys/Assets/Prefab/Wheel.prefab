@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 58153477928141970}
   - component: {fileID: 50267424483951820}
   - component: {fileID: 114741484706615334}
+  - component: {fileID: 114569349323911516}
   m_Layer: 0
   m_Name: Wheel
   m_TagString: Player
@@ -77,6 +78,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.9690505
+--- !u!114 &114569349323911516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898560359950840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca9e454b88a02e488e7d38c3eeaab92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!114 &114741484706615334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -88,6 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4d17dce55e5c443912dd40fd627bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FrequencyAcceleration: 0
+  TimeInAcceleration: 0
 --- !u!212 &212691940196744334
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212234879700394360}
   - component: {fileID: 58094850168930494}
   - component: {fileID: 114491272434546332}
+  - component: {fileID: 114724364793439088}
   m_Layer: 8
   m_Name: AccelerationBlock
   m_TagString: AccelerationBlock
@@ -67,8 +68,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e0293d3197afd4e867bfb0270f67a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wheel: {fileID: 0}
   AccelStrength: 0
+--- !u!114 &114724364793439088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693558816515586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca9e454b88a02e488e7d38c3eeaab92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 5
 --- !u!212 &212234879700394360
 SpriteRenderer:
   m_ObjectHideFlags: 1

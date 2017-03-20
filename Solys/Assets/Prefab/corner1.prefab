@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4940377327637252}
   - component: {fileID: 212894675791170548}
   - component: {fileID: 60362879122191422}
+  - component: {fileID: 114686455065949898}
   m_Layer: 8
-  m_Name: corner1
+  m_Name: Corner1
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,6 +61,18 @@ PolygonCollider2D:
       - {x: -0.51030433, y: 0.5194192}
       - {x: -0.6385912, y: 0.65127015}
       - {x: -0.64, y: -0.64}
+--- !u!114 &114686455065949898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1714974088945788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca9e454b88a02e488e7d38c3eeaab92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
 --- !u!212 &212894675791170548
 SpriteRenderer:
   m_ObjectHideFlags: 1
