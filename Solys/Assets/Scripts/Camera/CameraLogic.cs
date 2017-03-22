@@ -6,6 +6,7 @@ using Lean.Touch;
 
 public class CameraLogic : MonoBehaviour
 {
+    private Coroutine sizingCoroutine;
     private float currentSize;
     private float endSize;
     private float beginSize;
@@ -66,10 +67,12 @@ public class CameraLogic : MonoBehaviour
         if (state < 2)
         {
             state++;
-            //StopCoroutine(CameraSizing());
+            if (sizingCoroutine != null)
+            {
+                StopCoroutine(sizingCoroutine);
+            }
 
-            StopAllCoroutines();
-            StartCoroutine(CameraSizing());
+            sizingCoroutine = StartCoroutine(CameraSizing());
         }
     }
     public void CameraDown()
@@ -77,10 +80,12 @@ public class CameraLogic : MonoBehaviour
         if (state > 0)
         {
             state--;
-            //StopCoroutine(CameraSizing());
-
-            StopAllCoroutines();
-            StartCoroutine(CameraSizing());
+            if (sizingCoroutine != null)
+            {
+                StopCoroutine(sizingCoroutine);
+            }
+            
+            sizingCoroutine=StartCoroutine(CameraSizing());
 
         }
     }
