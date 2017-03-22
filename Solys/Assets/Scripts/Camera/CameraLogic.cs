@@ -6,6 +6,10 @@ using Lean.Touch;
 
 public class CameraLogic : MonoBehaviour
 {
+    private float currentSize;
+    private float endSize;
+    private float beginSize;
+    public float timeForSize; //1 coroutine iteration
     private bool isEnabled = false;
     private bool isCanSize = true;
     public float distanceForReSize;
@@ -17,6 +21,7 @@ public class CameraLogic : MonoBehaviour
         LeanTouch.OnFingerDown += OnFingerDown;
         LeanTouch.OnFingerUp += OnFingerUp;
         LeanTouch.OnFingerSet += OnFingerSet;
+        currentSize = CameraSizes[state];
     }
     public void OnFingerSet(LeanFinger finger)
     {
@@ -61,7 +66,10 @@ public class CameraLogic : MonoBehaviour
         if (state < 2)
         {
             state++;
-            GetComponent<Camera>().orthographicSize = CameraSizes[state];
+            //StopCoroutine(CameraSizing());
+
+            StopAllCoroutines();
+            StartCoroutine(CameraSizing());
         }
     }
     public void CameraDown()
@@ -69,7 +77,10 @@ public class CameraLogic : MonoBehaviour
         if (state > 0)
         {
             state--;
-            GetComponent<Camera>().orthographicSize = CameraSizes[state];
+            //StopCoroutine(CameraSizing());
+
+            StopAllCoroutines();
+            StartCoroutine(CameraSizing());
 
         }
     }
@@ -90,6 +101,18 @@ public class CameraLogic : MonoBehaviour
                 
             }
             isCanSize = true;
+        }
+    }
+    IEnumerator CameraSizing()
+    {
+        currentSize=GetComponent<Camera>().orthographicSize;
+        beginSize = currentSize;
+        endSize = CameraSizes[state];
+        for (int i = 1; i <= 100; i++)
+        {
+            currentSize = Mathf.Lerp(beginSize, endSize, (float)i/100.0f);
+            GetComponent<Camera>().orthographicSize = currentSize;
+            yield return new WaitForSeconds(timeForSize);
         }
     }
 
