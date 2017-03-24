@@ -6,7 +6,6 @@ using Lean.Touch;
 
 public class LineWriter : MonoBehaviour
 {
-    public GameObject camera;
     private List<GameObject> ListLineRenderers; //It keeps all LineRenderers
     private List<Vector3> Positions; //It keeps all finger's positions, until u hold your finger on the screen.
     private List<Vector2> CollidersPositions; //It keeps all collider's positions, until u hold your finger on the screen.
@@ -20,7 +19,6 @@ public class LineWriter : MonoBehaviour
     private int LastPoint;
     private int MainFinger;
     public int tool; // 0 - Рисовалка линий, 1 - ластик
-    private Vector2 eraserPos;
     public float EraseSize;
     public float DistanceForContinueLine;
     public GameObject ToolButtonErase;
@@ -42,7 +40,6 @@ public class LineWriter : MonoBehaviour
         LastPoint = 3;
         MainFinger = -1;
         dotsForDrawing = new List<Vector3>();
-        eraserPos = Vector2.zero;
     }
 
     /// <summary>
@@ -348,9 +345,7 @@ public class LineWriter : MonoBehaviour
             MainFinger = -1;
             dotsForDrawing = new List<Vector3>();
         }
-
-        eraserPos = Vector2.zero;
-
+        
     }
     public void StartSimulation()
     {
@@ -496,14 +491,14 @@ public class LineWriter : MonoBehaviour
             if (tool == 1)
             {
                 tool = 2;
-                camera.GetComponent<CameraLogic>().setActive(true);
+                Camera.main.GetComponent<CameraLogic>().setActive(true);
                 ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = false;
                 ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
             }
             else
             {
                 tool = 0;
-                camera.GetComponent<CameraLogic>().setActive(false);
+                Camera.main.GetComponent<CameraLogic>().setActive(false);
                 ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = true;
                 ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
             }
