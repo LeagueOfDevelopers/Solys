@@ -1,5 +1,4 @@
-﻿using UnityEngine.Serialization;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,12 +16,13 @@ public class MapElement : MonoBehaviour {
 	/// Start is called on the frame when a script is enabled just before
 	/// any of the Update methods is called the first time.
 	/// </summary>
-	public string Serialize()
+	public ElementSerializeObject GetSerializationObject()
 	{
 		ElementSerializeObject element = new ElementSerializeObject();
 		element.position = transform.position;
-		element.type = type.ToString();
-		return JsonUtility.ToJson(element);
+        element.rotation = transform.rotation;
+		element.type = type;
+		return element;
 	}
 
 	public void Update()

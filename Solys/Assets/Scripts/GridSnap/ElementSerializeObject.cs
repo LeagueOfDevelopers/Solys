@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class ElementSerializeObject{
 	public Vector3 position;
-	public string type;
+	public Quaternion rotation;
+	public MapElement.ElementsType type;
 	
 }

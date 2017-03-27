@@ -19,7 +19,7 @@ public class GeneralLogic : MonoBehaviour {
 	/// </summary>
 	void OnEnable()
 	{
-		TargetLogic.TargetReached += TargetReched;
+		TargetLogic.TargetReached += TargetReached;
 	}
 
 	/// <summary>
@@ -27,7 +27,7 @@ public class GeneralLogic : MonoBehaviour {
 	/// </summary>
 	void OnDisable()
 	{
-		TargetLogic.TargetReached -= TargetReched;
+		TargetLogic.TargetReached -= TargetReached;
 	}
 	public void StartSimulation()
 	{
@@ -49,7 +49,7 @@ public class GeneralLogic : MonoBehaviour {
 			ResetSimulationEvent();
 	}
 
-	private void TargetReched()
+	private void TargetReached()
 	{
 		StopSimulation();
 		OpenEndLevelMenu();
