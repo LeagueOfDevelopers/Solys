@@ -6,6 +6,8 @@ using Lean.Touch;
 
 public class CameraLogic : MonoBehaviour
 {
+    public GameObject LineWriter;
+    public float distanceForFollow;
     private int gameState = 0;
     private Coroutine sizingCoroutine;
     private float currentSize;
@@ -56,26 +58,29 @@ public class CameraLogic : MonoBehaviour
         }
         if (LeanTouch.Fingers.Count == 2)
         {
-            if (isCanSize)
+            if (gameState == 1 || (gameState == 0 && LineWriter.GetComponent<LineWriter>().tool == 2))
             {
-                if (Mathf.Abs((Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
-                LeanTouch.Fingers[1].ScreenPosition) - LastDistance)) > distanceForReSize)
+                if (isCanSize)
                 {
-                    float difference = Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
-                LeanTouch.Fingers[1].ScreenPosition) - LastDistance;
-                    if (difference > 0)
+                    if (Mathf.Abs((Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
+                    LeanTouch.Fingers[1].ScreenPosition) - LastDistance)) > distanceForReSize)
                     {
-                        isCanSize = false;
-                        CameraDown();
-                    }
-                    else
-                    {
-                        isCanSize = false;
-                        CameraUp();
-                    }
+                        float difference = Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
+                    LeanTouch.Fingers[1].ScreenPosition) - LastDistance;
+                        if (difference > 0)
+                        {
+                            isCanSize = false;
+                            CameraDown();
+                        }
+                        else
+                        {
+                            isCanSize = false;
+                            CameraUp();
+                        }
 
-                    LastDistance = Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
-                LeanTouch.Fingers[1].ScreenPosition);
+                        LastDistance = Vector2.Distance(LeanTouch.Fingers[0].ScreenPosition,
+                    LeanTouch.Fingers[1].ScreenPosition);
+                    }
                 }
             }
         }
@@ -160,7 +165,19 @@ public class CameraLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameState == 1)
+        {
+            if (Mathf.Abs(Vector2.Distance(transform.position, wheel.transform.position))>distanceForFollow)
+            {
+                transform.Translate((wheel.transform.position - transform.position) * Time.deltaTime);
+                Vector3 Height = transform.position;
+                Height.z = -10;
+                transform.position = Height;
+            }
 
+
+
+        }
     }
     public void setActive(bool state)
     {
@@ -175,7 +192,7 @@ public class CameraLogic : MonoBehaviour
 
     public void ResetSimulation()
     {
-
+        if (LineWriter.GetComponent<LineWriter>().tool==2)
         setActive(true);
         gameState = 0;
     }
