@@ -187,7 +187,6 @@ public class CameraLogic : MonoBehaviour
     {
         gameState = 1;
         setActive(false);
-        transform.position = wheel.transform.position + new Vector3(0, 0, -10);
     }
 
     public void ResetSimulation()
