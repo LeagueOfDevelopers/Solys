@@ -24,7 +24,6 @@ public class LineWriter : MonoBehaviour
     private int LastPoint;
     private int MainFinger;
     public int tool; // 0 - Рисовалка линий, 1 - ластик
-    private Vector2 eraserPos;
     public float EraseSize;
     public float DistanceForContinueLine;
     public GameObject ToolButtonErase;
@@ -77,6 +76,7 @@ public class LineWriter : MonoBehaviour
 
     public void OnFingerSet(LeanFinger finger)
     {
+
         if (tool == 0) // РИСОВАЛКА ЛИНИЙ
         {
             if (isEnabled)
@@ -338,6 +338,7 @@ public class LineWriter : MonoBehaviour
             }
         }
     }
+    
 
 
     public Vector2[] ReverseArray(Vector2[] ExpectLine)
@@ -367,9 +368,7 @@ public class LineWriter : MonoBehaviour
             MainFinger = -1;
             dotsForDrawing = new List<Vector3>();
         }
-
-        eraserPos = Vector2.zero;
-
+        
     }
     public void StartSimulation()
     {
@@ -514,9 +513,20 @@ public class LineWriter : MonoBehaviour
         }
         else
         {
-            tool = 0;
-            ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = true;
-            ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
+            if (tool == 1)
+            {
+                tool = 2;
+                Camera.main.GetComponent<CameraLogic>().setActive(true);
+                ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = false;
+                ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
+            }
+            else
+            {
+                tool = 0;
+                Camera.main.GetComponent<CameraLogic>().setActive(false);
+                ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = true;
+                ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
+            }
         }
     }
 }
