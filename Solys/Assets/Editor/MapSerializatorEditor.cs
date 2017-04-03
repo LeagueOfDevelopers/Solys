@@ -9,12 +9,11 @@ public class MapSerializatorEditor : Editor {
 
 	string deserializeText = "ДАННЫЕ ДЛЯ ДЕСЕРИЛИЗАЦИИ";
 	SerializedProperty dict;
-	GUIStyle style = new GUIStyle();
+	GUIStyle style;
 	void OnEnable()
 	{
 		dict = serializedObject.FindProperty("types");
-		style.richText = true;
-		style.wordWrap = true;
+		EditorStyles.textArea.wordWrap = true;
 	}
 
 
@@ -27,7 +26,7 @@ public class MapSerializatorEditor : Editor {
 			EditorGUILayout.ObjectField(dict.GetArrayElementAtIndex(i));
 		}
 		serializedObject.ApplyModifiedProperties();
-		deserializeText = EditorGUILayout.TextArea(deserializeText, style);
+		deserializeText = EditorGUILayout.TextArea(deserializeText);
 		if(GUILayout.Button("Serialize"))
 			{
 				MapSerializator obj = (MapSerializator)target;
