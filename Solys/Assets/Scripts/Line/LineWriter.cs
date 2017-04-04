@@ -270,13 +270,14 @@ public class LineWriter : MonoBehaviour
                         int indexForStartErase = -1;
                         int indexForEndErase = -1;
                         int j = 0;
-                        while (j < Expectline.Length && indexForEndErase == -1)
+                        while (j < Expectline.Length)
                         {
                             if (Vector2.Distance(PosNow, Expectline[j]) <= EraseSize)
                             {
                                 if (indexForStartErase == -1) indexForStartErase = j;
                                 else indexForEndErase = j;
                             }
+                            else if (indexForEndErase != -1) break;
                             j++;
 
                         }
