@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class AccelerationBlock : MonoBehaviour
 {
-    
+
+    public float TimeInAcceleration;
+    public int FrequencyAcceleration;
     public float AccelStrength;
 	// Use this for initialization
 	void Start () {
@@ -21,7 +23,7 @@ public class AccelerationBlock : MonoBehaviour
         if (other.attachedRigidbody)
         {
 
-            other.gameObject.GetComponent<WheelLogic>().AddVelocity(AccelStrength);
+            other.gameObject.GetComponent<WheelLogic>().AddVelocity(AccelStrength,FrequencyAcceleration,TimeInAcceleration);
         }
 
     }

@@ -7,15 +7,15 @@ public class WheelLogic : MonoBehaviour {
 	private Vector2 startPosition;
 	private Rigidbody2D rb;
 	private Vector2 normalGravity;
-    public int FrequencyAcceleration;
     private Vector2 VelocityAtStartAcceleration;
     private float StrengthForAcceleration;
-    public float TimeInAcceleration;
+    private float TimeInAcceleration;
+    private int FrequencyAcceleration;
 
-	/// <summary>
-	/// This function is called when the object becomes enabled and active.
-	/// </summary>
-	void OnEnable()
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
 	{
 		normalGravity = Physics2D.gravity;
 		rb = GetComponent<Rigidbody2D>();
@@ -59,10 +59,12 @@ public class WheelLogic : MonoBehaviour {
 		rb.AddForce(force);
 	}
 
-    public void AddVelocity(float strength)
+    public void AddVelocity(float strength,int frequance,float time)
     {
         VelocityAtStartAcceleration = rb.velocity;
         StrengthForAcceleration = strength;
+        TimeInAcceleration = time;
+        FrequencyAcceleration = frequance;
         StartCoroutine("Acceleration");
     }
 
