@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class LineWriter : MonoBehaviour
 {
-    public Text quanityUI;
+    public Slider quanityUI;
     private float lineCost = 0.01f;
     public float startQuanityLines;
     private float quanityLines;
@@ -70,7 +70,7 @@ public class LineWriter : MonoBehaviour
     void Start()
     {
         quanityLines = startQuanityLines;
-        quanityUI.GetComponent<Text>().text = quanityLines.ToString();
+        quanityUI.GetComponent<Slider>().value = quanityLines/startQuanityLines;
     }
 
 
@@ -159,7 +159,7 @@ public class LineWriter : MonoBehaviour
                                     ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
                                         CollidersPositions.ToArray();
                                     quanityLines -= lineCost;
-                                    quanityUI.GetComponent<Text>().text = quanityLines.ToString();
+                                    quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
                                     MainFinger = finger.Index;
                                     LastPoint = 3;
                                     dotsForDrawing = new List<Vector3>();
@@ -229,7 +229,7 @@ public class LineWriter : MonoBehaviour
                                     }
 
                                     quanityLines -= (Mathf.Abs(dotsForDrawing.Count - CollidersPositions.Count)) * lineCost;
-                                    quanityUI.GetComponent<Text>().text = quanityLines.ToString();
+                                    quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
                                     CollidersPositions.Clear(); //Сброс листа точек для коллайдера
                                     for (int i = 0; i < dotsForDrawing.Count; i++)
                                         // Все точки для отрисовки мы добавляем в лист точек коллайдера
@@ -301,7 +301,7 @@ public class LineWriter : MonoBehaviour
                                 SecondArrayForLineForCollider.Add(Expectline[ii]);
                             }
                             quanityLines += lineCost * (Expectline.Length - (FirstArrayForLine.Count + SecondArrayForLine.Count));
-                            quanityUI.GetComponent<Text>().text = quanityLines.ToString();
+                            quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
 
                             Destroy(ListLineRenderers[i]);
                             ListLineRenderers.RemoveAt(i);
@@ -393,7 +393,7 @@ public class LineWriter : MonoBehaviour
         Debug.Log("LineWriter Now Enabled");
         isEnabled = true;
         quanityLines = startQuanityLines;
-        quanityUI.GetComponent<Text>().text = quanityLines.ToString();
+        quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
     }
 
     private List<Vector3> GetAdditionalPoints(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3) //Метод для получения дополнительных точек среди 4 точек.
