@@ -69,6 +69,11 @@ public class WheelLogic : MonoBehaviour
         StartCoroutine("Acceleration");
     }
 
+    public void AddVelocity(Vector2 Velocity)
+    {
+        rb.velocity = Velocity;
+    }
+
     private void StopRigidbodySimulation()
     {
         rb.simulated = false;
@@ -80,6 +85,11 @@ public class WheelLogic : MonoBehaviour
     {
         Debug.Log(Physics2D.gravity.magnitude);
         Physics2D.gravity = gravity;
+    }
+
+    public Vector2 getVelocity()
+    {
+        return rb.velocity;
     }
 
     IEnumerator Acceleration()

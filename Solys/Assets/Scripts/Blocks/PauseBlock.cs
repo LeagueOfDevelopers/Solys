@@ -42,6 +42,7 @@ public class PauseBlock : MonoBehaviour {
     {
         setActive(false);
         while (isTimeStop)
+            yield return new WaitForSeconds(0.5f);
         yield return new WaitForSeconds(timeForReSpawn);
         setActive(true);
     }
