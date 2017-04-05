@@ -27,11 +27,13 @@ public class CameraLogic : MonoBehaviour
     {
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
+        GeneralLogic.StopSimulationEvent += StopSimulation;
     }
     private void OnDisable()
     {
         GeneralLogic.StartSimulationEvent -= StartSimulation;
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
+        GeneralLogic.StopSimulationEvent -= StopSimulation;
     }
     void Start()
     {
@@ -191,8 +193,14 @@ public class CameraLogic : MonoBehaviour
 
     public void ResetSimulation()
     {
-        if (LineWriter.GetComponent<LineWriter>().tool==2)
-        setActive(true);
+        if (LineWriter.GetComponent<LineWriter>().tool == 2)
+            setActive(true);
+        gameState = 0;
+    }
+    public void StopSimulation()
+    {
+        if (LineWriter.GetComponent<LineWriter>().tool == 2)
+            setActive(true);
         gameState = 0;
     }
 }

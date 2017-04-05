@@ -41,6 +41,7 @@ public class LineWriter : MonoBehaviour
         LeanTouch.OnFingerUp += OnFingerUp;
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
+        GeneralLogic.StopSimulationEvent += StopSimulation;
         distancePerDot = DistanceBetweenDots / FrequencyPoints;
         LastPoint = 3;
         MainFinger = -1;
@@ -380,6 +381,11 @@ public class LineWriter : MonoBehaviour
         Debug.Log("LineWriter Now Disabled");
         isEnabled = false;
         distancePerDot = DistanceBetweenDots / FrequencyPoints;
+    }
+    
+    public void StopSimulation()
+    {
+        isEnabled = true;
     }
 
     public void ResetSimulation()
