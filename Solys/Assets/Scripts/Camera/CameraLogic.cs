@@ -7,6 +7,7 @@ using Lean.Touch;
 public class CameraLogic : MonoBehaviour
 {
     public GameObject LineWriter;
+    public float timeForReturn;
     public float distanceForFollow;
     private int gameState = 0;
     private Coroutine sizingCoroutine;
@@ -22,6 +23,9 @@ public class CameraLogic : MonoBehaviour
     public float[] CameraSizes;
     private int state = 1;
     public GameObject wheel;
+    private Vector3 currentpos;
+    private Vector3 beginPos;
+    private Vector3 endPos;
 
     private void OnEnable()
     {
@@ -176,9 +180,6 @@ public class CameraLogic : MonoBehaviour
                 Height.z = -10;
                 transform.position = Height;
             }
-
-
-
         }
     }
     public void setActive(bool state)
@@ -196,11 +197,27 @@ public class CameraLogic : MonoBehaviour
         if (LineWriter.GetComponent<LineWriter>().tool == 2)
             setActive(true);
         gameState = 0;
+        StartCoroutine("ReturnToWheelAfterSimulation");
     }
     public void StopSimulation()
     {
         if (LineWriter.GetComponent<LineWriter>().tool == 2)
             setActive(true);
         gameState = 0;
+        StartCoroutine("ReturnToWheelAfterSimulation");
+    }
+    IEnumerator ReturnToWheelAfterSimulation()
+    {
+        yield return new WaitForEndOfFrame();
+        currentpos = transform.position;
+        beginPos = currentpos;
+        endPos = wheel.transform.position;
+        for (int i = 1; i <= 100; i++)
+        {
+            currentpos = Vector3.Lerp(beginPos, endPos, (float)i / 100.0f);
+            currentpos = new Vector3(currentpos.x, currentpos.y, -10);
+            transform.position = currentpos;
+            yield return new WaitForSeconds(timeForReturn);
+        }
     }
 }
