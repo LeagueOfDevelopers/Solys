@@ -65,12 +65,12 @@ public class GeneralLogic : MonoBehaviour {
     public void NextLevelButtonClick(int scene)
     {
         Debug.Log("Next Level selected");
-		int LevelID = PlayerPrefs.GetInt("LevelID",-1);
+		int LevelID = SceneDataTransfer.Instance.CurrentSceneID;
 		Debug.Log(LevelID);
         //SceneManager.LoadScene(scene);
 		if(SceneManager.sceneCountInBuildSettings>LevelID+1)
 		{
-			PlayerPrefs.SetInt("LevelID",LevelID+1);
+			SceneDataTransfer.Instance.CurrentSceneID = LevelID+1;
 			SceneManager.LoadScene(LevelID+1);
 		}
 		else

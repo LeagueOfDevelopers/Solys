@@ -19,6 +19,8 @@ public class MapSerializatorEditor : Editor {
 
 	public override void OnInspectorGUI()
 	{
+		EditorGUILayout.PrefixLabel("Deserialize on scene load?");
+		((MapSerializator)target).DeserializeOnLoad = EditorGUILayout.Toggle(((MapSerializator)target).DeserializeOnLoad);
 		serializedObject.Update();
 		for(int i = 0; i<dict.arraySize; i++)
 		{

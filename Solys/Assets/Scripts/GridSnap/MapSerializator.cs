@@ -7,8 +7,19 @@ using System;
 public class MapSerializator : MonoBehaviour {
 
 	public GameObject[] types = new GameObject[Enum.GetValues(typeof(MapElement.ElementsType)).Length];
-	
+	public bool DeserializeOnLoad = true;
 
+	/// <summary>
+	/// This function is called when the object becomes enabled and active.
+	/// </summary>
+	void OnEnable()
+	{
+		if(DeserializeOnLoad && SceneDataTransfer.Instance.LoadingLevelData.Length>0)
+		{
+			Deserialize(SceneDataTransfer.Instance.LoadingLevelData);
+			SceneDataTransfer.Instance.LoadingLevelData = string.Empty;
+		}
+	}
 
 	public string Serialize()
 	{

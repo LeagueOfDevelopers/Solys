@@ -8,7 +8,7 @@ public class SelectLevelMenuScript : MonoBehaviour {
 
 	public GameObject Content;
 	public GameObject ButtonTemplate;
-	public int FirstSceneId;
+	public int SceneAmount;
 
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before
@@ -16,12 +16,11 @@ public class SelectLevelMenuScript : MonoBehaviour {
 	/// </summary>
 	void Start()
 	{
-		for(int i = FirstSceneId; i<SceneManager.sceneCountInBuildSettings;i++)
+		for(int i = 1; i<=SceneAmount;i++)
 		{
 			GameObject button = Instantiate(ButtonTemplate,Content.transform);
-			Scene scene = SceneManager.GetSceneByBuildIndex(i);
 			button.transform.localScale = new Vector3(1,1,1);
-			button.transform.FindChild("Text").GetComponent<Text>().text = (i-FirstSceneId+1).ToString();
+			button.transform.FindChild("Text").GetComponent<Text>().text = (i).ToString();
 			button.GetComponent<SelectLevelButton>().id = i;
 		}
 		

@@ -22,10 +22,10 @@ public class CameraLogic : MonoBehaviour
     private Vector3 LastPosition;
     public float[] CameraSizes;
     private int state = 1;
-    public GameObject wheel;
+    private GameObject wheel;
     private Vector3 currentpos;
-    private Vector3 beginPos;
     private Vector3 endPos;
+    private Vector3 beginPos;
 
     private void OnEnable()
     {
@@ -41,6 +41,7 @@ public class CameraLogic : MonoBehaviour
     }
     void Start()
     {
+        wheel = GameObject.Find("Wheel(Clone)");
         LeanTouch.OnFingerDown += OnFingerDown;
         LeanTouch.OnFingerUp += OnFingerUp;
         LeanTouch.OnFingerSet += OnFingerSet;
