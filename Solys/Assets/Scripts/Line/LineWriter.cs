@@ -115,19 +115,19 @@ public class LineWriter : MonoBehaviour
                                 {
                                     ExpectLine = ReverseArray(ExpectLine);
                                 }
-                                //Пометка для себя №706
                                 Destroy(ListLineRenderers[lineNumber]);
                                 ListLineRenderers.RemoveAt(lineNumber);
 
                                 GameObject lineRenderer = GameObject.Instantiate(LineRenderer);
                                 lineRenderer.transform.parent = transform;
-                                ListLineRenderers.Add(lineRenderer); 
+                                ListLineRenderers.Add(lineRenderer);
 
+                                dotsForDrawing = new List<Vector3>();
                                 for (int i = 0; i < ExpectLine.Length; i++)
                                 {
                                     Positions.Add(ExpectLine[i]);
                                     CollidersPositions.Add(ExpectLine[i]);
-
+                                    dotsForDrawing.Add(ExpectLine[i]);
                                 }
 
                                 ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions
@@ -139,8 +139,7 @@ public class LineWriter : MonoBehaviour
                                     CollidersPositions.ToArray();
 
                                 MainFinger = finger.Index;
-                                LastPoint = 3;
-                                dotsForDrawing = new List<Vector3>();
+                                LastPoint = (Positions.Count / 4) * 4;
 
                             }
                             else
