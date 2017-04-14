@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Lean.Touch;
 
 [ExecuteInEditMode]
 public class MapElement : MonoBehaviour {
@@ -8,6 +9,7 @@ public class MapElement : MonoBehaviour {
 	public enum ElementsType {Wheel, Target, Wall1, Corner1, AccelBlock, AccelerationBlock, AttractionBlock, GravityBlock, TPenter, TPexit};
 	public ElementsType type;
 
+    public bool isDragable = false;
 
 	private Vector3 prevPosition;
 	
@@ -27,6 +29,11 @@ public class MapElement : MonoBehaviour {
 
 	public void Update()
          {
+             if(isDragable)
+             {
+                
+                
+             }
              if (transform.position != prevPosition)
              {
 				 if(type == ElementsType.Wheel && Application.isPlaying) return;
@@ -48,4 +55,5 @@ public class MapElement : MonoBehaviour {
          {
              return GeneralLogic.SnapValueForMapElements * Mathf.Round( ( input / GeneralLogic.SnapValueForMapElements ) );
          }
+         
 }

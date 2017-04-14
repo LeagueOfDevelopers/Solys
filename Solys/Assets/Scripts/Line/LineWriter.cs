@@ -85,7 +85,7 @@ public class LineWriter : MonoBehaviour
                 if (Positions.Count == 0) // Когда только что поставили палец на экран
                 {
                     if (MainFinger == -1)
-                        if (!finger.IsOverGui)
+                        if (!finger.IsOverGui && !isOverDragableObject(finger))
                         {
                             Vector2 PosNow = finger.GetWorldPosition(10, Camera.current);
                             float minDistance = DistanceBetweenDots + 1;
@@ -347,7 +347,22 @@ public class LineWriter : MonoBehaviour
         }
     }
 
+    private bool isOverDragableObject(LeanFinger finger)
+    {
+        Vector3 origin = Camera.main.ScreenToWorldPoint(finger.ScreenPosition);
 
+        RaycastHit2D hit = Physics2D.Raycast(origin,Vector2.zero);
+        if(hit)
+        {
+            var element = hit.transform.gameObject.GetComponent<MapElement>();
+            if(element != null)
+            {
+                if(element.isDragable)
+                    return true;
+            }
+        }
+        return false;
+    }
 
     public Vector2[] ReverseArray(Vector2[] ExpectLine)
     {
