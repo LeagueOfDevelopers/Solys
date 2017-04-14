@@ -10,6 +10,9 @@ public class MapElement : MonoBehaviour {
 	public ElementsType type;
 
     public bool isDragable = false;
+    
+    [System.NonSerializedAttribute]
+    public bool isNeedToSnap = true;
 
 	private Vector3 prevPosition;
 	
@@ -27,14 +30,11 @@ public class MapElement : MonoBehaviour {
 		return element;
 	}
 
+   
 	public void Update()
          {
-             if(isDragable)
-             {
-                
-                
-             }
-             if (transform.position != prevPosition)
+
+             if (transform.position != prevPosition && isNeedToSnap)
              {
 				 if(type == ElementsType.Wheel && Application.isPlaying) return;
                  Snap();
@@ -54,6 +54,11 @@ public class MapElement : MonoBehaviour {
          public float Round( float input )
          {
              return GeneralLogic.SnapValueForMapElements * Mathf.Round( ( input / GeneralLogic.SnapValueForMapElements ) );
+         }
+
+         public void Drag(Vector3 newPos)
+         {
+            transform.position = newPos;
          }
          
 }

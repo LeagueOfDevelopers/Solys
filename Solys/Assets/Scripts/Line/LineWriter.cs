@@ -28,6 +28,15 @@ public class LineWriter : MonoBehaviour
     public float DistanceForContinueLine;
     public GameObject ToolButtonErase;
     public GameObject ToolButtonWriter;
+
+    public int PositionsAmount
+    {
+        get
+        {
+            return Positions.Count;
+        }
+    }
+
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -363,7 +372,7 @@ public class LineWriter : MonoBehaviour
         }
         return false;
     }
-
+    
     public Vector2[] ReverseArray(Vector2[] ExpectLine)
     {
         Vector2[] ForReturn = new Vector2[ExpectLine.Length];
