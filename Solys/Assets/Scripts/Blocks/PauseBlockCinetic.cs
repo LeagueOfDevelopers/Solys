@@ -40,6 +40,7 @@ public class PauseBlockCinetic : MonoBehaviour {
     {
         if (other.tag.Equals("Player"))
         {
+            GetComponent<ParticleSystem>().Play();
             isTimeStop = true;
             velocity = wheel.GetComponent<WheelLogic>().getVelocity();
             StartCoroutine("ReSpawnBlock");

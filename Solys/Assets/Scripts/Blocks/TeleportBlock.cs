@@ -9,7 +9,9 @@ public class TeleportBlock : MonoBehaviour {
     {
         if (other.attachedRigidbody)
         {
-           other.transform.position = ExitBlock.transform.position;
+            GetComponent<ParticleSystem>().Play();
+            ExitBlock.GetComponent<ParticleSystem>().Play();
+            other.transform.position = ExitBlock.transform.position;
         }
 
     }

@@ -32,6 +32,7 @@ public class PauseBlock : MonoBehaviour {
     {
          if (other.tag.Equals("Player"))
         {
+            GetComponent<ParticleSystem>().Play();
             isTimeStop = true;
             StartCoroutine("ReSpawnBlock");
             GameObjectWithGeneralLogic.GetComponent<GeneralLogic>().StopSimulation();
