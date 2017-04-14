@@ -39,12 +39,13 @@ public class AttracationBlock : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             inRange = true;
+        GetComponent<ParticleSystem>().Play();
 
     }
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
             inRange = false;
-
+        GetComponent<ParticleSystem>().Stop();
     }
 }

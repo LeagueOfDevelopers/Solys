@@ -22,7 +22,7 @@ public class AccelerationBlock : MonoBehaviour
     {
         if (other.attachedRigidbody)
         {
-
+            GetComponent<ParticleSystem>().Play();
             other.gameObject.GetComponent<WheelLogic>().AddVelocity(AccelStrength,FrequencyAcceleration,TimeInAcceleration);
         }
 
