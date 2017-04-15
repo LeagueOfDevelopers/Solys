@@ -27,6 +27,7 @@ public class MapElement : MonoBehaviour {
 		element.position = transform.position;
         element.rotation = transform.rotation;
 		element.type = type;
+        element.isDragable = isDragable;
 		return element;
 	}
 
