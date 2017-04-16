@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Lean.Touch;
 
-public class MapElementDrag : MonoBehaviour {
-
-
-
+public class BlockPanel : MonoBehaviour {
 	private LineWriter writerComponent;
-	private MapElement lastDragedElement;
+	private BlocksPanelElement lastDragedElement;
 
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
@@ -28,6 +25,7 @@ public class MapElementDrag : MonoBehaviour {
 		LeanTouch.OnFingerSet-= DragElementIfTouch;
 		LeanTouch.OnFingerUp -=ReleaseDragedObject;
 	}
+	
 	void DragElementIfTouch(LeanFinger finger)
 	{
 		if(writerComponent.PositionsAmount == 0 && lastDragedElement == null)
@@ -37,15 +35,11 @@ public class MapElementDrag : MonoBehaviour {
 			RaycastHit2D hit = Physics2D.Raycast(origin,Vector2.zero);
 			if(hit)
 			{
-				var element = hit.transform.gameObject.GetComponent<MapElement>();
+				var element = hit.transform.gameObject.GetComponent<BlocksPanelElement>();
 				
-				if(element != null)
-					if(element.isDragable)
-					{
+				if(element != null)		
 						lastDragedElement = element;
-						element.isNeedToSnap = false;
 						element.Drag(new Vector3(origin.x,origin.y,0));
-					}
 			}
 		}
 
@@ -60,9 +54,15 @@ public class MapElementDrag : MonoBehaviour {
 	{
 		if(lastDragedElement!=null)
 		{
-			lastDragedElement.isNeedToSnap = true;
+			lastDragedElement.Release();
 			lastDragedElement = null;
 		}
 	}
 
+	void CheckTouchPosition()
+	{
+
+	}
+
 }
+
