@@ -32,7 +32,8 @@ public class BlockPanel : MonoBehaviour {
 		{
 			Vector3 origin = Camera.main.ScreenToWorldPoint(finger.ScreenPosition);
 
-			RaycastHit2D hit = Physics2D.Raycast(origin,Vector2.zero);
+			RaycastHit2D hit = Physics2D.Raycast(origin,Vector2.zero)
+
 			if(hit)
 			{
 				var element = hit.transform.gameObject.GetComponent<BlocksPanelElement>();
@@ -46,7 +47,12 @@ public class BlockPanel : MonoBehaviour {
 		if(lastDragedElement != null)
 		{
 			Vector3 origin = Camera.main.ScreenToWorldPoint(finger.ScreenPosition);
-			lastDragedElement.Drag(new Vector3(origin.x,origin.y,0));
+			if(origin.y > Screen.height- GetComponent<RectTransform>().rect.height)
+				lastDragedElement.Drag(new Vector3(origin.x,origin.y,0));
+			else
+			{
+				//Instantiate(lastDragedElement.GetComponent<BlocksPanelElement>())
+			}
 		}
 		
 	}
@@ -57,11 +63,6 @@ public class BlockPanel : MonoBehaviour {
 			lastDragedElement.Release();
 			lastDragedElement = null;
 		}
-	}
-
-	void CheckTouchPosition()
-	{
-
 	}
 
 }

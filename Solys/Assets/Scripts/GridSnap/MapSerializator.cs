@@ -6,7 +6,7 @@ using System;
 [ExecuteInEditMode]
 public class MapSerializator : MonoBehaviour {
 
-	public GameObject[] types = new GameObject[Enum.GetValues(typeof(MapElement.ElementsType)).Length];
+	public static GameObject[] types = new GameObject[Enum.GetValues(typeof(MapElement.ElementsType)).Length];
 	public bool DeserializeOnLoad = true;
 
 	/// <summary>
@@ -46,4 +46,11 @@ public class MapSerializator : MonoBehaviour {
 			mapObj.GetComponent<MapElement>().type = (MapElement.ElementsType)element.type;
 		}
 	}
+
+	/*public static void Instantiate(MapElement.ElementsType type, Vector3 position)
+	{
+		var mapObj = Instantiate(types[(int)type],position,  ,gameObject.transform);
+		mapObj.GetComponent<MapElement>().isDragable = element.isDragable;
+		mapObj.GetComponent<MapElement>().type = (MapElement.ElementsType)element.type;
+	}*/ ///TODO
 }
