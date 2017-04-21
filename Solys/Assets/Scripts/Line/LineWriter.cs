@@ -26,8 +26,6 @@ public class LineWriter : MonoBehaviour
     public int tool; // 0 - Рисовалка линий, 1 - ластик
     public float EraseSize;
     public float DistanceForContinueLine;
-    public GameObject ToolButtonErase;
-    public GameObject ToolButtonWriter;
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -570,31 +568,21 @@ public class LineWriter : MonoBehaviour
         return dot;
     }
 
-    public void ChangeTool()
+    public void ChangeTool(int nextTool)
     {
-        if (tool == 0)
+        switch (nextTool)
         {
-            tool = 1;
-            ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = false;
-            ToolButtonErase.GetComponent<SpriteRenderer>().enabled = true;
-
-        }
-        else
-        {
-            if (tool == 1)
-            {
-                tool = 2;
-                Camera.main.GetComponent<CameraLogic>().setActive(true);
-                ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = false;
-                ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
-            }
-            else
-            {
-                tool = 0;
+            case 1:
+                tool = 1;
                 Camera.main.GetComponent<CameraLogic>().setActive(false);
-                ToolButtonWriter.GetComponent<SpriteRenderer>().enabled = true;
-                ToolButtonErase.GetComponent<SpriteRenderer>().enabled = false;
-            }
-        }
+                break;
+            case 2: tool = 2;
+                Camera.main.GetComponent<CameraLogic>().setActive(true);
+                break;
+            case 0: tool = 0;
+                Camera.main.GetComponent<CameraLogic>().setActive(false);
+                break;
+
+        }        
     }
 }
