@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [CustomEditor(typeof(MapSerializator))]
 [CanEditMultipleObjects]
 public class MapSerializatorEditor : Editor {
-
+    
 	string deserializeText = "ДАННЫЕ ДЛЯ ДЕСЕРИЛИЗАЦИИ";
 	SerializedProperty dict;
 	GUIStyle style;
