@@ -13,12 +13,15 @@ public class MapSerializatorEditor : Editor {
 	void OnEnable()
 	{
 		dict = serializedObject.FindProperty("types");
-		EditorStyles.textArea.wordWrap = true;
+		
+		
+		//EditorStyles.textArea.wordWrap = true;
 	}
 
 
 	public override void OnInspectorGUI()
 	{
+		EditorStyles.textArea.wordWrap = true;
 		EditorGUILayout.PrefixLabel("Deserialize on scene load?");
 		((MapSerializator)target).DeserializeOnLoad = EditorGUILayout.Toggle(((MapSerializator)target).DeserializeOnLoad);
 		serializedObject.Update();
@@ -28,7 +31,7 @@ public class MapSerializatorEditor : Editor {
 			EditorGUILayout.ObjectField(dict.GetArrayElementAtIndex(i));
 		}
 		serializedObject.ApplyModifiedProperties();
-		deserializeText = EditorGUILayout.TextArea(deserializeText);
+		deserializeText = EditorGUILayout.TextArea(deserializeText, GUILayout.Height(300));
 		if(GUILayout.Button("Serialize"))
 			{
 				MapSerializator obj = (MapSerializator)target;

@@ -32,7 +32,7 @@ public class BlockPanel : MonoBehaviour {
 		{
 			Vector3 origin = Camera.main.ScreenToWorldPoint(finger.ScreenPosition);
 
-			RaycastHit2D hit = Physics2D.Raycast(origin,Vector2.zero)
+			RaycastHit2D hit = Physics2D.Raycast(origin,Vector2.zero);
 
 			if(hit)
 			{

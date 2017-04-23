@@ -29,7 +29,7 @@ public class MapElement : MonoBehaviour {
 		element.type = type;
         element.isDragable = isDragable;
 		return element;
-	}
+	}   
 
    
 	public void Update()
