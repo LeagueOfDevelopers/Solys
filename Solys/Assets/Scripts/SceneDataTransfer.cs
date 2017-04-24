@@ -23,7 +23,7 @@ class SceneDataTransfer
         }
 
         public int CurrentSceneID;
-        public string LoadingLevelData;
+        public string LoadingLevelData ="";
     #endregion
    
    

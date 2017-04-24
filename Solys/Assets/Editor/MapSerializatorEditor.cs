@@ -10,17 +10,11 @@ public class MapSerializatorEditor : Editor {
 	string deserializeText = "ДАННЫЕ ДЛЯ ДЕСЕРИЛИЗАЦИИ";
 	SerializedProperty dict;
 	GUIStyle style;
-	void OnEnable()
-	{
-		dict = serializedObject.FindProperty("types");
-		
-		
-		//EditorStyles.textArea.wordWrap = true;
-	}
 
 
 	public override void OnInspectorGUI()
 	{
+		dict = serializedObject.FindProperty("types");
 		EditorStyles.textArea.wordWrap = true;
 		EditorGUILayout.PrefixLabel("Deserialize on scene load?");
 		((MapSerializator)target).DeserializeOnLoad = EditorGUILayout.Toggle(((MapSerializator)target).DeserializeOnLoad);

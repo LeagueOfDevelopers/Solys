@@ -40,17 +40,15 @@ public class MapSerializator : MonoBehaviour {
 		
 		Map obj = JsonUtility.FromJson<Map>(serializedString);
 		foreach(ElementSerializeObject element in obj)
-		{
-			var mapObj = Instantiate(types[(int)element.type],element.position,element.rotation,gameObject.transform);
-			mapObj.GetComponent<MapElement>().isDragable = element.isDragable;
-			mapObj.GetComponent<MapElement>().type = (MapElement.ElementsType)element.type;
-		}
+			InstantiateMapObject(element.type,element.position,element.rotation,gameObject.transform,element.isDragable);
+			
 	}
 
-	/*public static void Instantiate(MapElement.ElementsType type, Vector3 position)
+	public static void InstantiateMapObject(MapElement.ElementsType type, Vector3 position, Quaternion rotation, Transform parent, bool isDragable)
 	{
-		var mapObj = Instantiate(types[(int)type],position,  ,gameObject.transform);
-		mapObj.GetComponent<MapElement>().isDragable = element.isDragable;
-		mapObj.GetComponent<MapElement>().type = (MapElement.ElementsType)element.type;
-	}*/ ///TODO
+		GameObject[] types = GameObject.Find("Map").GetComponent<MapSerializator>().types;
+		var mapObj = Instantiate(types[(int)type],position, rotation ,parent);
+		mapObj.GetComponent<MapElement>().isDragable = isDragable;
+		mapObj.GetComponent<MapElement>().type = type;
+	}
 }
