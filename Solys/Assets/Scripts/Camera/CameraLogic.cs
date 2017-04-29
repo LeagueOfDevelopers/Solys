@@ -48,11 +48,21 @@ public class CameraLogic : MonoBehaviour
         LeanTouch.OnFingerUp += OnFingerUp;
         LeanTouch.OnFingerSet += OnFingerSet;
         currentSize = CameraSizes[state];
+        SetPosAtWheel();
+    }
+    public void SetPosAtWheel()
+    {
+        endPos = wheel.transform.position;
+        if (endPos.x < 0 || endPos.x > MapSize.x * 15.0f)
+            endPos.x = 0;
+        if (endPos.y < 0 || endPos.y > MapSize.y * 10.5f)
+            endPos.y = 0;
+        endPos.z = -10;
+        transform.position = endPos;
+
     }
     public void OnFingerSet(LeanFinger finger)
     {
-
-
         if (LeanTouch.Fingers.Count == 1)
         {
             if (isEnabled)
@@ -65,8 +75,6 @@ public class CameraLogic : MonoBehaviour
                     if (FuturePos.y < 0 || FuturePos.y > MapSize.y * 10.5f)
                         FuturePos.y = 0;
                     transform.position = FuturePos;
-                    
-
                 }
             }
             LastPosition = finger.GetWorldPosition(10, Camera.current);
@@ -182,7 +190,7 @@ public class CameraLogic : MonoBehaviour
     {
         if (gameState == 1)
         {
-            if (Mathf.Abs(Vector2.Distance(transform.position, wheel.transform.position))>distanceForFollow)
+            if (Mathf.Abs(Vector2.Distance(transform.position, wheel.transform.position)) > distanceForFollow)
             {
                 transform.Translate((wheel.transform.position - transform.position) * Time.deltaTime);
                 Vector3 Height = transform.position;
