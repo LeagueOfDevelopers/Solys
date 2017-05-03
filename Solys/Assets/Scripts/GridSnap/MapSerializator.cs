@@ -6,7 +6,6 @@ using System;
 [ExecuteInEditMode]
 public class MapSerializator : MonoBehaviour {
     
-    public Vector2 MapSize=new Vector2(3,3);
 	public GameObject[] types = new GameObject[Enum.GetValues(typeof(MapElement.ElementsType)).Length];
 	public bool DeserializeOnLoad = true;
     /// <summary>

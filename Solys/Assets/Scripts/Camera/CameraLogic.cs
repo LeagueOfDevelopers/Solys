@@ -6,7 +6,7 @@ using Lean.Touch;
 
 public class CameraLogic : MonoBehaviour
 {
-    private Vector2 MapSize;
+    public Vector2 MapSize;
     public GameObject LineWriter;
     public float timeForReturn;
     public float distanceForFollow;
@@ -42,7 +42,6 @@ public class CameraLogic : MonoBehaviour
     }
     void Start()
     {
-        MapSize = GameObject.Find("Map").GetComponent<MapSerializator>().MapSize;
         wheel = GameObject.Find("Wheel(Clone)");
         LeanTouch.OnFingerDown += OnFingerDown;
         LeanTouch.OnFingerUp += OnFingerUp;
@@ -53,10 +52,14 @@ public class CameraLogic : MonoBehaviour
     public void SetPosAtWheel()
     {
         endPos = wheel.transform.position;
-        if (endPos.x < 0 || endPos.x > MapSize.x * 15.0f)
+        if (endPos.x < 0)
             endPos.x = 0;
-        if (endPos.y < 0 || endPos.y > MapSize.y * 10.5f)
+        if (endPos.y < 0)
             endPos.y = 0;
+        if (endPos.y > MapSize.y * 10.5f)
+            endPos.y = MapSize.y * 10.5f;
+        if (endPos.x > MapSize.x * 15.0f)
+            endPos.x = MapSize.x * 10.5f;
         endPos.z = -10;
         transform.position = endPos;
 
@@ -70,10 +73,14 @@ public class CameraLogic : MonoBehaviour
                 if (gameState == 0)
                 {
                     Vector3 FuturePos = transform.position - (finger.GetWorldPosition(10, Camera.current) - LastPosition);
-                    if (FuturePos.x < 0 || FuturePos.x > MapSize.x * 15.0f)
+                    if (FuturePos.x < 0)
                         FuturePos.x = 0;
-                    if (FuturePos.y < 0 || FuturePos.y > MapSize.y * 10.5f)
+                    if (FuturePos.x > MapSize.x * 15.0f)
+                        FuturePos.x = MapSize.x * 15.0f;
+                    if (FuturePos.y < 0)
                         FuturePos.y = 0;
+                    if (FuturePos.y > MapSize.y * 10.5f)
+                        FuturePos.y = MapSize.y * 10.5f;
                     transform.position = FuturePos;
                 }
             }
@@ -195,10 +202,14 @@ public class CameraLogic : MonoBehaviour
                 transform.Translate((wheel.transform.position - transform.position) * Time.deltaTime);
                 Vector3 Height = transform.position;
                 Height.z = -10;
-                if (Height.x < 0 || Height.x > MapSize.x * 15.0f)
+                if (Height.x < 0)
                     Height.x = 0;
-                if (Height.y < 0 || Height.y > MapSize.y * 10.5f)
+                if (Height.x > MapSize.x * 15.0f)
+                    Height.x = MapSize.x * 15.0f;
+                if (Height.y < 0)
                     Height.y = 0;
+                if (Height.y > MapSize.y * 10.5f)
+                    Height.y = MapSize.y * 10.5f;
                 transform.position = Height;
             }
         }
@@ -237,10 +248,14 @@ public class CameraLogic : MonoBehaviour
         {
             currentpos = Vector3.Lerp(beginPos, endPos, (float)i / 100.0f);
             currentpos = new Vector3(currentpos.x, currentpos.y, -10);
-            if (currentpos.x < 0 || currentpos.x > MapSize.x * 15.0f)
+            if (currentpos.x < 0)
                 currentpos.x = 0;
-            if (currentpos.y < 0 || currentpos.y > MapSize.y * 10.5f)
+            if (currentpos.x > MapSize.x * 15.0f)
+                currentpos.x = MapSize.x * 15.0f;
+            if (currentpos.y < 0)
                 currentpos.y = 0;
+            if (currentpos.y > MapSize.y * 10.5f)
+                currentpos.y = MapSize.y * 10.5f;
             transform.position = currentpos;
             yield return new WaitForSeconds(timeForReturn);
         }
