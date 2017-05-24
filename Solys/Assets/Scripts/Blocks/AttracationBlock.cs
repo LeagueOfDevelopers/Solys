@@ -12,7 +12,7 @@ public class AttracationBlock : MonoBehaviour
     private float DistanceBetweenPlayerAndBlock;
     // Use this for initialization
 	void Start ()
-	{
+	{        
 	    inRange = false;
 	    GetComponent<CircleCollider2D>().radius = RadiusForAttraction;
 	}

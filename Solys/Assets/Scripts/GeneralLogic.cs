@@ -11,6 +11,7 @@ public class GeneralLogic : MonoBehaviour {
 	public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
+    public GameObject LineWriterObject;
 
 	public static int SnapValueForMapElements = 1;	///TODO move away from this file!
 
@@ -57,10 +58,21 @@ public class GeneralLogic : MonoBehaviour {
 
 	private void OpenEndLevelMenu()
 	{
-	   
+        UpdateLevelRating();
         NextLevelButton.SetActive(true);
         ExitButton.SetActive(true);
 	}
+
+    private void UpdateLevelRating()
+    {
+        float procent1 = 0.3f;
+        float procent2 = 0.6f;
+        float currentProcent = LineWriterObject.GetComponent<LineWriter>().LineRemainder;
+        if (currentProcent > procent2) SceneDataTransfer.Instance.currentRate = 3;
+        else
+        if (currentProcent < procent1) SceneDataTransfer.Instance.currentRate = 1;
+        else SceneDataTransfer.Instance.currentRate = 2;    
+    }
 
     public void NextLevelButtonClick(int scene)
     {

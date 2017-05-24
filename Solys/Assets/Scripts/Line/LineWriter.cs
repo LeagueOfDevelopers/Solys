@@ -27,6 +27,7 @@ public class LineWriter : MonoBehaviour
     public int tool; // 0 - Рисовалка линий, 1 - ластик
     public float EraseSize;
     public float DistanceForContinueLine;
+    public float LineRemainder { get { return quanityLines / startQuanityLines; } }
 
     public int PositionsAmount
     {

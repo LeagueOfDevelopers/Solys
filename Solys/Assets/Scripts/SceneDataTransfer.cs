@@ -8,8 +8,9 @@ class SceneDataTransfer
         static SceneDataTransfer(){}
         private static readonly SceneDataTransfer _instance = new SceneDataTransfer();
         public static SceneDataTransfer Instance{ get { return _instance; } }
+        private static Dictionary<string, int> RatingPassages;
 
-        public bool LoadLevelData(int id)
+    public bool LoadLevelData(int id)
         {
         TextAsset asset = Resources.Load("Level/"+id, typeof(TextAsset)) as TextAsset;
         if(asset == null) return false;
@@ -24,7 +25,24 @@ class SceneDataTransfer
 
         public int CurrentSceneID;
         public string LoadingLevelData ="";
+        public int currentRate
+    {
+        get
+        {
+            int rate=0;
+            RatingPassages.TryGetValue("Level / " + CurrentSceneID.ToString(), out rate);
+            return rate;
+        }
+        set
+        {
+            int rate=0;
+            RatingPassages.TryGetValue("Level / " + CurrentSceneID.ToString(), out rate);
+            if (value > rate) { RatingPassages.Remove("Level / " + CurrentSceneID.ToString());
+                RatingPassages.Add("Level / " + CurrentSceneID.ToString(), value);
+            }
+        }
+    }
     #endregion
-   
-   
-}
+
+
+        }
