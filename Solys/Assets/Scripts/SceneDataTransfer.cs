@@ -30,12 +30,14 @@ class SceneDataTransfer
         get
         {
             int rate=0;
+            if (RatingPassages == null) RatingPassages = new Dictionary<string, int>();
             RatingPassages.TryGetValue("Level / " + CurrentSceneID.ToString(), out rate);
             return rate;
         }
         set
         {
             int rate=0;
+            if (RatingPassages == null) RatingPassages = new Dictionary<string, int>();
             RatingPassages.TryGetValue("Level / " + CurrentSceneID.ToString(), out rate);
             if (value > rate) { RatingPassages.Remove("Level / " + CurrentSceneID.ToString());
                 RatingPassages.Add("Level / " + CurrentSceneID.ToString(), value);

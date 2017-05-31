@@ -8,7 +8,8 @@ public class GeneralLogic : MonoBehaviour {
 	public delegate void Action();
     public GameObject NextLevelButton;
     public GameObject ExitButton;
-	public static Action StartSimulationEvent;
+    public GameObject[] StarsImages;
+    public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
     public GameObject LineWriterObject;
@@ -58,20 +59,27 @@ public class GeneralLogic : MonoBehaviour {
 
 	private void OpenEndLevelMenu()
 	{
-        UpdateLevelRating();
+        int stars = UpdateLevelRating();
         NextLevelButton.SetActive(true);
         ExitButton.SetActive(true);
-	}
+        for (int i = 0; i < stars; i++)
+        {
+            StarsImages[i].SetActive(true);
+        }
+    }
 
-    private void UpdateLevelRating()
+    private int UpdateLevelRating()
     {
         float procent1 = 0.3f;
         float procent2 = 0.6f;
+        int stars=0;
         float currentProcent = LineWriterObject.GetComponent<LineWriter>().LineRemainder;
-        if (currentProcent > procent2) SceneDataTransfer.Instance.currentRate = 3;
+        if (currentProcent > procent2) stars = 3;
         else
-        if (currentProcent < procent1) SceneDataTransfer.Instance.currentRate = 1;
-        else SceneDataTransfer.Instance.currentRate = 2;    
+        if (currentProcent < procent1) stars = 1;
+        else stars = 2;
+        SceneDataTransfer.Instance.currentRate = stars;
+        return stars;
     }
 
     public void NextLevelButtonClick(int scene)
