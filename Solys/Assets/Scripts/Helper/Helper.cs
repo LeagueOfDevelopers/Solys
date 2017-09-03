@@ -32,6 +32,7 @@ public class Helper : MonoBehaviour {
 
     public void ShowTip()
     {
+        tip.resizeTextForBestFit = false;
         if (currentTip >= tips.Length)
         {
             Cloud.SetActive(false);
@@ -47,7 +48,7 @@ public class Helper : MonoBehaviour {
         rt.sizeDelta = new Vector2(tip.preferredWidth+30, tip.preferredHeight+30);
         rt = tip.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2((tip.preferredWidth + 30 )/ kp, tip.preferredHeight );
-
+        tip.resizeTextForBestFit = true;
         currentTip++;
     }
 
