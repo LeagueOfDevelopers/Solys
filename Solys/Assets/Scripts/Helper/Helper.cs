@@ -10,6 +10,7 @@ public class Helper : MonoBehaviour {
     private GameObject TextForCloud;
     private int currentTip;
     public string[] tips;
+    public Vector2[] tipsPositions;
     private GameObject Cloud;
 	// Use this for initialization
 	void Start ()
@@ -40,6 +41,8 @@ public class Helper : MonoBehaviour {
             Destroy(this.gameObject);
             return;
         }
+
+        GetComponent<RectTransform>().anchoredPosition = tipsPositions[currentTip];
         SetText(tips[currentTip]);
         int kp = tips[currentTip].Length / 40;
         kp++;
