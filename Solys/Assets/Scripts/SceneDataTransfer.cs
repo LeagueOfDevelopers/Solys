@@ -25,9 +25,9 @@ class SceneDataTransfer
         Debug.Log(levelData);
         return true;
         }
-
+        */
         public int CurrentSceneID;
-        public string LoadingLevelData ="";*/
+        //public string LoadingLevelData ="";
     #endregion
 
 

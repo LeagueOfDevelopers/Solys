@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Lean.Touch;
 
 public class BlockPanel : MonoBehaviour {
-	private LineWriter writerComponent;
+	/*private LineWriter writerComponent;
 	private BlockPanelElement lastDragedElement;
 
 	private GameObject map;
@@ -77,6 +77,6 @@ public class BlockPanel : MonoBehaviour {
 			lastDragedElement = null;
 		}
 	}
-
+    */
 }
 
