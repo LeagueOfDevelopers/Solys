@@ -11,6 +11,8 @@ class SceneDataTransfer
         public static SceneDataTransfer Instance{ get { return _instance; } }
 
 
+    //Закомментированный вблок десериализации уровня. Вроде нах не нужен
+    /*
     public bool LoadLevelData(int id)
         {
         TextAsset asset = Resources.Load("Level/"+id, typeof(TextAsset)) as TextAsset;
@@ -25,7 +27,7 @@ class SceneDataTransfer
         }
 
         public int CurrentSceneID;
-        public string LoadingLevelData ="";
+        public string LoadingLevelData ="";*/
     #endregion
 
 
