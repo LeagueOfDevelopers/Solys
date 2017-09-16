@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 class SceneDataTransfer
 {
@@ -8,8 +9,10 @@ class SceneDataTransfer
         static SceneDataTransfer(){}
         private static readonly SceneDataTransfer _instance = new SceneDataTransfer();
         public static SceneDataTransfer Instance{ get { return _instance; } }
-        private static Dictionary<string, int> RatingPassages;
 
+
+    //Закомментированный вблок десериализации уровня. Вроде нах не нужен
+    /*
     public bool LoadLevelData(int id)
         {
         TextAsset asset = Resources.Load("Level/"+id, typeof(TextAsset)) as TextAsset;
@@ -22,28 +25,9 @@ class SceneDataTransfer
         Debug.Log(levelData);
         return true;
         }
-
+        */
         public int CurrentSceneID;
-        public string LoadingLevelData ="";
-        public int currentRate
-    {
-        get
-        {
-            int rate=0;
-            if (RatingPassages == null) RatingPassages = new Dictionary<string, int>();
-            RatingPassages.TryGetValue("Level / " + CurrentSceneID.ToString(), out rate);
-            return rate;
-        }
-        set
-        {
-            int rate=0;
-            if (RatingPassages == null) RatingPassages = new Dictionary<string, int>();
-            RatingPassages.TryGetValue("Level / " + CurrentSceneID.ToString(), out rate);
-            if (value > rate) { RatingPassages.Remove("Level / " + CurrentSceneID.ToString());
-                RatingPassages.Add("Level / " + CurrentSceneID.ToString(), value);
-            }
-        }
-    }
+        //public string LoadingLevelData ="";
     #endregion
 
 

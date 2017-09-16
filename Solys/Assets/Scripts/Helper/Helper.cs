@@ -15,8 +15,8 @@ public class Helper : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        Cloud = transform.GetChild(0).gameObject;
-        tip = transform.GetChild(1).gameObject.GetComponent<Text>();
+        Cloud = transform.GetChild(1).gameObject;
+        tip = transform.GetChild(2).gameObject.GetComponent<Text>();
         Button bt = tip.gameObject.AddComponent<Button>();
         bt.targetGraphic = Cloud.GetComponent<Image>();
         bt.onClick.AddListener(ShowTip);

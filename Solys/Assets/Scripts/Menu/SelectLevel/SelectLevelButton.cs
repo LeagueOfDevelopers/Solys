@@ -8,7 +8,6 @@ public class SelectLevelButton : MonoBehaviour {
 	public int id;
 	public void OnClick()
 	{
-		if(SceneDataTransfer.Instance.LoadLevelData(id))
-			SceneManager.LoadScene(2);
+		//TODO
 	}
 }

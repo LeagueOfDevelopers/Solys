@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class GeneralLogic : MonoBehaviour {
 
 	public delegate void Action();
-    public GameObject NextLevelButton;
-    public GameObject ExitButton;
+    public GameObject EndGameMenu;
     public GameObject[] StarsImages;
     public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
@@ -60,8 +59,7 @@ public class GeneralLogic : MonoBehaviour {
 	private void OpenEndLevelMenu()
 	{
         int stars = UpdateLevelRating();
-        NextLevelButton.SetActive(true);
-        ExitButton.SetActive(true);
+        EndGameMenu.SetActive(true);
         for (int i = 0; i < stars; i++)
         {
             StarsImages[i].SetActive(true);
@@ -78,7 +76,7 @@ public class GeneralLogic : MonoBehaviour {
         else
         if (currentProcent < procent1) stars = 1;
         else stars = 2;
-        SceneDataTransfer.Instance.currentRate = stars;
+        PrefsDrier.SetStarsForLevel(SceneManager.GetActiveScene().name, stars);
         return stars;
     }
 
