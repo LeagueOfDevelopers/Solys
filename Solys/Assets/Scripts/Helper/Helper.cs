@@ -12,12 +12,14 @@ public class Helper : MonoBehaviour {
     public string[] tips;
     public Vector2[] tipsPositions;
     private GameObject Cloud;
-	// Use this for initialization
-	void Start ()
+    private GameObject clickPanel;
+    // Use this for initialization
+    void Start ()
     {
-        Cloud = transform.GetChild(1).gameObject;
-        tip = transform.GetChild(2).gameObject.GetComponent<Text>();
-        Button bt = tip.gameObject.AddComponent<Button>();
+        Cloud = transform.GetChild(0).gameObject;
+        tip = transform.GetChild(1).gameObject.GetComponent<Text>();
+        clickPanel = transform.GetChild(2).gameObject;
+        Button bt = clickPanel.gameObject.AddComponent<Button>();
         bt.targetGraphic = Cloud.GetComponent<Image>();
         bt.onClick.AddListener(ShowTip);
         if (tips == null)
@@ -27,7 +29,7 @@ public class Helper : MonoBehaviour {
             return;
         }
         currentTip = 0;
-        ShowTip();
+        ShowTip(); 
     }
     
 
