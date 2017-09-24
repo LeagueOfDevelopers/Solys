@@ -76,7 +76,8 @@ public class GeneralLogic : MonoBehaviour {
         else
         if (currentProcent < procent1) stars = 1;
         else stars = 2;
-        PrefsDrier.SetStarsForLevel(SceneManager.GetActiveScene().name, stars);
+        PrefsDriver.SetStarsForLevel(SceneManager.GetActiveScene().buildIndex, stars);
+        Debug.Log(SceneManager.GetActiveScene().buildIndex.ToString());
         return stars;
     }
 

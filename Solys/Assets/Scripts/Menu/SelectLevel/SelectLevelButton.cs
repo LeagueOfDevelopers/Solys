@@ -6,8 +6,24 @@ using UnityEngine;
 public class SelectLevelButton : MonoBehaviour {
 
 	public int id;
-	public void OnClick()
+    public GameObject StarsObject;
+
+    public void Start()
+    {
+        SetStarsForButton(PrefsDriver.GetStarsForLevel(id));
+    }
+
+    public void OnClick()
 	{
+
         SceneManager.LoadScene(id);
 	}
+
+
+    private void SetStarsForButton(int stars)
+    {
+        for (int i = 0; i < stars; i++)
+            StarsObject.transform.GetChild(i).gameObject.SetActive(true);
+
+    }
 }

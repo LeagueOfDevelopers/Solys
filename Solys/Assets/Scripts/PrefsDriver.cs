@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public static class PrefsDrier {
-    public static void SetStarsForLevel(string level, int stars)
+public static class PrefsDriver {
+    public static void SetStarsForLevel(int level, int stars)
     {
         PlayerPrefs.SetInt(level.ToString() + "Level", stars);
     }
 
-    public static int GetStarsForLevel(string level)
+    public static int GetStarsForLevel(int level)
     {
         return PlayerPrefs.GetInt(level.ToString() + "Level", 0);
     }
