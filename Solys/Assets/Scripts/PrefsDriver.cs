@@ -20,4 +20,12 @@ public static class PrefsDriver {
         }
         return result;
     }
+
+    public static int GetSumOfStarsForLevelRange(int startLevel, int lastLevel)
+    {
+        int sum = 0;
+        for (int i = startLevel; i <= lastLevel; i++)
+            sum += GetStarsForLevel(i);
+        return sum;
+    }
 }
