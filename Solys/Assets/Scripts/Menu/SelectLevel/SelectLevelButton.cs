@@ -8,6 +8,6 @@ public class SelectLevelButton : MonoBehaviour {
 	public int id;
 	public void OnClick()
 	{
-		//TODO
+        SceneManager.LoadScene(id);
 	}
 }

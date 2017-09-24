@@ -7,7 +7,7 @@ public class MainMenuScript : MonoBehaviour {
 
 	public void OpenSelectLevelMenu()
 	{
-		SceneManager.LoadScene("SelectLevelMenu");
+		SceneManager.LoadScene("SelectPackMenu");
 
 	}
 }

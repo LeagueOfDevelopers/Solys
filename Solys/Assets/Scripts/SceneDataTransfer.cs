@@ -27,6 +27,9 @@ class SceneDataTransfer
         }
         */
         public int CurrentSceneID;
+
+    public int FirstLevelInPack;
+    public int LastLevelInPack;
         //public string LoadingLevelData ="";
     #endregion
 
