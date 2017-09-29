@@ -14,8 +14,7 @@ public class InteractableWallContainer : MonoBehaviour {
     {
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         GeneralLogic.StartSimulationEvent += StartSimulation;
-        if (!isDeactivating)
-            StartInteractBlock();
+        StopInteractBlock();
     }
 
     private void OnDisable()
