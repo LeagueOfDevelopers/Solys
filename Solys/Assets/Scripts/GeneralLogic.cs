@@ -36,7 +36,7 @@ public class GeneralLogic : MonoBehaviour {
 		if(StartSimulationEvent != null)
 			StartSimulationEvent();
 	}
-
+    
 	public void StopSimulation()
 	{
 		if(StopSimulationEvent != null)
