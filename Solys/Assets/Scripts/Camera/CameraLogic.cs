@@ -42,7 +42,7 @@ public class CameraLogic : MonoBehaviour
     }
     void Start()
     {
-        wheel = GameObject.Find("Wheel(Clone)");
+        wheel = GameObject.Find("Wheel");
         LeanTouch.OnFingerDown += OnFingerDown;
         LeanTouch.OnFingerUp += OnFingerUp;
         LeanTouch.OnFingerSet += OnFingerSet;

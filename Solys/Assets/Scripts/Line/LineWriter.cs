@@ -42,7 +42,7 @@ public class LineWriter : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        Wheel = GameObject.Find("Wheel(Clone)");
+        Wheel = GameObject.Find("Wheel");
         Positions = new List<Vector3>();
         CollidersPositions = new List<Vector2>();
         ListLineRenderers = new List<GameObject>();
