@@ -1,22 +1,27 @@
 ﻿using UnityEngine;
 
 public static class PrefsDriver {
+    private static string GetLevelPrefName(int level)
+    {
+        return level.ToString() + "Level";
+    }
+
     public static void SetStarsForLevel(int level, int stars)
     {
-        PlayerPrefs.SetInt(level.ToString() + "Level", stars);
+        PlayerPrefsUtility.SetEncryptedInt(GetLevelPrefName(level), stars);
     }
 
     public static int GetStarsForLevel(int level)
     {
-        return PlayerPrefs.GetInt(level.ToString() + "Level", 0);
+        return PlayerPrefsUtility.GetEncryptedInt(GetLevelPrefName(level));
     }
 
-    public static int[] SetStarsForLevelRange(string startLevel, int count)
+    public static int[] SetStarsForLevelRange(int startLevel, int count)
     {
         int[] result = new int[count];
         for(int i = 0; i<count; i++)
         {
-            result[i] = PlayerPrefs.GetInt((startLevel+i).ToString() + "Level", 0);
+            result[i] = PlayerPrefsUtility.GetEncryptedInt(GetLevelPrefName(startLevel+i));
         }
         return result;
     }
