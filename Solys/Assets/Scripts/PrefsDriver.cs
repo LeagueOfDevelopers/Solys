@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public static class PrefsDriver {
+    const string keyForAvailableStars = "AvailableStars";
     private static string GetLevelPrefName(int level)
     {
         return level.ToString() + "Level";
@@ -8,12 +9,33 @@ public static class PrefsDriver {
 
     public static void SetStarsForLevel(int level, int stars)
     {
-        PlayerPrefsUtility.SetEncryptedInt(GetLevelPrefName(level), stars);
+        if((stars - GetStarsForLevel(level)) > 0)
+        {
+            PlayerPrefsUtility.SetEncryptedInt(GetLevelPrefName(level), stars);
+            AddAvailableStars(stars - GetStarsForLevel(level));
+        }
     }
 
     public static int GetStarsForLevel(int level)
     {
         return PlayerPrefsUtility.GetEncryptedInt(GetLevelPrefName(level));
+    }
+    public static bool SpendAvailableStars(int stars)
+    {
+        if (GetAvailableStars()>=stars)
+        {
+            PlayerPrefsUtility.SetEncryptedInt(keyForAvailableStars, GetAvailableStars()-stars);
+            return true;
+        }
+        return false;
+    }
+    public static int GetAvailableStars()
+    {
+        return PlayerPrefsUtility.GetEncryptedInt(keyForAvailableStars);
+    }
+    public static void AddAvailableStars(int stars)
+    {
+        PlayerPrefsUtility.SetEncryptedInt(keyForAvailableStars, stars+ PlayerPrefsUtility.GetEncryptedInt("AvailableStars",0));
     }
 
     public static int[] SetStarsForLevelRange(int startLevel, int count)
