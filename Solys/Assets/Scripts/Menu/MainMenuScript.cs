@@ -16,9 +16,21 @@ public class MainMenuScript : MonoBehaviour {
          Wait = StartCoroutine(WaitToContinueAnimation());
     }
 
-    public void OpenSelectPackMenu()
+    public void StartPressedAnimEnded()
     {
         SceneManager.LoadScene("SelectPackMenu");
+    }
+
+    public void StartButtonSetActive()
+    {
+        ButtonText.transform.parent.gameObject.GetComponent<Button>().interactable = true;
+    }
+
+    public void OpenSelectPackMenu()
+    {
+        GetComponent<Animator>().SetBool("StartPressed", true);
+        ButtonText.GetComponent<Animator>().SetBool("StartPressed", true);
+        ButtonText.transform.parent.gameObject.GetComponent<Button>().interactable = false;
 
     }
 
@@ -49,6 +61,6 @@ public class MainMenuScript : MonoBehaviour {
         Logo.GetComponent<Animator>().SetBool("EndLogo", true);
         ButtonText.GetComponent<Animator>().SetBool("EndLogo", true);
         Ball.GetComponent<Animator>().SetBool("EndLogo", true);
-        ButtonText.transform.parent.gameObject.GetComponent<Button>().interactable = true;
+
     }
 }
