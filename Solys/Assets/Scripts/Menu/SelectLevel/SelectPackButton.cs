@@ -7,12 +7,11 @@ public class SelectPackButton : MonoBehaviour {
     public int FirstScene;
     public int LastScene;
     public GameObject StarsLabel;
+    public GameObject ScrollView;
 
     public void onClick()
     {
-        SceneDataTransfer.Instance.FirstLevelInPack = FirstScene;
-        SceneDataTransfer.Instance.LastLevelInPack = LastScene;
-        SceneManager.LoadScene("SelectLevelMenu");
+        ScrollView.GetComponent<SelectPackMenuPackSelected>().PackSelect(FirstScene, LastScene);
     }
 
     public void Start()
