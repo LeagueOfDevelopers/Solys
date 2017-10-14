@@ -28,6 +28,7 @@ public class LineWriter : MonoBehaviour
     public float EraseSize;
     public float DistanceForContinueLine;
     public float LineRemainder { get { return quanityLines / startQuanityLines; } }
+    private int lastDots;
 
     public int PositionsAmount
     {
@@ -53,6 +54,7 @@ public class LineWriter : MonoBehaviour
         GeneralLogic.StopSimulationEvent += StopSimulation;
         distancePerDot = DistanceBetweenDots / FrequencyPoints;
         LastPoint = 3;
+        lastDots = 0;
         MainFinger = -1;
         dotsForDrawing = new List<Vector3>();
 
@@ -79,6 +81,7 @@ public class LineWriter : MonoBehaviour
 
     void Start()
     {
+        lastDots = 0;
         quanityLines = startQuanityLines;
         quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
     }
@@ -181,15 +184,19 @@ public class LineWriter : MonoBehaviour
     public void CalculateRemainder(LeanFinger finger)
     {
         if (Positions.Count % 4 == 1)
+        {
+            lastDots = 1;
             dotsForDrawing.Add(GetOffsetWheelDots(Positions[Positions.Count - 1]));
+        }
 
         if (Positions.Count % 4 == 2)
         {
             List<Vector3> drawingDotsInTwoDots =
                 GetAdditionalPoints(Positions[Positions.Count - 2],
                     Positions[Positions.Count - 1]);
-            for (int ii = 0; ii < drawingDotsInTwoDots.Count - 1; ii++)
+            for (int ii = 0; ii < drawingDotsInTwoDots.Count; ii++)
                 dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInTwoDots[ii]));
+            lastDots = drawingDotsInTwoDots.Count;
         }
 
         if (Positions.Count % 4 == 3)
@@ -197,12 +204,18 @@ public class LineWriter : MonoBehaviour
             List<Vector3> drawingDotsInThreeDots =
                 GetAdditionalPoints(Positions[Positions.Count - 3],
                     Positions[Positions.Count - 2], Positions[Positions.Count - 1]);
-            for (int ii = 0; ii < drawingDotsInThreeDots.Count - 1; ii++)
+            for (int ii = 0; ii < drawingDotsInThreeDots.Count; ii++)
                 dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInThreeDots[ii]));
+            lastDots = drawingDotsInThreeDots.Count;
         }
     }
     public void CalculateMainLine(LeanFinger finger)
     {
+        if(lastDots>0)
+        {
+            dotsForDrawing.RemoveRange(dotsForDrawing.Count - lastDots, lastDots);
+            lastDots = 0;
+        }
         for (int i = LastPoint; i < (Positions.Count / 4) * 4; i += 3)
         // Для каждых 4 точек мы используем формулу безье для нахождения дополнительных точек. (Positions.Count / 4) * 4 используется для того, чтобы убрать остаток. остаток прорабатывается в конце.
         {
@@ -212,9 +225,8 @@ public class LineWriter : MonoBehaviour
             for (int ii = 0; ii < drawingDotsInFourDots.Count - 1; ii++)
                 dotsForDrawing.Add(GetOffsetWheelDots(drawingDotsInFourDots[ii]));
             // Из данного листа мы переносим точки в лист точек для отрисовки.
-            LastPoint = i;
+            LastPoint = i+3;
         }
-        LastPoint += 3;
     }
     public void DrawContinueLine(LeanFinger finger)
     {
@@ -283,6 +295,7 @@ public class LineWriter : MonoBehaviour
                             Positions = new List<Vector3>();
                             MainFinger = -1;
                             LastPoint = 3;
+                            lastDots = 0;
                             CollidersPositions = new List<Vector2>();
                         }
                     }
@@ -448,6 +461,7 @@ public class LineWriter : MonoBehaviour
 
                 MainFinger = finger.Index;
                 LastPoint = 3;
+                lastDots = 0;
                 dotsForDrawing = new List<Vector3>();
             }
 
@@ -455,6 +469,7 @@ public class LineWriter : MonoBehaviour
             Positions = new List<Vector3>();
             CollidersPositions = new List<Vector2>();
             LastPoint = 3;
+            lastDots = 0;
             MainFinger = -1;
             dotsForDrawing = new List<Vector3>();
         }
