@@ -6,13 +6,12 @@ using UnityEngine.SceneManagement;
 public class GeneralLogic : MonoBehaviour {
 
 	public delegate void Action();
-    public GameObject EndGameMenu;
-    public GameObject[] StarsImages;
     public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
     public GameObject LineWriterObject;
 
+	public GameObject ui;
 	public static int SnapValueForMapElements = 1;	///TODO move away from this file!
 
 	/// <summary>
@@ -59,7 +58,7 @@ public class GeneralLogic : MonoBehaviour {
 	private void OpenEndLevelMenu()
 	{
         UpdateLevelRating();
-        SceneManager.LoadScene("SelectLevelMenu");
+        ui.GetComponent<UIHandlerScript>().TargetReached();
     }
 
     private int UpdateLevelRating()
@@ -73,30 +72,12 @@ public class GeneralLogic : MonoBehaviour {
         if (currentProcent < procent1) stars = 1;
         else stars = 2;
         PrefsDriver.SetStarsForLevel(SceneManager.GetActiveScene().buildIndex, stars);
+		SceneDataTransfer.Instance.NeedToUpdateStarsForLevel = SceneManager.GetActiveScene().buildIndex;
         Debug.Log(SceneManager.GetActiveScene().buildIndex.ToString());
         return stars;
     }
 
-    public void NextLevelButtonClick(int scene)
-    {
-        Debug.Log("Next Level selected");
-		int LevelID = SceneDataTransfer.Instance.CurrentSceneID;
-		Debug.Log(LevelID);
-        //SceneManager.LoadScene(scene);
-		if(SceneManager.sceneCountInBuildSettings>LevelID+1)
-		{
-			SceneDataTransfer.Instance.CurrentSceneID = LevelID+1;
-			SceneManager.LoadScene(LevelID+1);
-		}
-		else
-			SceneManager.LoadScene("Menu");
-    }
-
-    public void ExitButtonClick()
-    {
-       Debug.Log("Next Level selected");
-        SceneManager.LoadScene(0);
-    }
+   
     
 	/// <summary>
 	/// Update is called every frame, if the MonoBehaviour is enabled.

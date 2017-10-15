@@ -26,8 +26,12 @@ public class SelectLevelButton : MonoBehaviour {
 
     private void SetStarsForButton(int stars)
     {
-        for (int i = 0; i < stars; i++)
-            StarsObject.transform.GetChild(i).gameObject.SetActive(true);
+        StarsObject.GetComponent<StarsHandler>().SetStars(stars);
+
+    }
+
+    private void AnimSetStarsForButton(int stars)
+    {
 
     }
 

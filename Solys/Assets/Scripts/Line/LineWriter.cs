@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class LineWriter : MonoBehaviour
 {
     private float temporedFrequencyPoints;
-    public Slider quanityUI;
+    public GameObject quanityUI;
     private float lineCost = 0.01f;
     public float startQuanityLines;
     private float quanityLines;
