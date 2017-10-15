@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad(this.gameObject);
+		if(GameObject.Find("MusicPlayer") != this.gameObject)
+		{
+			Destroy(this.gameObject);
+		}
 	}
 
 }
