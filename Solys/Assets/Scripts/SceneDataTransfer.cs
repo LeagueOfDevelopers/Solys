@@ -30,6 +30,8 @@ class SceneDataTransfer
 
     public int FirstLevelInPack;
     public int LastLevelInPack;
+
+    public string PackTitle;
         //public string LoadingLevelData ="";
     #endregion
 

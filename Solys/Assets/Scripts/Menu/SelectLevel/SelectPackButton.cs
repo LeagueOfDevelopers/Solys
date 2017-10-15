@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class SelectPackButton : MonoBehaviour {
 
+    public GameObject Title;
     public int FirstScene;
     public int LastScene;
     public GameObject StarsLabel;
@@ -11,7 +12,7 @@ public class SelectPackButton : MonoBehaviour {
 
     public void onClick()
     {
-        ScrollView.GetComponent<SelectPackMenuPackSelected>().PackSelect(FirstScene, LastScene);
+        ScrollView.GetComponent<SelectPackMenuPackSelected>().PackSelect(Title.GetComponent<Text>().text,FirstScene, LastScene);
     }
 
     public void Start()

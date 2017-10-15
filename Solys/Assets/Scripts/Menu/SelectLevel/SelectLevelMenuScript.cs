@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class SelectLevelMenuScript : MonoBehaviour {
 
+
 	public GameObject Content;
 	public GameObject ButtonTemplate;
+
+	public GameObject Title;
 
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before
@@ -14,6 +17,7 @@ public class SelectLevelMenuScript : MonoBehaviour {
 	void Start()
 	{
 		ClearContent();
+		SetPackTitle();
 		FillContentWithButtons();
 		
 	}
@@ -43,6 +47,11 @@ public class SelectLevelMenuScript : MonoBehaviour {
 			button.GetComponent<SelectLevelButton>().id = i;
             sceneIndex++;
 		}
+	}
+
+	private void SetPackTitle()
+	{
+		Title.GetComponent<Text>().text = SceneDataTransfer.Instance.PackTitle;
 	}
 	
 }
