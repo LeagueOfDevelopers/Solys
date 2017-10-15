@@ -13,22 +13,36 @@ public class SelectLevelMenuScript : MonoBehaviour {
 	/// </summary>
 	void Start()
 	{
-        int sceneIndex = 1;
-
-		for(int i = SceneDataTransfer.Instance.FirstLevelInPack; i<=SceneDataTransfer.Instance.LastLevelInPack;i++)
-		{
-			GameObject button = Instantiate(ButtonTemplate,Content.transform);
-			button.transform.localScale = new Vector3(1,1,1);
-			button.transform.FindChild("Text").GetComponent<Text>().text = sceneIndex.ToString();
-			button.GetComponent<SelectLevelButton>().id = i;
-            sceneIndex++;
-		}
+		ClearContent();
+		FillContentWithButtons();
 		
 	}
 
 	public void BackButtonClick()
 	{
 		SceneManager.LoadScene("Menu");
+	}
+
+	private void ClearContent()
+	{
+		for (int i = 0; i<Content.transform.childCount; i++)
+		{
+			Destroy(Content.transform.GetChild(i).gameObject);
+		}
+	}
+
+	private void FillContentWithButtons()
+	{
+		int sceneIndex = 1;
+
+		for(int i = SceneDataTransfer.Instance.FirstLevelInPack; i<=SceneDataTransfer.Instance.LastLevelInPack;i++)
+		{
+			GameObject button = Instantiate(ButtonTemplate,Content.transform);
+			button.transform.localScale = new Vector3(1,1,1);
+			button.GetComponent<SelectLevelButton>().SetTitle(sceneIndex.ToString());
+			button.GetComponent<SelectLevelButton>().id = i;
+            sceneIndex++;
+		}
 	}
 	
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class SelectPacMenuButtons : MonoBehaviour {
@@ -7,4 +8,6 @@ public class SelectPacMenuButtons : MonoBehaviour {
     {
         SceneManager.LoadScene(0);
     }
+
+    IE
 }
