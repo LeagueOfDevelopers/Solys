@@ -58,12 +58,8 @@ public class GeneralLogic : MonoBehaviour {
 
 	private void OpenEndLevelMenu()
 	{
-        int stars = UpdateLevelRating();
-        EndGameMenu.SetActive(true);
-        for (int i = 0; i < stars; i++)
-        {
-            StarsImages[i].SetActive(true);
-        }
+        UpdateLevelRating();
+        SceneManager.LoadScene("SelectLevelMenu");
     }
 
     private int UpdateLevelRating()
