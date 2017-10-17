@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Helper : MonoBehaviour {
@@ -22,25 +23,37 @@ public class Helper : MonoBehaviour {
         Button bt = clickPanel.gameObject.AddComponent<Button>();
         bt.targetGraphic = Cloud.GetComponent<Image>();
         bt.onClick.AddListener(ShowTip);
-        if (tips == null)
+        clickPanel.SetActive(false);
+        bool isShowed =
+         PlayerPrefsUtility.GetEncryptedInt("HelperShowedAtLevel" + SceneManager.GetActiveScene().buildIndex) == 1;
+
+        if (tips == null||isShowed)
         {
             Cloud.SetActive(false);
             SetText(" ");
             return;
         }
-        currentTip = 0;
-        ShowTip(); 
+        ShowTipAgain(); 
     }
-    
+    public void ShowTipAgain()
+    {
+
+        currentTip = 0;
+        clickPanel.SetActive(true);
+        Cloud.SetActive(true);
+        this.gameObject.SetActive(true);
+        ShowTip();
+    }
 
     public void ShowTip()
     {
         tip.resizeTextForBestFit = false;
         if (currentTip >= tips.Length)
         {
+            PlayerPrefsUtility.SetEncryptedInt("HelperShowedAtLevel"+ SceneManager.GetActiveScene().buildIndex,1);
             Cloud.SetActive(false);
             SetText(" ");
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
             return;
         }
 
