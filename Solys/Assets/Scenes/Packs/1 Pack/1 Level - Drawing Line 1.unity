@@ -1063,6 +1063,12 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &448861085 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114100304056595504, guid: 68778977b657c0543915766b5169b58f,
+    type: 2}
+  m_PrefabInternal: {fileID: 193922419}
+  m_Script: {fileID: 11500000, guid: c6749bc08ff4af14aa1671b7e78c8ece, type: 3}
 --- !u!1001 &460964819
 Prefab:
   m_ObjectHideFlags: 0
@@ -4373,6 +4379,16 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114901154123977620, guid: 4283f223e3f427a4b95a93e683aa0118,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 448861085}
+    - target: {fileID: 114901154123977620, guid: 4283f223e3f427a4b95a93e683aa0118,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowTipAgain
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4283f223e3f427a4b95a93e683aa0118, type: 2}
