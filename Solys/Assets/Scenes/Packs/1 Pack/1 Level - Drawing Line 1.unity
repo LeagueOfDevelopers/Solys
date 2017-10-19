@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 101140232}
   - component: {fileID: 101140238}
   - component: {fileID: 101140237}
+  - component: {fileID: 101140239}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -406,6 +407,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LineWriterObject: {fileID: 2124669687}
   ui: {fileID: 2143177377}
+--- !u!95 &101140239
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 101140231}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8b7c148027a020745bae5cd31cb47c57, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &102885954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1441,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TapThreshold: 0.5
   SwipeThreshold: 50
-  HeldThreshold: 1
   ReferenceDpi: 200
   GuiLayers:
     serializedVersion: 2
@@ -4368,17 +4385,17 @@ Prefab:
     - target: {fileID: 224991648819923456, guid: 4283f223e3f427a4b95a93e683aa0118,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224991648819923456, guid: 4283f223e3f427a4b95a93e683aa0118,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224847048717630330, guid: 4283f223e3f427a4b95a93e683aa0118,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114901154123977620, guid: 4283f223e3f427a4b95a93e683aa0118,
         type: 2}
@@ -4389,6 +4406,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ShowTipAgain
+      objectReference: {fileID: 0}
+    - target: {fileID: 224991648819923456, guid: 4283f223e3f427a4b95a93e683aa0118,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -5.8000793
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4283f223e3f427a4b95a93e683aa0118, type: 2}
