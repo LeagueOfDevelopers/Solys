@@ -7,6 +7,7 @@ public class SelectLevelMenuScript : MonoBehaviour {
 
 	public GameObject Content;
 	public GameObject ButtonTemplate;
+    public GameObject LevelRatingObject;
 
 	public GameObject Title;
 
@@ -19,6 +20,7 @@ public class SelectLevelMenuScript : MonoBehaviour {
 		ClearContent();
 		SetPackTitle();
 		FillContentWithButtons();
+        ShowLastLevelRating();
 		
 	}
 
@@ -27,7 +29,12 @@ public class SelectLevelMenuScript : MonoBehaviour {
 		SceneManager.LoadScene("Menu");
 	}
 
-	private void ClearContent()
+    private void ShowLastLevelRating()
+    {
+        
+    }
+
+    private void ClearContent()
 	{
 		for (int i = 0; i<Content.transform.childCount; i++)
 		{
