@@ -33,22 +33,23 @@ public class CameraLogic : MonoBehaviour
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         GeneralLogic.StopSimulationEvent += StopSimulation;
+        LeanTouch.OnFingerDown += OnFingerDown;
+        LeanTouch.OnFingerUp += OnFingerUp;
+        LeanTouch.OnFingerSet += OnFingerSet;
+        wheel = GameObject.Find("Wheel");
+        currentSize = CameraSizes[state];
+        SetPosAtWheel();
     }
     private void OnDisable()
     {
         GeneralLogic.StartSimulationEvent -= StartSimulation;
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
         GeneralLogic.StopSimulationEvent -= StopSimulation;
+        LeanTouch.OnFingerDown -= OnFingerDown;
+        LeanTouch.OnFingerUp -= OnFingerUp;
+        LeanTouch.OnFingerSet -= OnFingerSet;
     }
-    void Start()
-    {
-        wheel = GameObject.Find("Wheel");
-        LeanTouch.OnFingerDown += OnFingerDown;
-        LeanTouch.OnFingerUp += OnFingerUp;
-        LeanTouch.OnFingerSet += OnFingerSet;
-        currentSize = CameraSizes[state];
-        SetPosAtWheel();
-    }
+
     public void SetPosAtWheel()
     {
         endPos = wheel.transform.position;
