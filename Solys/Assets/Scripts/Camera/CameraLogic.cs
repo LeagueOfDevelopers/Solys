@@ -87,6 +87,29 @@ public class CameraLogic : MonoBehaviour
             }
             LastPosition = finger.GetWorldPosition(10, Camera.current);
         }
+       
+    }
+    public void CameraUp()
+    {
+        if (state < 2)
+        {
+            state++;
+
+            GetComponent<Animator>().SetTrigger("ZoomOut");
+        }
+    }
+    public void CameraDown()
+    {
+        if (state > 0)
+        {
+            state--;
+            GetComponent<Animator>().SetTrigger("ZoomIn");
+
+        }
+    }
+    public void OnFingerUp(LeanFinger finger)
+    {
+
         if (LeanTouch.Fingers.Count == 2)
         {
             if (gameState == 1 || (gameState == 0 && LineWriter.GetComponent<LineWriter>().tool == 2))
@@ -115,38 +138,6 @@ public class CameraLogic : MonoBehaviour
                 }
             }
         }
-    }
-    public void CameraUp()
-    {
-        if (state < 2)
-        {
-            state++;
-            if (sizingCoroutine != null)
-            {
-                StopCoroutine(sizingCoroutine);
-            }
-
-            sizingCoroutine = StartCoroutine(CameraSizing());
-        }
-    }
-    public void CameraDown()
-    {
-        if (state > 0)
-        {
-            state--;
-            if (sizingCoroutine != null)
-            {
-                StopCoroutine(sizingCoroutine);
-            }
-
-            sizingCoroutine = StartCoroutine(CameraSizing());
-
-        }
-    }
-    public void OnFingerUp(LeanFinger finger)
-    {
-
-
         if (LeanTouch.Fingers.Count == 2)
         {
             if (LeanTouch.Fingers[0].Equals(finger))
