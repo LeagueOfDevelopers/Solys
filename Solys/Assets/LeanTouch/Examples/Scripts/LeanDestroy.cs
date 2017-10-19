@@ -8,7 +8,7 @@ namespace Lean.Touch
 	{
 		[Tooltip("The amount of seconds remaining before this GameObject gets destroyed")]
 		public float Seconds = 1.0f;
-		
+
 		protected virtual void Update()
 		{
 			Seconds -= Time.deltaTime;

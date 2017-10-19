@@ -9,29 +9,23 @@ namespace Lean.Touch
 		protected virtual void OnEnable()
 		{
 			// Hook into the events we need
-			LeanTouch.OnFingerDown     += OnFingerDown;
-			LeanTouch.OnFingerSet      += OnFingerSet;
-			LeanTouch.OnFingerUp       += OnFingerUp;
-			LeanTouch.OnFingerTap      += OnFingerTap;
-			LeanTouch.OnFingerSwipe    += OnFingerSwipe;
-			LeanTouch.OnFingerHeldDown += OnFingerHeldDown;
-			LeanTouch.OnFingerHeldSet  += OnFingerHeld;
-			LeanTouch.OnFingerHeldUp   += OnFingerHeldUp;
-			LeanTouch.OnGesture        += OnGesture;
+			LeanTouch.OnFingerDown  += OnFingerDown;
+			LeanTouch.OnFingerSet   += OnFingerSet;
+			LeanTouch.OnFingerUp    += OnFingerUp;
+			LeanTouch.OnFingerTap   += OnFingerTap;
+			LeanTouch.OnFingerSwipe += OnFingerSwipe;
+			LeanTouch.OnGesture     += OnGesture;
 		}
 		
 		protected virtual void OnDisable()
 		{
 			// Unhook the events
-			LeanTouch.OnFingerDown     -= OnFingerDown;
-			LeanTouch.OnFingerSet      -= OnFingerSet;
-			LeanTouch.OnFingerUp       -= OnFingerUp;
-			LeanTouch.OnFingerTap      -= OnFingerTap;
-			LeanTouch.OnFingerSwipe    -= OnFingerSwipe;
-			LeanTouch.OnFingerHeldDown -= OnFingerHeldDown;
-			LeanTouch.OnFingerHeldSet  -= OnFingerHeld;
-			LeanTouch.OnFingerHeldUp   -= OnFingerHeldUp;
-			LeanTouch.OnGesture        -= OnGesture;
+			LeanTouch.OnFingerDown  -= OnFingerDown;
+			LeanTouch.OnFingerSet   -= OnFingerSet;
+			LeanTouch.OnFingerUp    -= OnFingerUp;
+			LeanTouch.OnFingerTap   -= OnFingerTap;
+			LeanTouch.OnFingerSwipe -= OnFingerSwipe;
+			LeanTouch.OnGesture     -= OnGesture;
 		}
 		
 		public void OnFingerDown(LeanFinger finger)
@@ -57,21 +51,6 @@ namespace Lean.Touch
 		public void OnFingerSwipe(LeanFinger finger)
 		{
 			Debug.Log("Finger " + finger.Index + " swiped the screen");
-		}
-		
-		public void OnFingerHeldDown(LeanFinger finger)
-		{
-			Debug.Log("Finger " + finger.Index + " began touching the screen for a long time");
-		}
-		
-		public void OnFingerHeld(LeanFinger finger)
-		{
-			Debug.Log("Finger " + finger.Index + " is still touching the screen for a long time");
-		}
-		
-		public void OnFingerHeldUp(LeanFinger finger)
-		{
-			Debug.Log("Finger " + finger.Index + " stopped touching the screen for a long time");
 		}
 		
 		public void OnGesture(List<LeanFinger> fingers)

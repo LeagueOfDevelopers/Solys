@@ -345,8 +345,8 @@ namespace Lean.Touch
 		public static float GetPinchScale(List<LeanFinger> fingers, float wheelSensitivity = 0.0f)
 		{
 			var scale      = 1.0f;
-			var center     = LeanGesture.GetScreenCenter(fingers);
-			var lastCenter = LeanGesture.GetLastScreenCenter(fingers);
+			var center     = GetScreenCenter(fingers);
+			var lastCenter = GetLastScreenCenter(fingers);
 
 			TryGetPinchScale(fingers, center, lastCenter, ref scale, wheelSensitivity);
 
@@ -355,8 +355,8 @@ namespace Lean.Touch
 
 		public static bool TryGetPinchScale(List<LeanFinger> fingers, Vector2 center, Vector2 lastCenter, ref float scale, float wheelSensitivity = 0.0f)
 		{
-			var distance     = LeanGesture.GetScreenDistance(fingers, center);
-			var lastDistance = LeanGesture.GetLastScreenDistance(fingers, lastCenter);
+			var distance     = GetScreenDistance(fingers, center);
+			var lastDistance = GetLastScreenDistance(fingers, lastCenter);
 
 			if (lastDistance > 0.0f)
 			{
@@ -384,14 +384,14 @@ namespace Lean.Touch
 		// Gets the pinch ratio of the fingers (reciprocal of pinch scale)
 		public static float GetPinchRatio(float wheelSensitivity = 0.0f)
 		{
-			return GetPinchRatio(LeanTouch.Fingers);
+			return GetPinchRatio(LeanTouch.Fingers, wheelSensitivity);
 		}
 
 		public static float GetPinchRatio(List<LeanFinger> fingers, float wheelSensitivity = 0.0f)
 		{
 			var ratio      = 1.0f;
-			var center     = LeanGesture.GetScreenCenter(fingers);
-			var lastCenter = LeanGesture.GetLastScreenCenter(fingers);
+			var center     = GetScreenCenter(fingers);
+			var lastCenter = GetLastScreenCenter(fingers);
 
 			TryGetPinchRatio(fingers, center, lastCenter, ref ratio, wheelSensitivity);
 
@@ -400,8 +400,8 @@ namespace Lean.Touch
 
 		public static bool TryGetPinchRatio(List<LeanFinger> fingers, Vector2 center, Vector2 lastCenter, ref float ratio, float wheelSensitivity = 0.0f)
 		{
-			var distance     = LeanGesture.GetScreenDistance(fingers, center);
-			var lastDistance = LeanGesture.GetLastScreenDistance(fingers, lastCenter);
+			var distance     = GetScreenDistance(fingers, center);
+			var lastDistance = GetLastScreenDistance(fingers, lastCenter);
 
 			if (distance > 0.0f)
 			{

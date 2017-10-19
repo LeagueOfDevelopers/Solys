@@ -14,6 +14,9 @@ namespace Lean.Touch
 		[Tooltip("Does rotation require an object to be selected?")]
 		public LeanSelectable RequiredSelectable;
 
+		[Tooltip("The camera we will be moving")]
+		public Camera Camera;
+
 		[Tooltip("The rotation axis used for non-relative rotations")]
 		public Vector3 RotateAxis = Vector3.forward;
 
@@ -23,12 +26,17 @@ namespace Lean.Touch
 #if UNITY_EDITOR
 		protected virtual void Reset()
 		{
+			Start();
+		}
+#endif
+
+		protected virtual void Start()
+		{
 			if (RequiredSelectable == null)
 			{
 				RequiredSelectable = GetComponent<LeanSelectable>();
 			}
 		}
-#endif
 
 		protected virtual void Update()
 		{
@@ -53,11 +61,15 @@ namespace Lean.Touch
 		{
 			if (Relative == true)
 			{
-				// World position of the reference point
-				var worldReferencePoint = Camera.main.ScreenToWorldPoint(center);
-		
-				// Rotate the transform around the world reference point
-				transform.RotateAround(worldReferencePoint, Camera.main.transform.forward, degrees);
+				// If camera is null, try and get the main camera, return true if a camera was found
+				if (LeanTouch.GetCamera(ref Camera) == true)
+				{
+					// World position of the reference point
+					var worldReferencePoint = Camera.ScreenToWorldPoint(center);
+
+					// Rotate the transform around the world reference point
+					transform.RotateAround(worldReferencePoint, Camera.transform.forward, degrees);
+				}
 			}
 			else
 			{

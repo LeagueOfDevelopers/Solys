@@ -8,21 +8,29 @@ namespace Lean.Touch
 		[Tooltip("Ignore fingers with StartedOverGui?")]
 		public bool IgnoreGuiFingers = true;
 
-		[Tooltip("Allows you to force rotation with a specific amount of fingers (0 = any)")]
+		[Tooltip("Ignore fingers if the finger count doesn't match? (0 = any)")]
 		public int RequiredFingerCount;
 
 		[Tooltip("Does translation require an object to be selected?")]
 		public LeanSelectable RequiredSelectable;
 
+		[Tooltip("The camera the translation will be calculated using (default = MainCamera)")]
+		public Camera Camera;
+
 #if UNITY_EDITOR
 		protected virtual void Reset()
+		{
+			Start();
+		}
+#endif
+
+		protected virtual void Start()
 		{
 			if (RequiredSelectable == null)
 			{
 				RequiredSelectable = GetComponent<LeanSelectable>();
 			}
 		}
-#endif
 
 		protected virtual void Update()
 		{
@@ -33,7 +41,7 @@ namespace Lean.Touch
 			}
 
 			// Get the fingers we want to use
-			var fingers = LeanTouch.GetFingers(IgnoreGuiFingers, RequiredFingerCount);
+			var fingers = LeanTouch.GetFingers(IgnoreGuiFingers, RequiredFingerCount, RequiredSelectable);
 
 			// Calculate the screenDelta value based on these fingers
 			var screenDelta = LeanGesture.GetScreenDelta(fingers);
@@ -44,14 +52,18 @@ namespace Lean.Touch
 
 		private void Translate(Vector2 screenDelta)
 		{
-			// Screen position of the transform
-			var screenPosition = Camera.main.WorldToScreenPoint(transform.position);
-			
-			// Add the deltaPosition
-			screenPosition += (Vector3)screenDelta;
-			
-			// Convert back to world space
-			transform.position = Camera.main.ScreenToWorldPoint(screenPosition);
+			// If camera is null, try and get the main camera, return true if a camera was found
+			if (LeanTouch.GetCamera(ref Camera) == true)
+			{
+				// Screen position of the transform
+				var screenPosition = Camera.WorldToScreenPoint(transform.position);
+
+				// Add the deltaPosition
+				screenPosition += (Vector3)screenDelta;
+
+				// Convert back to world space
+				transform.position = Camera.ScreenToWorldPoint(screenPosition);
+			}
 		}
 	}
 }

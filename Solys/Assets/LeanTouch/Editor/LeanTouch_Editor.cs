@@ -45,7 +45,7 @@ namespace Lean.Touch
 			{
 				EditorGUILayout.Separator();
 
-				EditorGUILayout.HelpBox("There is more than one active and enabled LeanThread...", MessageType.Warning);
+				EditorGUILayout.HelpBox("There is more than one active and enabled LeanTouch...", MessageType.Warning);
 			}
 
 			var touch = (LeanTouch)target;
@@ -68,7 +68,6 @@ namespace Lean.Touch
 			DrawTitle("Settings");
 			DrawDefault("TapThreshold");
 			DrawDefault("SwipeThreshold");
-			DrawDefault("HeldThreshold");
 			DrawDefault("ReferenceDpi");
 			DrawDefault("GuiLayers");
 			

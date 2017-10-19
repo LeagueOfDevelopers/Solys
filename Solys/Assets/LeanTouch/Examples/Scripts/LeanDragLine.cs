@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Lean.Touch
 {
-	// This script will draw a line between the start and current finger points
-	public class LeanDragLine : LeanDragTrail
+	// This script will modify LeanFingerTrail to draw a straight line
+	public class LeanFingerLine : LeanFingerTrail
 	{
 		protected override void WritePositions(LineRenderer line, LeanFinger finger)
 		{

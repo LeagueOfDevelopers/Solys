@@ -1,11 +1,10 @@
-Shader "Lean/BackgroundSkybox"
+Shader "Lean/Skybox"
 {
 	Properties
 	{
-		_Color1("Color 1", Color) = (1.0,0.5,0.5,1.0)
-		_Color2("Color 2", Color) = (0.5,0.5,1.0,1.0)
+		_Color1("Color 1", Color) = (1.0, 0.5, 0.5)
+		_Color2("Color 2", Color) = (0.5, 0.5, 1.0)
 	}
-
 	SubShader
 	{
 		Tags
@@ -15,49 +14,28 @@ Shader "Lean/BackgroundSkybox"
 			"PreviewType" = "Skybox"
 		}
 
-		Cull Off
-		ZWrite Off
-		Fog
-		{
-			Mode Off
-		}
-
-		Pass
-		{
 		CGPROGRAM
-		#pragma vertex Vert
-		#pragma fragment Frag
-		#pragma multi_compile DUMMY PIXELSNAP_ON
-		
-		#include "UnityCG.cginc"
-		
-		float4 _Color1;
-		float4 _Color2;
-		
-		struct a2v
+		#pragma surface Surf NoLighting
+
+		float3 _Color1;
+		float3 _Color2;
+
+		struct Input
 		{
-			float4 vertex : POSITION;
+			float4 screenPos;
 		};
 
-		struct v2f
+		fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
 		{
-			float4 vertex   : SV_POSITION;
-			float4 position : TEXCOORD0;
-		};
-
-		void Vert(a2v i, out v2f o)
-		{
-			o.vertex   = mul(UNITY_MATRIX_MVP, i.vertex);
-			o.position = o.vertex;
+			return fixed4(s.Albedo, s.Alpha);
 		}
 
-		void Frag(v2f i, out float4 o:COLOR0)
+		void Surf(Input IN, inout SurfaceOutput o)
 		{
-			float2 coord = i.position.xy / i.position.w * 0.5f;
+			float2 coord = IN.screenPos.xy / IN.screenPos.w - 0.5f;
 
-			o.rgba = lerp(_Color1, _Color2, length(coord));
+			o.Albedo = lerp(_Color1, _Color2, length(coord));
 		}
 		ENDCG
-		}
-	}
-}
+	} // SubShader
+} // Shader
