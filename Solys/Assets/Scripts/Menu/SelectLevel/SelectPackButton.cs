@@ -10,7 +10,9 @@ public class SelectPackButton : MonoBehaviour {
     public GameObject StarsLabel;
     public GameObject ScrollView;
     public GameObject Lock;
+    public GameObject CostLabel;
     public int PackGroup = 0;
+    public int Cost = 20;
 
     public bool locked = true;
 
@@ -27,6 +29,7 @@ public class SelectPackButton : MonoBehaviour {
     public void Start()
     {
         SetStarsLabel();
+        SetCostLabel();
         SetUnlocked();
     }
 
@@ -46,10 +49,18 @@ public class SelectPackButton : MonoBehaviour {
         }
     }
 
+    public void SetCostLabel()
+    {
+        CostLabel.GetComponent<Text>().text = Cost.ToString();
+    }
+
     public void Unlock()
     {
-        locked = false;
-        PrefsDriver.BuyPack(FirstScene);
-        Lock.GetComponent<Animator>().SetTrigger("Unlock");
+        if (PrefsDriver.SpendAvailableStars(Cost))
+        {
+            locked = false;
+            PrefsDriver.BuyPack(FirstScene);
+            Lock.GetComponent<Animator>().SetTrigger("Unlock");
+        }
     }
 }
