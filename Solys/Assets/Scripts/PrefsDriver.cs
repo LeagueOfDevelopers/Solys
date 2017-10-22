@@ -9,10 +9,11 @@ public static class PrefsDriver {
 
     public static void SetStarsForLevel(int level, int stars)
     {
-        if((stars - GetStarsForLevel(level)) > 0)
+        if ((stars - GetStarsForLevel(level)) > 0)
         {
-            PlayerPrefsUtility.SetEncryptedInt(GetLevelPrefName(level), stars);
             AddAvailableStars(stars - GetStarsForLevel(level));
+            PlayerPrefsUtility.SetEncryptedInt(GetLevelPrefName(level), stars);
+            
         }
     }
 
