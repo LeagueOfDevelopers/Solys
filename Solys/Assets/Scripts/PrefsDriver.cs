@@ -72,7 +72,7 @@ public static class PrefsDriver {
         return PlayerPrefsUtility.GetEncryptedInt("GroupUnlocked" + group, 0) == 1;
     }
 
-    public static void UnlockPackGroupd(int group)
+    public static void UnlockPackGroup(int group)
     {
         PlayerPrefsUtility.SetEncryptedInt("GroupUnlocked" + group, 1);
     }

@@ -12,6 +12,7 @@ public class SelectPackButton : MonoBehaviour {
     public GameObject Lock;
     public GameObject CostLabel;
     public int PackGroup = 0;
+    public int PackGroupOpen = 0;
     public int Cost = 20;
 
     public bool locked = true;
@@ -26,7 +27,7 @@ public class SelectPackButton : MonoBehaviour {
             ScrollView.GetComponent<SelectPackMenuPackSelected>().PackSelect(Title.GetComponent<Text>().text,FirstScene, LastScene);
     }
 
-    public void Start()
+    public void OnEnable()
     {
         SetStarsLabel();
         SetCostLabel();
@@ -60,6 +61,8 @@ public class SelectPackButton : MonoBehaviour {
         {
             locked = false;
             PrefsDriver.BuyPack(FirstScene);
+            PrefsDriver.UnlockPackGroup(PackGroupOpen);
+            transform.parent.GetComponent<PackGroupUnlocker>().UpdatePackList();
             Lock.GetComponent<Animator>().SetTrigger("Unlock");
         }
     }
