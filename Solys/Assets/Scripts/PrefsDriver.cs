@@ -56,4 +56,24 @@ public static class PrefsDriver {
             sum += GetStarsForLevel(i);
         return sum;
     }
+
+    public static bool IsPackBought(int firstScene)
+    {
+        return PlayerPrefsUtility.GetEncryptedInt("BoughtPack"+firstScene, 0) == 1;
+    }
+
+    public static void BuyPack(int firstScene)
+    {
+        PlayerPrefsUtility.SetEncryptedInt("BoughtPack" + firstScene, 1);
+    }
+
+    public static bool IsPackGroupUnlocked(int group)
+    {
+        return PlayerPrefsUtility.GetEncryptedInt("GroupUnlocked" + group, 0) == 1;
+    }
+
+    public static void UnlockPackGroupd(int group)
+    {
+        PlayerPrefsUtility.SetEncryptedInt("GroupUnlocked" + group, 1);
+    }
 }
