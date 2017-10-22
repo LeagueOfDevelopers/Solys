@@ -73,6 +73,7 @@ public class GeneralLogic : MonoBehaviour {
         else stars = 2;
         PrefsDriver.SetStarsForLevel(SceneManager.GetActiveScene().buildIndex, stars);
 		SceneDataTransfer.Instance.NeedToUpdateStarsForLevel = SceneManager.GetActiveScene().buildIndex;
+        SceneDataTransfer.Instance.LastLevelRating = stars;
         Debug.Log(SceneManager.GetActiveScene().buildIndex.ToString());
         return stars;
     }

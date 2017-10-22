@@ -13,7 +13,7 @@ public class LastLevelRating : MonoBehaviour {
         
         if(SceneDataTransfer.Instance.NeedToUpdateStarsForLevel != 0)
         {
-            int LastLevelStars = PrefsDriver.GetStarsForLevel(SceneDataTransfer.Instance.NeedToUpdateStarsForLevel);
+            int LastLevelStars = SceneDataTransfer.Instance.LastLevelRating;
             SceneDataTransfer.Instance.NeedToUpdateStarsForLevel = 0;
             SetStars(LastLevelStars);
             StartAnim();

@@ -32,6 +32,7 @@ class SceneDataTransfer
     public int LastLevelInPack;
     public string PackTitle;
     public int NeedToUpdateStarsForLevel;
+    public int LastLevelRating = 0;
         //public string LoadingLevelData ="";
     #endregion
 
