@@ -20,7 +20,7 @@ public class Helper : MonoBehaviour {
         Cloud = transform.GetChild(0).gameObject;
         tip = transform.GetChild(1).gameObject.GetComponent<Text>();
         clickPanel = transform.GetChild(2).gameObject;
-        Button bt = clickPanel.gameObject.AddComponent<Button>();
+        Button bt = clickPanel.gameObject.GetComponent<Button>();
         bt.targetGraphic = Cloud.GetComponent<Image>();
         bt.onClick.AddListener(ShowTip);
         clickPanel.SetActive(false);
@@ -57,15 +57,15 @@ public class Helper : MonoBehaviour {
             return;
         }
 
-        GetComponent<RectTransform>().anchoredPosition = tipsPositions[currentTip];
+        //GetComponent<RectTransform>().anchoredPosition = tipsPositions[currentTip];
         SetText(tips[currentTip]);
-        int kp = tips[currentTip].Length / 40;
+        /*int kp = tips[currentTip].Length / 40;
         kp++;
         tip.transform.position = this.transform.position; 
         RectTransform rt = Cloud.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(tip.preferredWidth+30, tip.preferredHeight+30);
         rt = tip.GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2((tip.preferredWidth + 30 )/ kp, tip.preferredHeight );
+        rt.sizeDelta = new Vector2((tip.preferredWidth + 30 )/ kp, tip.preferredHeight );*/
         tip.resizeTextForBestFit = true;
         currentTip++;
     }
@@ -73,10 +73,6 @@ public class Helper : MonoBehaviour {
     public void SetText(string textString)
     {
         tip.text = textString;
-
-        Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
-        tip.font = ArialFont;
-        tip.material = ArialFont.material;
     }
     
 }
