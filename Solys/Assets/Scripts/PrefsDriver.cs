@@ -76,4 +76,33 @@ public static class PrefsDriver {
     {
         PlayerPrefsUtility.SetEncryptedInt("GroupUnlocked" + group, 1);
     }
+
+    public static int GetPower()
+    {
+        if (PlayerPrefsUtility.GetEncryptedInt("StartPowerValueUsed", 0) == 1)
+            return PlayerPrefsUtility.GetEncryptedInt("CurrentPower", 0);
+        else
+        {
+            PlayerPrefsUtility.SetEncryptedInt("StartPowerValueUsed", 1);
+            PlayerPrefsUtility.SetEncryptedInt("CurrentPower", 60);
+            return 60;
+        }
+    }
+
+    public static void AddPower(int count = 30)
+    {
+        PlayerPrefsUtility.SetEncryptedInt("CurrentPower", count + GetPower());
+    }
+
+    public static bool SpendPower()
+    {
+        if(GetPower() > 0)
+        {
+            PlayerPrefsUtility.SetEncryptedInt("CurrentPower", GetPower()-1);
+            return true;
+        }
+
+        return false;
+
+    }
 }
