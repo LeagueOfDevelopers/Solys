@@ -4,8 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Button))]
 public class AdsButton : MonoBehaviour {
-    string gameId = "1583833";
-    string placement = "rewardedVideo";
+    public static string gameId = "1583833";
+    public static string placement = "rewardedVideo";
     Button btn;
 
     public GameObject Widget;

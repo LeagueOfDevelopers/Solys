@@ -14,6 +14,7 @@ public class SelectPackButton : MonoBehaviour {
     public int PackGroup = 0;
     public int PackGroupOpen = 0;
     public int Cost = 20;
+    public int PowerBoostValue = 10;
 
     public bool locked = true;
 
@@ -64,6 +65,7 @@ public class SelectPackButton : MonoBehaviour {
             PrefsDriver.UnlockPackGroup(PackGroupOpen);
             transform.parent.GetComponent<PackGroupUnlocker>().UpdatePackList();
             Lock.GetComponent<Animator>().SetTrigger("Unlock");
+            PrefsDriver.AddPower(PowerBoostValue);
         }
     }
 }

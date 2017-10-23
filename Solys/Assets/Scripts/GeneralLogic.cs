@@ -15,6 +15,7 @@ public class GeneralLogic : MonoBehaviour {
 	public GameObject ui;
 	public static int SnapValueForMapElements = 1;	///TODO move away from this file!
 
+    
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
 	/// </summary>
@@ -35,6 +36,7 @@ public class GeneralLogic : MonoBehaviour {
 		Debug.Log("START");
 		if(StartSimulationEvent != null)
 			StartSimulationEvent();
+        
 	}
     
 	public void StopSimulation()
@@ -57,6 +59,7 @@ public class GeneralLogic : MonoBehaviour {
 		Debug.Log("RESET");
 		if(ResetSimulationEvent != null)
 			ResetSimulationEvent();
+        
 	}
 
 	private void TargetReached()
