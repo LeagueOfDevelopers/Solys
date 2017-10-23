@@ -89,7 +89,7 @@ public static class PrefsDriver {
         }
     }
 
-    public static void AddPower(int count = 30)
+    public static void AddPower(int count = 20)
     {
         PlayerPrefsUtility.SetEncryptedInt("CurrentPower", count + GetPower());
     }
