@@ -17,4 +17,9 @@ public class SelectPackMenuPackSelected : MonoBehaviour {
     {
         SceneManager.LoadScene("SelectLevelMenu");
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("0");
+    }
 }

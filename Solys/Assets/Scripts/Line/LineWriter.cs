@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class LineWriter : MonoBehaviour
 {
     private float temporedFrequencyPoints;
-    public GameObject quanityUI;
+    private GameObject quanityUI;
     private float lineCost = 0.01f;
     public float startQuanityLines;
     private float quanityLines;
@@ -58,7 +58,7 @@ public class LineWriter : MonoBehaviour
         lastDots = 0;
         MainFinger = -1;
         dotsForDrawing = new List<Vector3>();
-
+        quanityUI = GameObject.Find("Slider");
 
     }
 

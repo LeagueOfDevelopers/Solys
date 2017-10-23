@@ -34,6 +34,11 @@ public class SelectLevelMenuScript : MonoBehaviour {
         
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("1");
+    }
+
     private void ClearContent()
 	{
 		for (int i = 0; i<Content.transform.childCount; i++)
