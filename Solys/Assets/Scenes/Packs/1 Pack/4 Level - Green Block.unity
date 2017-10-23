@@ -435,7 +435,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MapSize: {x: 0, y: 0}
-  LineWriter: {fileID: 0}
   timeForReturn: 0
   distanceForFollow: 0
   timeForSize: 0.01
@@ -455,8 +454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b143019b185b19d4bac88f0845ca9607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LineWriterObject: {fileID: 0}
-  ui: {fileID: 0}
+  LineWriterObject: {fileID: 892695276}
+  ui: {fileID: 1966247219}
 --- !u!1 &102885954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2128,6 +2127,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f2c20376a1598e24388f6ecc6ca9b701, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &892695276 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1432183877001590, guid: f2c20376a1598e24388f6ecc6ca9b701,
+    type: 2}
+  m_PrefabInternal: {fileID: 892695275}
 --- !u!4 &923693046 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4219434147290870, guid: 8622ee3d1a5d7e24abf99ebf397a65f3,
@@ -4189,6 +4193,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8c4550cd9176c0d4ea7467965b43fe66, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1966247219 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1779443027037124, guid: 8c4550cd9176c0d4ea7467965b43fe66,
+    type: 2}
+  m_PrefabInternal: {fileID: 1966247218}
 --- !u!4 &1993391697 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4219434147290870, guid: 8622ee3d1a5d7e24abf99ebf397a65f3,

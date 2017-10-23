@@ -7,7 +7,7 @@ using Lean.Touch;
 public class CameraLogic : MonoBehaviour
 {
     public Vector2 MapSize;
-    public GameObject LineWriter;
+    private GameObject LineWriter;
     public float timeForReturn;
     public float distanceForFollow;
     private int gameState = 0;
@@ -39,6 +39,7 @@ public class CameraLogic : MonoBehaviour
         wheel = GameObject.Find("Wheel");
         currentSize = CameraSizes[state];
         SetPosAtWheel();
+        LineWriter = GetComponent<GeneralLogic>().LineWriterObject;
     }
     private void OnDisable()
     {
