@@ -44,7 +44,7 @@ public class PauseBlockCinetic : MonoBehaviour {
             isTimeStop = true;
             velocity = wheel.GetComponent<WheelLogic>().getVelocity();
             StartCoroutine("ReSpawnBlock");
-            GameObjectWithGeneralLogic.GetComponent<GeneralLogic>().StopSimulation();
+            GameObjectWithGeneralLogic.GetComponent<GeneralLogic>().PauseBlockActivated();
         }
     }
 

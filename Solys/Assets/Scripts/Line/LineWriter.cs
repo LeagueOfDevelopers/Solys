@@ -52,6 +52,7 @@ public class LineWriter : MonoBehaviour
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         GeneralLogic.StopSimulationEvent += StopSimulation;
+        GeneralLogic.PauseBlockActivatedEvent += PauseBlockActivated;
         distancePerDot = DistanceBetweenDots / FrequencyPoints;
         LastPoint = 3;
         lastDots = 0;
@@ -485,6 +486,16 @@ public class LineWriter : MonoBehaviour
     public void StopSimulation()
     {
         isEnabled = true;
+    }
+
+    public void PauseBlockActivated()
+    {
+        isEnabled = true;
+        for (int i = 0; i < ListLineRenderers.Count; i++)
+        {
+            Destroy(ListLineRenderers[i]);
+        }
+        ListLineRenderers.Clear();
     }
 
     public void ResetSimulation()

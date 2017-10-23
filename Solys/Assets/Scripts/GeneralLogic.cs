@@ -9,6 +9,7 @@ public class GeneralLogic : MonoBehaviour {
     public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
+    public static Action PauseBlockActivatedEvent;
     public GameObject LineWriterObject;
 
 	public GameObject ui;
@@ -41,6 +42,15 @@ public class GeneralLogic : MonoBehaviour {
 		if(StopSimulationEvent != null)
 			StopSimulationEvent();
 	}
+
+    public void PauseBlockActivated()
+    {
+        if (PauseBlockActivatedEvent != null)
+        {
+            PauseBlockActivatedEvent();
+            StopSimulation();
+        }
+    }
 
 	public void ResetSimulation()
 	{
