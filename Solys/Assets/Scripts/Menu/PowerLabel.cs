@@ -30,7 +30,7 @@ public class PowerLabel : MonoBehaviour {
     {
         int power = PrefsDriver.GetPower();
         bool buyShowed = SceneDataTransfer.Instance.BuyShowed;
-        return (!buyShowed && power < 20) || power == 0;
+        return (!buyShowed && power < 10) || power == 0;
     }
 
     private void ShowBuyPanel()
