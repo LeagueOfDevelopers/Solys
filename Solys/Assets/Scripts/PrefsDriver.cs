@@ -84,7 +84,7 @@ public static class PrefsDriver {
         else
         {
             PlayerPrefsUtility.SetEncryptedInt("StartPowerValueUsed", 1);
-            PlayerPrefsUtility.SetEncryptedInt("CurrentPower", 60);
+            PlayerPrefsUtility.SetEncryptedInt("CurrentPower", 30);
             return 60;
         }
     }
