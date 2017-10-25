@@ -91,7 +91,7 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         GameObject newCamera = Instantiate(prefabToChange, camera.transform.parent);
         newCamera.name = prefabToChange.name;
         newCamera.transform.position = camera.transform.position;
-
+        PrefabUtility.ConnectGameObjectToPrefab(newCamera, prefabToChange);
         DestroyImmediate(camera);
         if(isNeedToChangeCanvasCamera)
         {
@@ -128,7 +128,7 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         missing = GameObject.Find("Missing Prefab");
         do
         {
-            
+            if (missing == null) return;
             Debug.Log(missing.name + EditorSceneManager.GetActiveScene().path);
             DestroyImmediate(missing);
             missing = GameObject.Find("Missing Prefab");
@@ -185,8 +185,11 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         DestroyImmediate(GameObject.Find("LineWriter"));
         DestroyImmediate(GameObject.Find("UI(Clone)"));
         DestroyImmediate(GameObject.Find("LineWriter(Clone)"));
-        Instantiate(LineWriter).name = "LineWriter";
-        Instantiate(UI, canvas.transform, false).name = "UI";
-
+        GameObject newLW = (GameObject)Instantiate(LineWriter);
+        GameObject newUI = (GameObject)Instantiate(UI, canvas.transform, false);
+        newLW.name = "LineWriter";
+        newUI.name = "UI";
+        PrefabUtility.ConnectGameObjectToPrefab(newLW, LineWriter);
+        PrefabUtility.ConnectGameObjectToPrefab(newUI, UI);
     }
 }
