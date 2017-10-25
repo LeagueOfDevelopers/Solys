@@ -6,20 +6,22 @@ public class PauseBlockCinetic : MonoBehaviour {
 
     private Vector2 velocity = Vector2.zero;
     public float timeForReSpawn;
-    public GameObject wheel;
-    public GameObject GameObjectWithGeneralLogic;
+    private GameObject wheel;
+    private GameObject GameObjectWithGeneralLogic;
     private bool isTimeStop = false;
     // Use this for initialization
-    void Start()
+    void OnEnable()
     {
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         GeneralLogic.StartSimulationEvent += StartSimulation;
+        wheel = GameObject.Find("Wheel");
+        GameObjectWithGeneralLogic = GameObject.Find("Main Camera");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-
+        GeneralLogic.ResetSimulationEvent -= ResetSimulation;
+        GeneralLogic.StartSimulationEvent -= StartSimulation;
     }
 
     void StartSimulation()

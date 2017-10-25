@@ -5,18 +5,20 @@ using UnityEngine;
 public class PauseBlock : MonoBehaviour {
 
     public float timeForReSpawn;
-    public GameObject GameObjectWithGeneralLogic;
+    private GameObject GameObjectWithGeneralLogic;
     private bool isTimeStop = false;
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
+        GameObjectWithGeneralLogic = GameObject.Find("Main Camera");
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         GeneralLogic.StartSimulationEvent += StartSimulation;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    private void OnDisable()
+    {
+        GeneralLogic.ResetSimulationEvent -= ResetSimulation;
+        GeneralLogic.StartSimulationEvent -= StartSimulation;
+    }
 
     void StartSimulation()
     {

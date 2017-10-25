@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114377937390427432}
   - component: {fileID: 199032674019039130}
   - component: {fileID: 198995838321762268}
+  - component: {fileID: 114172248906795450}
   m_Layer: 8
   m_Name: PauseBlockCinetic
   m_TagString: AccelerationBlock
@@ -38,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1641402286934622}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,6 +59,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.6
+--- !u!114 &114172248906795450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641402286934622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca9e454b88a02e488e7d38c3eeaab92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  isDragable: 0
 --- !u!114 &114377937390427432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,8 +84,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeForReSpawn: 5
-  wheel: {fileID: 0}
-  GameObjectWithGeneralLogic: {fileID: 0}
 --- !u!198 &198995838321762268
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -127,7 +139,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 492301047
+  randomSeed: 816578211
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -2796,7 +2808,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 54d8ed9fe697cdf47aff74ab1508a2bc, type: 3}
+  m_Sprite: {fileID: 21300038, guid: d722edbbf8801224c9c55e9d05afeabc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

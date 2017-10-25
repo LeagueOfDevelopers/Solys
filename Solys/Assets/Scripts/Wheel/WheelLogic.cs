@@ -41,10 +41,12 @@ public class WheelLogic : MonoBehaviour
     public void StartSimulation()
     {
         rb.simulated = true;
+        Debug.Log("Normal Gravity" + normalGravity);
     }
 
     public void ResetSimulation()
     {
+        Debug.Log("Normal Gravity" + normalGravity);
         SetGravity(normalGravity);
         transform.position = startPosition;
         StopRigidbodySimulation();
@@ -83,7 +85,6 @@ public class WheelLogic : MonoBehaviour
 
     public void SetGravity(Vector2 gravity)
     {
-        Debug.Log(Physics2D.gravity.magnitude);
         Physics2D.gravity = gravity;
     }
 

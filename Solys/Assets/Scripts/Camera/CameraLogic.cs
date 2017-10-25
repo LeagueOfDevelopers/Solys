@@ -39,7 +39,7 @@ public class CameraLogic : MonoBehaviour
         LeanTouch.OnFingerSet += OnFingerSet;
         wheel = GameObject.Find("Wheel");
         currentSize = CameraSizes[state];
-        //SetPosAtWheel();
+        SetPosAtWheel();
         
     }
     private void OnDisable()
