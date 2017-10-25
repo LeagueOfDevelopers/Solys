@@ -10,11 +10,19 @@ public class GeneralLogic : MonoBehaviour {
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
     public static Action PauseBlockActivatedEvent;
-    public GameObject LineWriterObject;
+    private GameObject LineWriterObject;
 
-	public GameObject ui;
+	private GameObject ui;
 	public static int SnapValueForMapElements = 1;	///TODO move away from this file!
 
+    public GameObject LineWriter
+    {
+        get
+        {
+            return LineWriterObject;
+        }
+
+    }
     
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
@@ -22,6 +30,8 @@ public class GeneralLogic : MonoBehaviour {
 	void OnEnable()
 	{
 		TargetLogic.TargetReached += TargetReached;
+        LineWriterObject = GameObject.Find("LineWriter");
+        ui = GameObject.Find("UI");
 	}
 
 	/// <summary>

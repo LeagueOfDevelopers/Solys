@@ -39,7 +39,7 @@ public class CameraLogic : MonoBehaviour
         wheel = GameObject.Find("Wheel");
         currentSize = CameraSizes[state];
         SetPosAtWheel();
-        LineWriter = GetComponent<GeneralLogic>().LineWriterObject;
+        LineWriter = GetComponent<GeneralLogic>().LineWriter;
     }
     private void OnDisable()
     {
