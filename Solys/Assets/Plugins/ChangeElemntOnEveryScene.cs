@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor.SceneManagement;
 
 public class ChangeElemntOnEveryScene : EditorWindow {
@@ -10,6 +11,13 @@ public class ChangeElemntOnEveryScene : EditorWindow {
     private GameObject prefabToChange;
     private int startSceneIndex;
     private bool isNeedToChangeCanvasCamera;
+    private string[] deleteThisObjects;
+
+
+    private void OnEnable()
+    {
+        deleteThisObjects = new string[5];
+    }
 
     [MenuItem("Window/Custom Editor/Change Element On Every Scene")]
     public static void ShowWindow()
@@ -28,6 +36,16 @@ public class ChangeElemntOnEveryScene : EditorWindow {
             ChangeObjects();
         if (GUILayout.Button("Delete Missings!"))
             DeleteAllMissingPrefabs();
+
+        
+        GUILayout.Label("Delete up to 5 objects on every scene", EditorStyles.boldLabel);
+        for (int i = 0; i <deleteThisObjects.Length;i++)
+            deleteThisObjects[i] = EditorGUILayout.TextField(i.ToString(), deleteThisObjects[i]);
+
+        if (GUILayout.Button("Delete THAT SHIT!"))
+            DeleteObjectsOnEverySceneByName();
+
+
     }
 
     void ChangeObjects()
@@ -63,6 +81,8 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         {
             GameObject.Find("Canvas").GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
             GameObject.Find("Canvas").GetComponent<Canvas>().worldCamera = newCamera.GetComponent<Camera>();
+            GameObject.Find("Canvas").GetComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            GameObject.Find("Canvas").GetComponent<CanvasScaler>().matchWidthOrHeight = 1;
         }
     }
 
@@ -98,4 +118,29 @@ public class ChangeElemntOnEveryScene : EditorWindow {
             missing = GameObject.Find("Missing Prefab");
         } while (missing!=null);
     }
+    
+    private void DeleteObjectsOnEverySceneByName()
+    {
+        currentScenePath = EditorSceneManager.GetActiveScene().path;
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+
+        for (int i = startSceneIndex; i < EditorSceneManager.sceneCountInBuildSettings; i++)
+        {
+
+            string path = EditorBuildSettings.scenes[i].path;
+            UnityEngine.SceneManagement.Scene openedScene = EditorSceneManager.OpenScene(path);
+
+            foreach (string name in deleteThisObjects)
+            {
+                
+                Debug.Log("Delete Element " + name +" "+ path);
+                DestroyImmediate(GameObject.Find(name));
+
+            }
+            EditorSceneManager.SaveScene(openedScene);
+
+        }
+    }
+
+    
 }

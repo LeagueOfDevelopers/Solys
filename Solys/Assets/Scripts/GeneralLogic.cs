@@ -29,8 +29,9 @@ public class GeneralLogic : MonoBehaviour {
 	/// </summary>
 	void OnEnable()
 	{
-		TargetLogic.TargetReached += TargetReached;
         LineWriterObject = GameObject.Find("LineWriter");
+        TargetLogic.TargetReached += TargetReached;
+        
         ui = GameObject.Find("UI");
 	}
 
