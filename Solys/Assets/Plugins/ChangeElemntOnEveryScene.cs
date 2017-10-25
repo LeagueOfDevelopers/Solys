@@ -81,10 +81,18 @@ public class ChangeElemntOnEveryScene : EditorWindow {
     private void ChangeObjectOnScene()
     {
         GameObject camera = GameObject.Find(objectName);
-        DestroyImmediate(camera);
-        GameObject newCamera = Instantiate(prefabToChange);
-        newCamera.name = objectName;
 
+        if(camera == null)
+        {
+            Debug.Log("No OBJECT here -----------------" + EditorSceneManager.GetActiveScene().path);
+            return;
+        }
+        
+        GameObject newCamera = Instantiate(prefabToChange, camera.transform.parent);
+        newCamera.name = prefabToChange.name;
+        newCamera.transform.position = camera.transform.position;
+
+        DestroyImmediate(camera);
         if(isNeedToChangeCanvasCamera)
         {
             GameObject.Find("Canvas").GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
