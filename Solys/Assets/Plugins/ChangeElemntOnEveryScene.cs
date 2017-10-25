@@ -57,6 +57,8 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         if (GUILayout.Button("Replace UI and LW!"))
             AddUIandLWToAllScenes();
 
+        if (GUILayout.Button("ResizeWalls"))
+            ResizeWalls();
     }
 
     void ChangeObjects()
@@ -194,6 +196,36 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         newUI.name = "UI";
         PrefabUtility.ConnectGameObjectToPrefab(newLW, LineWriter);
         PrefabUtility.ConnectGameObjectToPrefab(newUI, UI);
+    }
+
+    private void ResizeWalls()
+    {
+        currentScenePath = EditorSceneManager.GetActiveScene().path;
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+
+        for (int i = startSceneIndex; i < EditorSceneManager.sceneCountInBuildSettings; i++)
+        {
+
+            string path = EditorBuildSettings.scenes[i].path;
+            UnityEngine.SceneManagement.Scene openedScene = EditorSceneManager.OpenScene(path);
+
+            GameObject[] wallsTag = GameObject.FindGameObjectsWithTag("Wall");
+            ChangeColliderIfItsReallyWall(wallsTag);
+            EditorSceneManager.SaveScene(openedScene);
+
+        }
+    }
+
+    private void ChangeColliderIfItsReallyWall(GameObject[] elements)
+    {
+        foreach (GameObject element in elements)
+        {
+            BoxCollider2D col = element.GetComponent<BoxCollider2D>();
+            if(col !=null)
+            {
+                col.size = new Vector2(1, 0.2f);
+            }
+        }
     }
 }
 #endif
