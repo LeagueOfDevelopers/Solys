@@ -1,7 +1,10 @@
-﻿using UnityEditor;
+﻿#if (UNITY_EDITOR) 
+
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor.SceneManagement;
+
 
 public class ChangeElemntOnEveryScene : EditorWindow {
 
@@ -193,3 +196,4 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         PrefabUtility.ConnectGameObjectToPrefab(newUI, UI);
     }
 }
+#endif
