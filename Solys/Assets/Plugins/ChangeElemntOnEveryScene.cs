@@ -13,6 +13,8 @@ public class ChangeElemntOnEveryScene : EditorWindow {
     private bool isNeedToChangeCanvasCamera;
     private string[] deleteThisObjects;
 
+    private GameObject UI;
+    private GameObject LineWriter;
 
     private void OnEnable()
     {
@@ -45,6 +47,12 @@ public class ChangeElemntOnEveryScene : EditorWindow {
         if (GUILayout.Button("Delete THAT SHIT!"))
             DeleteObjectsOnEverySceneByName();
 
+        GUILayout.Label("Add LineWriter And UI", EditorStyles.boldLabel);
+        UI = (GameObject)EditorGUILayout.ObjectField("UI", UI, typeof(GameObject), true);
+        LineWriter = (GameObject)EditorGUILayout.ObjectField("LW", LineWriter, typeof(GameObject), true);
+
+        if (GUILayout.Button("Replace UI and LW!"))
+            AddUIandLWToAllScenes();
 
     }
 
@@ -143,4 +151,34 @@ public class ChangeElemntOnEveryScene : EditorWindow {
     }
 
     
+    private void AddUIandLWToAllScenes()
+    {
+        currentScenePath = EditorSceneManager.GetActiveScene().path;
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+
+        for (int i = startSceneIndex; i < EditorSceneManager.sceneCountInBuildSettings; i++)
+        {
+
+            string path = EditorBuildSettings.scenes[i].path;
+            UnityEngine.SceneManagement.Scene openedScene = EditorSceneManager.OpenScene(path);
+
+            Debug.Log("UI and LW " + path);
+            AddUIandLWTOTHisScene();
+            
+            EditorSceneManager.SaveScene(openedScene);
+
+        }
+    }
+
+    private void AddUIandLWTOTHisScene()
+    {
+        GameObject canvas = GameObject.Find("Canvas");
+        DestroyImmediate(GameObject.Find("UI"));
+        DestroyImmediate(GameObject.Find("LineWriter"));
+        DestroyImmediate(GameObject.Find("UI(Clone)"));
+        DestroyImmediate(GameObject.Find("LineWriter(Clone)"));
+        Instantiate(LineWriter).name = "LineWriter";
+        Instantiate(UI, canvas.transform, false).name = "UI";
+
+    }
 }
