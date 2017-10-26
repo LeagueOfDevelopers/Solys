@@ -105,4 +105,14 @@ public static class PrefsDriver {
         return false;
 
     }
+
+    public static bool IsMusicMuted()
+    {
+        return PlayerPrefsUtility.GetEncryptedInt("MusicMuted", 0) == 1;
+    }
+
+    public static void SetMusicMuted(bool mute)
+    {
+        PlayerPrefs.SetInt("MusicMuted", mute ? 1 : 0);
+    }
 }
