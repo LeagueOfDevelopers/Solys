@@ -16,8 +16,8 @@ public class SelectLevelButton : MonoBehaviour {
     public void OnClick()
 	{
 
-        SceneManager.LoadScene(id);
-	}
+        GameObject.Find("Scroll View").GetComponent<LevelSelectAnim>().OpenScene(id);
+    }
 
     public void SetTitle(string title)
     {

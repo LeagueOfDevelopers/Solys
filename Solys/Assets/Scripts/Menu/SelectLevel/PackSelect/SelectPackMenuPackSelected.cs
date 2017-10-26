@@ -4,22 +4,32 @@ using UnityEngine;
 
 public class SelectPackMenuPackSelected : MonoBehaviour {
 
+    private bool isPackRoute = true;
+
     public void PackSelect(string PackTitle, int FirstScene, int LastScene)
     {
         SceneDataTransfer.Instance.FirstLevelInPack = FirstScene;
         SceneDataTransfer.Instance.LastLevelInPack = LastScene;
         SceneDataTransfer.Instance.PackTitle = PackTitle;
+        isPackRoute = true;
         GetComponent<Animator>().SetBool("Exit", true);
     }
 
 
     public void AnimationEnd()
     {
-        SceneManager.LoadScene("SelectLevelMenu");
+        if(isPackRoute)
+            SceneManager.LoadScene("SelectLevelMenu");
+        else
+            SceneManager.LoadScene(0);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("0");
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isPackRoute = false;
+            GetComponent<Animator>().SetBool("Exit", true);
+        }
     }
 }

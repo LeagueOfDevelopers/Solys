@@ -26,7 +26,7 @@ public class SelectLevelMenuScript : MonoBehaviour {
 
 	public void BackButtonClick()
 	{
-		SceneManager.LoadScene("Menu");
+        GameObject.Find("Scroll View").GetComponent<LevelSelectAnim>().OpenScene(1);
 	}
 
     private void ShowLastLevelRating()
@@ -36,7 +36,7 @@ public class SelectLevelMenuScript : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("1");
+        if (Input.GetKeyDown(KeyCode.Escape)) BackButtonClick();
     }
 
     private void ClearContent()

@@ -109,6 +109,6 @@ public class GeneralLogic : MonoBehaviour {
 	/// </summary>
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("2");
+		if(Input.GetKeyDown(KeyCode.Escape)) ui.GetComponent<UIHandlerScript>().TargetReached();
 	}
 }
