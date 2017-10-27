@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212601109591818614}
   - component: {fileID: 114262487136891920}
   - component: {fileID: 60326144112645502}
+  - component: {fileID: 61755540934768914}
   m_Layer: 8
   m_Name: Corner 1
   m_TagString: Wall
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1439531409831958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 1, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,6 +64,20 @@ PolygonCollider2D:
       - {x: 0.12381601, y: -0.12376928}
       - {x: 0.122882366, y: -0.12364817}
       - {x: 0.122534275, y: 0.50188375}
+--- !u!61 &61755540934768914
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1439531409831958}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1.5}
 --- !u!114 &114262487136891920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,7 +121,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300042, guid: d722edbbf8801224c9c55e9d05afeabc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
