@@ -629,15 +629,15 @@ public class LineWriter : MonoBehaviour
         {
             case 1:
                 tool = 1;
-                Camera.main.GetComponent<CameraLogic>().setActive(false);
+                Camera.main.GetComponent<CameraLogic>().isActive = false;
                 break;
             case 2:
                 tool = 2;
-                Camera.main.GetComponent<CameraLogic>().setActive(true);
+                Camera.main.GetComponent<CameraLogic>().isActive = true;
                 break;
             case 0:
                 tool = 0;
-                Camera.main.GetComponent<CameraLogic>().setActive(false);
+                Camera.main.GetComponent<CameraLogic>().isActive = false;
                 break;
 
         }

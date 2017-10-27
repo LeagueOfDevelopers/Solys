@@ -2,36 +2,38 @@
 
 namespace Lean.Touch
 {
-    // This modifies LeanCameraZoom to be smooth
-    public class LeanCameraZoomSmooth : LeanCameraZoom
-    {
-        [Tooltip("How quickly the zoom reaches the target value")]
-        public float Dampening = 10.0f;
+	// This modifies LeanCameraZoom to be smooth
+	public class CameraLogic : CameraZoom
+	{
+        public bool isActive;
 
-        private float currentZoom;
+		[Tooltip("How quickly the zoom reaches the target value")]
+		public float Dampening = 10.0f;
 
-        protected virtual void OnEnable()
-        {
-            currentZoom = Zoom;
-        }
+		private float currentZoom;
 
-        protected override void LateUpdate()
-        {
-            // Make sure the camera exists
-            if (LeanTouch.GetCamera(ref Camera, gameObject) == true)
-            {
-                // Use the LateUpdate code from LeanCameraZoom
-                base.LateUpdate();
+		protected virtual void OnEnable()
+		{
+			currentZoom = Zoom;
+		}
 
-                // Get t value
-                var factor = LeanTouch.GetDampenFactor(Dampening, Time.deltaTime);
+		protected override void LateUpdate()
+		{
+			// Make sure the camera exists
+			if (LeanTouch.GetCamera(ref Camera, gameObject) == true)
+			{
+				// Use the LateUpdate code from LeanCameraZoom
+				base.LateUpdate();
 
-                // Lerp the current value to the target one
-                currentZoom = Mathf.Lerp(currentZoom, Zoom, factor);
+				// Get t value
+				var factor = LeanTouch.GetDampenFactor(Dampening, Time.deltaTime);
 
-                // Set the new zoom
-                SetZoom(currentZoom);
-            }
-        }
-    }
+				// Lerp the current value to the target one
+				currentZoom = Mathf.Lerp(currentZoom, Zoom, factor);
+
+				// Set the new zoom
+				SetZoom(currentZoom);
+			}
+		}
+	}
 }

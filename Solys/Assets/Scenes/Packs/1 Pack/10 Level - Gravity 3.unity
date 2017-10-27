@@ -6972,15 +6972,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c081f1d9f0e1fdf43a0545207c2e594b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapSize: {x: 0, y: 0}
-  timeForReturn: 0
-  distanceForFollow: 0
-  timeForSize: 0.01
-  distanceForReSize: 0.2
-  CameraSizes:
-  - 2.4
-  - 5
-  - 15
+  Camera: {fileID: 1558886810}
+  IgnoreGuiFingers: 1
+  RequiredFingerCount: 0
+  WheelSensitivity: 0
+  Zoom: 5
+  ZoomClamp: 0
+  ZoomMin: 2.5
+  ZoomMax: 15
+  isActive: 0
+  Dampening: 5
 --- !u!114 &1558886806
 MonoBehaviour:
   m_ObjectHideFlags: 0
