@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Lean.Touch;
 
 namespace Lean.Touch
 {
     // This script allows you to zoom a camera in and out based on the pinch gesture
     // This supports both perspective and orthographic cameras
     [ExecuteInEditMode]
-    public class CameraZoom : MonoBehaviour
+    public class CameraZoomAndMove : MonoBehaviour
     {
+
+        private int lastTool;
         [Tooltip("The camera that will be zoomed")]
         public Camera Camera;
 
@@ -22,17 +25,16 @@ namespace Lean.Touch
         [Range(-1.0f, 1.0f)]
         public float WheelSensitivity;
 
-        [Tooltip("The current FOV/Size")]
-        public float Zoom = 5.0f;
+        private float Sensitivity = 1.5f;
 
-        [Tooltip("Limit the FOV/Size?")]
-        public bool ZoomClamp;
+        [Tooltip("The current FOV/Size")]
+        protected float Zoom = 5.0f;
 
         [Tooltip("The minimum FOV/Size we want to zoom to")]
-        public float ZoomMin = 2.5f;
+        private float ZoomMin = 2.5f;
 
         [Tooltip("The maximum FOV/Size we want to zoom to")]
-        public float ZoomMax = 15.0f;
+        private float ZoomMax = 15.0f;
 
         protected virtual void LateUpdate()
         {
@@ -40,22 +42,50 @@ namespace Lean.Touch
             if (LeanTouch.GetCamera(ref Camera, gameObject) == true)
             {
                 // Get the fingers we want to use
-                var fingers = LeanTouch.GetFingers(IgnoreGuiFingers, RequiredFingerCount);
-
+                var fingers = LeanTouch.GetFingers(IgnoreGuiFingers);
+                if (fingers.Count > 1) ChangeToolOnHand(true);
+                if (fingers.Count == 0) ChangeToolOnHand(false);
                 // Get the pinch ratio of these fingers
                 var pinchRatio = LeanGesture.GetPinchRatio(fingers, WheelSensitivity);
 
                 // Modify the zoom value
                 Zoom *= pinchRatio;
 
-                if (ZoomClamp == true)
-                {
-                    Zoom = Mathf.Clamp(Zoom, ZoomMin, ZoomMax);
-                }
+                
+                Zoom = Mathf.Clamp(Zoom, ZoomMin, ZoomMax);
 
+                // Get the world delta of all the fingers
+                if (fingers.Count > 1)
+                {
+                    var worldDelta = LeanGesture.GetWorldDelta(fingers, 0, Camera);
+
+                    // Pan the camera based on the world delta
+                    var newPos = transform.position - worldDelta * Sensitivity;
+
+                    newPos.x = Mathf.Clamp(newPos.x, -Camera.main.pixelWidth/100, Camera.main.pixelWidth/100);
+                    newPos.y = Mathf.Clamp(newPos.y, -Camera.main.pixelHeight/100, Camera.main.pixelHeight/100);
+                    transform.position = newPos;
+                }
                 // Set the new zoom
                 SetZoom(Zoom);
             }
+        }
+
+
+        public void ChangeToolOnHand(bool hand)
+        {
+            var lw = GameObject.Find("LineWriter").GetComponent<LineWriter>();
+
+            if(hand)
+            {
+                lastTool = (lw.tool == 2) ? lastTool : lw.tool;
+                lw.ChangeTool(2);
+            }
+            else
+            {
+                lw.ChangeTool(lastTool);
+            }
+
         }
 
         protected void SetZoom(float current)

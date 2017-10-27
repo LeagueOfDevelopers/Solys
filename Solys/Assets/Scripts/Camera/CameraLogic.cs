@@ -3,7 +3,7 @@
 namespace Lean.Touch
 {
 	// This modifies LeanCameraZoom to be smooth
-	public class CameraLogic : CameraZoom
+	public class CameraLogic : CameraZoomAndMove
 	{
         public bool isActive;
 

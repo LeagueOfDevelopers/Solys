@@ -71,7 +71,8 @@ public class LineWriter : MonoBehaviour
         LeanTouch.OnFingerUp -= OnFingerUp;
         GeneralLogic.StartSimulationEvent -= StartSimulation;
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
-
+        GeneralLogic.StopSimulationEvent -= StopSimulation;
+        GeneralLogic.PauseBlockActivatedEvent -= PauseBlockActivated;
     }
 
     // Update is called once per frame
