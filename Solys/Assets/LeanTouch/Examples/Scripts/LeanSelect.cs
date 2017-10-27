@@ -17,7 +17,15 @@ namespace Lean.Touch
 			GetComponentInParent,
 			GetComponentInChildren
 		}
-		
+
+		public enum ReselectType
+		{
+			KeepSelected,
+			Deselect,
+			DeselectAndSelect,
+			SelectAgain
+		}
+
 		public SelectType SelectUsing;
 
 		[Tooltip("This stores the layers we want the raycast/overlap to hit (make sure this GameObject's layer is included!)")]
@@ -29,12 +37,12 @@ namespace Lean.Touch
 		[Tooltip("The currently selected LeanSelectable")]
 		public LeanSelectable CurrentSelectable;
 
-		[Tooltip("If you select an already selected selectable, should it get deselected?")]
-		public bool ToggleSelection;
-		
+		[Tooltip("If you select an already selected selectable, what should happen?")]
+		public ReselectType Reselect;
+
 		[Tooltip("Automatically deselect the CurrentSelectable if Select gets called with null?")]
 		public bool AutoDeselect;
-		
+
 		// NOTE: This must be called from somewhere
 		public void Select(LeanFinger finger)
 		{
@@ -50,7 +58,7 @@ namespace Lean.Touch
 
 					// Stores the raycast hit info
 					var hit = default(RaycastHit);
-					
+
 					// Was this finger pressed down on a collider?
 					if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask) == true)
 					{
@@ -58,7 +66,7 @@ namespace Lean.Touch
 					}
 				}
 				break;
-				
+
 				case SelectType.Overlap2D:
 				{
 					// Find the position under the current finger
@@ -97,7 +105,7 @@ namespace Lean.Touch
 		public void Select(LeanFinger finger, LeanSelectable selectable)
 		{
 			// Something was selected?
-			if (selectable != null)
+			if (selectable != null && selectable.isActiveAndEnabled == true)
 			{
 				// Did we select a new LeanSelectable?
 				if (selectable != CurrentSelectable)
@@ -111,11 +119,36 @@ namespace Lean.Touch
 					// Call select event on current
 					CurrentSelectable.Select(finger);
 				}
+				// Did we reselect the current LeanSelectable?
 				else
 				{
-					if (ToggleSelection == true)
+					switch (Reselect)
 					{
-						Deselect();
+						case ReselectType.Deselect:
+						{
+							Deselect();
+						}
+						break;
+
+						case ReselectType.DeselectAndSelect:
+						{
+							// Deselect the current
+							Deselect();
+
+							// Change current
+							CurrentSelectable = selectable;
+
+							// Call select event on current
+							CurrentSelectable.Select(finger);
+						}
+						break;
+
+						case ReselectType.SelectAgain:
+						{
+							// Call select event on current
+							CurrentSelectable.Select(finger);
+						}
+						break;
 					}
 				}
 			}
@@ -129,7 +162,7 @@ namespace Lean.Touch
 				}
 			}
 		}
-		
+
 		[ContextMenu("Deselect")]
 		public void Deselect()
 		{
@@ -149,10 +182,15 @@ namespace Lean.Touch
 			// Is there a selected object?
 			if (CurrentSelectable != null)
 			{
-				// Only deselect if the selected finger is null, or it matches
-				if (CurrentSelectable.Finger == null || CurrentSelectable.Finger == finger)
+				// Does its finger match?
+				// NOTE: This will usually only work with OnFingerDown selection, and OnFingerUp deselection
+				if (CurrentSelectable.SelectingFinger == finger)
 				{
-					Deselect();
+					// Deselect it
+					CurrentSelectable.Deselect();
+
+					// Mark it null
+					CurrentSelectable = null;
 				}
 			}
 		}

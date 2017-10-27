@@ -42,5 +42,82 @@ namespace Lean.Touch
 
 			return new LeanSnapshot();
 		}
+
+		// This will return the recorded position of the current finger when it was at 'targetAge'
+		public static bool TryGetScreenPosition(List<LeanSnapshot> snapshots, float targetAge, ref Vector2 screenPosition)
+		{
+			if (snapshots != null && snapshots.Count > 0)
+			{
+				// Below start?
+				var snapshotF = snapshots[0];
+
+				if (targetAge <= snapshotF.Age)
+				{
+					screenPosition = snapshotF.ScreenPosition; return true;
+				}
+
+				// After end?
+				var snapshotL = snapshots[snapshots.Count - 1];
+
+				if (targetAge >= snapshotL.Age)
+				{
+					screenPosition = snapshotL.ScreenPosition; return true;
+				}
+
+				// Interpolate to find screenPosition at targetAge
+				var lowerIndex = GetLowerIndex(snapshots, targetAge);
+				var upperIndex = lowerIndex + 1;
+				var lower      = snapshots[lowerIndex];
+				var upper      = upperIndex < snapshots.Count ? snapshots[upperIndex] : lower;
+				var across     = Mathf.InverseLerp(lower.Age, upper.Age, targetAge);
+
+				screenPosition = Vector2.Lerp(lower.ScreenPosition, upper.ScreenPosition, across);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		// NOTE: Assumes snapshots does not contain any null elements
+		public static bool TryGetSnapshot(List<LeanSnapshot> snapshots, int index, ref float age, ref Vector2 screenPosition)
+		{
+			if (index >= 0 && index < snapshots.Count)
+			{
+				var snapshot = snapshots[index];
+				
+				age            = snapshot.Age;
+				screenPosition = snapshot.ScreenPosition;
+
+				return true;
+			}
+			
+			return true;
+		}
+
+		// This will get the index of the closest snapshot whose age is under targetAge
+		// NOTE: Assumes snapshots does not contain any null elements
+		public static int GetLowerIndex(List<LeanSnapshot> snapshots, float targetAge)
+		{
+			if (snapshots != null)
+			{
+				var count = snapshots.Count;
+
+				if (count > 0)
+				{
+					for (var i = count - 1; i >= 0; i--)
+					{
+						if (snapshots[i].Age <= targetAge)
+						{
+							return i;
+						}
+					}
+				}
+
+				return 0;
+			}
+
+			return -1;
+		}
 	}
 }

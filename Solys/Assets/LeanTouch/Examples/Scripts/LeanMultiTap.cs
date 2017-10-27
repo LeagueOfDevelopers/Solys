@@ -64,9 +64,9 @@ namespace Lean.Touch
 				// All fingers released?
 				if (fingerCount == 0 && lastFingerCount > 0)
 				{
-					OnMultiTap.Invoke(MultiTapCount, HighestFingerCount);
-
 					MultiTapCount += 1;
+
+					OnMultiTap.Invoke(MultiTapCount, HighestFingerCount);
 				}
 			}
 			// Reset

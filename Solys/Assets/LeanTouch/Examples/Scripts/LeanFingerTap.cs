@@ -9,8 +9,11 @@ namespace Lean.Touch
 		// Event signature
 		[System.Serializable] public class LeanFingerEvent : UnityEvent<LeanFinger> {}
 
-		[Tooltip("Ignore fingers with StartedOverGui?")]
-		public bool IgnoreGuiFingers = true;
+		[Tooltip("If the finger is over the GUI, ignore it?")]
+		public bool IgnoreIfOverGui;
+
+		[Tooltip("If the finger started over the GUI, ignore it?")]
+		public bool IgnoreIfStartedOverGui;
 
 		[Tooltip("How many times must this finger tap before OnFingerTap gets called? (0 = every time)")]
 		public int RequiredTapCount = 0;
@@ -19,23 +22,28 @@ namespace Lean.Touch
 		public int RequiredTapInterval;
 
 		public LeanFingerEvent OnFingerTap;
-		
+
 		protected virtual void OnEnable()
 		{
 			// Hook events
 			LeanTouch.OnFingerTap += FingerTap;
 		}
-		
+
 		protected virtual void OnDisable()
 		{
 			// Unhook events
 			LeanTouch.OnFingerTap -= FingerTap;
 		}
-		
+
 		private void FingerTap(LeanFinger finger)
 		{
-			// Ignore this tap?
-			if (IgnoreGuiFingers == true && finger.StartedOverGui == true)
+			// Ignore?
+			if (IgnoreIfOverGui == true && finger.IsOverGui == true)
+			{
+				return;
+			}
+
+			if (IgnoreIfStartedOverGui == true && finger.StartedOverGui == true)
 			{
 				return;
 			}

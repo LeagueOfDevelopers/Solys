@@ -6,19 +6,33 @@ using UnityEngine.SceneManagement;
 public class GeneralLogic : MonoBehaviour {
 
 	public delegate void Action();
-    public GameObject NextLevelButton;
-    public GameObject ExitButton;
-	public static Action StartSimulationEvent;
+    public static Action StartSimulationEvent;
 	public static Action StopSimulationEvent;
 	public static Action ResetSimulationEvent;
+    public static Action PauseBlockActivatedEvent;
+    private GameObject LineWriterObject;
 
+	private GameObject ui;
+	public static int SnapValueForMapElements = 1;	///TODO move away from this file!
 
+    public GameObject LineWriter
+    {
+        get
+        {
+            return LineWriterObject;
+        }
+
+    }
+    
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
 	/// </summary>
 	void OnEnable()
 	{
-		TargetLogic.TargetReached += TargetReched;
+        LineWriterObject = GameObject.Find("LineWriter");
+        TargetLogic.TargetReached += TargetReached;
+        
+        ui = GameObject.Find("UI");
 	}
 
 	/// <summary>
@@ -26,29 +40,40 @@ public class GeneralLogic : MonoBehaviour {
 	/// </summary>
 	void OnDisable()
 	{
-		TargetLogic.TargetReached -= TargetReched;
+		TargetLogic.TargetReached -= TargetReached;
 	}
 	public void StartSimulation()
 	{
 		Debug.Log("START");
 		if(StartSimulationEvent != null)
 			StartSimulationEvent();
+        
 	}
-
+    
 	public void StopSimulation()
 	{
 		if(StopSimulationEvent != null)
 			StopSimulationEvent();
 	}
 
+    public void PauseBlockActivated()
+    {
+        if (PauseBlockActivatedEvent != null)
+        {
+            PauseBlockActivatedEvent();
+            StopSimulation();
+        }
+    }
+
 	public void ResetSimulation()
 	{
 		Debug.Log("RESET");
 		if(ResetSimulationEvent != null)
 			ResetSimulationEvent();
+        
 	}
 
-	private void TargetReched()
+	private void TargetReached()
 	{
 		StopSimulation();
 		OpenEndLevelMenu();
@@ -56,21 +81,34 @@ public class GeneralLogic : MonoBehaviour {
 
 	private void OpenEndLevelMenu()
 	{
-	   
-        NextLevelButton.SetActive(true);
-        ExitButton.SetActive(true);
-	}
-
-    public void NextLevelButtonClick(int scene)
-    {
-        Debug.Log("Next Level selected");
-        SceneManager.LoadScene(scene);
+        UpdateLevelRating();
+        ui.GetComponent<UIHandlerScript>().TargetReached();
     }
 
-    public void ExitButtonClick()
+    private int UpdateLevelRating()
     {
-       Debug.Log("Next Level selected");
-        SceneManager.LoadScene(0);
+        float procent1 = 0.3f;
+        float procent2 = 0.6f;
+        int stars=0;
+        float currentProcent = LineWriterObject.GetComponent<LineWriter>().LineRemainder;
+        if (currentProcent > procent2) stars = 3;
+        else
+        if (currentProcent < procent1) stars = 1;
+        else stars = 2;
+        PrefsDriver.SetStarsForLevel(SceneManager.GetActiveScene().buildIndex, stars);
+		SceneDataTransfer.Instance.NeedToUpdateStarsForLevel = SceneManager.GetActiveScene().buildIndex;
+        SceneDataTransfer.Instance.LastLevelRating = stars;
+        Debug.Log(SceneManager.GetActiveScene().buildIndex.ToString());
+        return stars;
     }
+
+   
     
+	/// <summary>
+	/// Update is called every frame, if the MonoBehaviour is enabled.
+	/// </summary>
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Escape)) ui.GetComponent<UIHandlerScript>().TargetReached();
+	}
 }

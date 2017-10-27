@@ -8,46 +8,40 @@ namespace Lean.Touch
 	{
 		// This is the hardware ID of the finger (or 0 & 1 for simulated fingers)
 		public int Index;
-		
+
 		// This tells you how long this finger has been active (or inactive) in seconds
 		public float Age;
-		
+
 		// This tells you if the finger is currently set (mouse click or touched on screen)
 		public bool Set;
 
 		// This tells you the 'Set' value of the last frame
 		public bool LastSet;
-		
+
 		// This tells if you if the finger has just been tapped
 		public bool Tap;
-		
+
 		// This tells you how many times this finger has been tapped
 		public int TapCount;
 
 		// This tells you if the finger was just swiped
 		public bool Swipe;
-		
-		// This tells you if the finger is currently being held for a long time
-		public bool HeldSet;
 
-		// This tells you the 'Held' value of the last frame
-		public bool LastHeldSet;
-		
 		// This tells you the screen position of the touch on the frame it was first set
 		public Vector2 StartScreenPosition;
-		
+
 		// This tells you the last screen position of the finger
 		public Vector2 LastScreenPosition;
-		
+
 		// This tells you the current screen position of the finger
 		public Vector2 ScreenPosition;
-		
+
 		// This tells you if the current finger had 'IsOverGui' set to true when it began touching the screen
 		public bool StartedOverGui;
-		
+
 		// Used to store position snapshots, enable RecordFingers in LeanTouch to use this
 		public List<LeanSnapshot> Snapshots = new List<LeanSnapshot>(1000);
-		
+
 		// This will return true if the current finger is currently touching the screen
 		public bool IsActive
 		{
@@ -56,7 +50,7 @@ namespace Lean.Touch
 				return LeanTouch.Fingers.Contains(this);
 			}
 		}
-		
+
 		// This will return the amount of seconds of snapshot footage is stored for this finger
 		public float SnapshotDuration
 		{
@@ -70,7 +64,7 @@ namespace Lean.Touch
 				return 0.0f;
 			}
 		}
-		
+
 		// This will return true if the current finger is over any Unity GUI elements
 		public bool IsOverGui
 		{
@@ -79,25 +73,7 @@ namespace Lean.Touch
 				return LeanTouch.PointOverGui(ScreenPosition);
 			}
 		}
-		
-		// This tells you if the finger has just begun touching the screen for a long time
-		public bool HeldDown
-		{
-			get
-			{
-				return HeldSet == true && LastHeldSet == false;
-			}
-		}
-		
-		// This tells you if the finger has just stopped touching the screen for a long time
-		public bool HeldUp
-		{
-			get
-			{
-				return HeldSet == false && LastHeldSet == true;
-			}
-		}
-		
+
 		// This tells you if the finger has just touched the screen
 		public bool Down
 		{
@@ -106,7 +82,7 @@ namespace Lean.Touch
 				return Set == true && LastSet == false;
 			}
 		}
-		
+
 		// This tells you if the finger has just been released from the screen
 		public bool Up
 		{
@@ -115,7 +91,7 @@ namespace Lean.Touch
 				return Set == false && LastSet == true;
 			}
 		}
-		
+
 		// This will return how far in pixels the finger has moved since the last recorded snapshot
 		public Vector2 LastSnapshotScreenDelta
 		{
@@ -144,7 +120,7 @@ namespace Lean.Touch
 				return LastSnapshotScreenDelta * LeanTouch.ScalingFactor;
 			}
 		}
-		
+
 		// This will return how far in pixels the finger has moved since the last frame
 		public Vector2 ScreenDelta
 		{
@@ -161,7 +137,7 @@ namespace Lean.Touch
 				return ScreenDelta * LeanTouch.ScalingFactor;
 			}
 		}
-		
+
 		// This tells you how far this finger has moved since it began touching the screen
 		public Vector2 SwipeScreenDelta
 		{
@@ -178,7 +154,7 @@ namespace Lean.Touch
 				return SwipeScreenDelta * LeanTouch.ScalingFactor;
 			}
 		}
-		
+
 		// This will return the ray of the finger's current position
 		public Ray GetRay(Camera camera = null)
 		{
@@ -186,10 +162,10 @@ namespace Lean.Touch
 			{
 				return camera.ScreenPointToRay(ScreenPosition);
 			}
-			
+
 			return default(Ray);
 		}
-		
+
 		// This will return the ray of the finger's start position
 		public Ray GetStartRay(Camera camera = null)
 		{
@@ -200,7 +176,7 @@ namespace Lean.Touch
 			
 			return default(Ray);
 		}
-		
+
 		// This will tell you how far the finger has moved in the past 'deltaTime' seconds
 		public Vector2 GetSnapshotScreenDelta(float deltaTime)
 		{
@@ -211,79 +187,58 @@ namespace Lean.Touch
 		{
 			return GetSnapshotScreenDelta(deltaTime) * LeanTouch.ScalingFactor;
 		}
-		
+
 		// This will return the recorded position of the current finger when it was at 'targetAge'
 		public Vector2 GetSnapshotScreenPosition(float targetAge)
 		{
-			var lowerIndex          = GetLowerSnapshotIndex(targetAge);
-			var lowerAge            = default(float);
-			var lowerScreenPosition = default(Vector2);
-			
-			GetSnapshot(lowerIndex, out lowerAge, out lowerScreenPosition);
-			
-			if (targetAge <= lowerAge)
-			{
-				return lowerScreenPosition;
-			}
-			
-			var upperIndex          = lowerIndex + 1;
-			var upperAge            = default(float);
-			var upperScreenPosition = default(Vector2);
-			
-			GetSnapshot(upperIndex, out upperAge, out upperScreenPosition);
-			
-			if (targetAge >= upperAge)
-			{
-				return upperScreenPosition;
-			}
-			
-			return Vector2.Lerp(lowerScreenPosition, upperScreenPosition, Mathf.InverseLerp(lowerAge, upperAge, targetAge));
+			var screenPosition = ScreenPosition;
+
+			LeanSnapshot.TryGetScreenPosition(Snapshots, targetAge, ref screenPosition);
+
+			return screenPosition;
 		}
-		
-		public void GetSnapshot(int index, out float age, out Vector2 screenPosition)
+
+		public Vector3 GetSnapshotWorldPosition(float targetAge, float distance, Camera camera = null)
 		{
-			if (index >= 0 && index < Snapshots.Count)
+			if (LeanTouch.GetCamera(ref camera) == true)
 			{
-				var snapshot = Snapshots[index];
+				var screenPosition = GetSnapshotScreenPosition(targetAge);
+				var point          = new Vector3(screenPosition.x, screenPosition.y, distance);
 				
-				age            = snapshot.Age;
-				screenPosition = snapshot.ScreenPosition;
+				return camera.ScreenToWorldPoint(point);
 			}
-			else
-			{
-				age            = Age;
-				screenPosition = ScreenPosition;
-			}
+			
+			return default(Vector3);
 		}
-		
+
 		// This will return the angle between the finger and the reference point, relative to the screen
 		public float GetRadians(Vector2 referencePoint)
 		{
 			return Mathf.Atan2(ScreenPosition.x - referencePoint.x, ScreenPosition.y - referencePoint.y);
 		}
-		
+
 		public float GetDegrees(Vector2 referencePoint)
 		{
 			return GetRadians(referencePoint) * Mathf.Rad2Deg;
 		}
-		
+
 		// This will return the angle between the last finger position and the reference point, relative to the screen
 		public float GetLastRadians(Vector2 referencePoint)
 		{
 			return Mathf.Atan2(LastScreenPosition.x - referencePoint.x, LastScreenPosition.y - referencePoint.y);
 		}
-		
+
 		public float GetLastDegrees(Vector2 referencePoint)
 		{
 			return GetLastRadians(referencePoint) * Mathf.Rad2Deg;
 		}
-		
+
 		// This will return the delta between GetAngle and GetLastAngle
 		public float GetDeltaRadians(Vector2 referencePoint)
 		{
 			return GetDeltaRadians(referencePoint, referencePoint);
 		}
-		
+
 		public float GetDeltaRadians(Vector2 referencePoint, Vector2 lastReferencePoint)
 		{
 			var a = GetLastRadians(lastReferencePoint);
@@ -297,17 +252,17 @@ namespace Lean.Touch
 			
 			return d;
 		}
-		
+
 		public float GetDeltaDegrees(Vector2 referencePoint)
 		{
 			return GetDeltaRadians(referencePoint, referencePoint) * Mathf.Rad2Deg;
 		}
-		
+
 		public float GetDeltaDegrees(Vector2 referencePoint, Vector2 lastReferencePoint)
 		{
 			return GetDeltaRadians(referencePoint, lastReferencePoint) * Mathf.Rad2Deg;
 		}
-		
+
 		// This will return the distance between the finger and the reference point
 		public float GetScreenDistance(Vector2 point)
 		{
@@ -324,7 +279,7 @@ namespace Lean.Touch
 		{
 			return Vector2.Distance(LastScreenPosition, point);
 		}
-		
+
 		public float GetLastScaledDistance(Vector2 point)
 		{
 			return GetLastScreenDistance(point) * LeanTouch.ScalingFactor;
@@ -342,7 +297,7 @@ namespace Lean.Touch
 			
 			return default(Vector3);
 		}
-		
+
 		// This will return the last world position of this finger based on the distance from the camera
 		public Vector3 GetLastWorldPosition(float distance, Camera camera = null)
 		{
@@ -355,7 +310,7 @@ namespace Lean.Touch
 			
 			return default(Vector3);
 		}
-		
+
 		// This will return the world position of this finger based on the distance from the camera
 		public Vector3 GetWorldPosition(float distance, Camera camera = null)
 		{
@@ -368,13 +323,13 @@ namespace Lean.Touch
 			
 			return default(Vector3);
 		}
-		
+
 		// This will return the change in world position of this finger based on the distance from the camera
 		public Vector3 GetWorldDelta(float distance, Camera camera = null)
 		{
 			return GetWorldDelta(distance, distance, camera);
 		}
-		
+
 		public Vector3 GetWorldDelta(float lastDistance, float distance, Camera camera = null)
 		{
 			if (LeanTouch.GetCamera(ref camera) == true)
@@ -384,7 +339,7 @@ namespace Lean.Touch
 			
 			return default(Vector3);
 		}
-		
+
 		// Clear snapshots and pool them, count = -1 for all
 		public void ClearSnapshots(int count = -1)
 		{
@@ -406,44 +361,18 @@ namespace Lean.Touch
 				Snapshots.Clear();
 			}
 		}
-		
+
 		// Records a snapshot of the current finger
 		public void RecordSnapshot()
 		{
 			// Get an unused snapshot and set it up
 			var snapshot = LeanSnapshot.Pop();
-			
+
 			snapshot.Age            = Age;
 			snapshot.ScreenPosition = ScreenPosition;
-			
+
 			// Add to list
 			Snapshots.Add(snapshot);
-		}
-		
-		// This will get the index of the closest snapshot whose age is under targetAge
-		public int GetLowerSnapshotIndex(float targetAge)
-		{
-			var snapshotCount = Snapshots.Count;
-			
-			if (snapshotCount > 0)
-			{
-				var firstAge = Snapshots[0].Age;
-				
-				if (targetAge > firstAge)
-				{
-					for (var i = 1; i < snapshotCount; i++)
-					{
-						if (Snapshots[i].Age > targetAge)
-						{
-							return i - 1;
-						}
-					}
-					
-					return snapshotCount - 1;
-				}
-			}
-			
-			return 0;
 		}
 	}
 }

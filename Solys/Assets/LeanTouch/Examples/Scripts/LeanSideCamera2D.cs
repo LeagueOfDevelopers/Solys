@@ -2,40 +2,71 @@ using UnityEngine;
 
 namespace Lean.Touch
 {
-	// This script will zoom the main camera based on finger gestures
-	public class LeanSideCamera2D : MonoBehaviour
+	// This script allows you to zoom a camera in and out based on the pinch gesture
+	// This supports both perspective and orthographic cameras
+	[ExecuteInEditMode]
+	public class LeanCameraZoom : MonoBehaviour
 	{
-		[Tooltip("The camera we will be moving")]
+		[Tooltip("The camera that will be zoomed")]
 		public Camera Camera;
 
-		[Tooltip("The minimum field of view angle we want to zoom to")]
-		public float Minimum = 10.0f;
-		
-		[Tooltip("The maximum field of view angle we want to zoom to")]
-		public float Maximum = 60.0f;
-		
+		[Tooltip("Ignore fingers with StartedOverGui?")]
+		public bool IgnoreGuiFingers = true;
+
+		[Tooltip("Allows you to force rotation with a specific amount of fingers (0 = any)")]
+		public int RequiredFingerCount;
+
+		[Tooltip("If you want the mouse wheel to simulate pinching then set the strength of it here")]
+		[Range(-1.0f, 1.0f)]
+		public float WheelSensitivity;
+
+		[Tooltip("The current FOV/Size")]
+		public float Zoom = 50.0f;
+
+		[Tooltip("Limit the FOV/Size?")]
+		public bool ZoomClamp;
+
+		[Tooltip("The minimum FOV/Size we want to zoom to")]
+		public float ZoomMin = 10.0f;
+
+		[Tooltip("The maximum FOV/Size we want to zoom to")]
+		public float ZoomMax = 60.0f;
+
 		protected virtual void LateUpdate()
 		{
-			// If camera is null, try and get the main camera, return true if a camera was found
-			if (LeanTouch.GetCamera(ref Camera) == true)
+			// Make sure the camera exists
+			if (LeanTouch.GetCamera(ref Camera, gameObject) == true)
 			{
-				// Get the world delta of all the fingers
-				var worldDelta = LeanGesture.GetWorldDelta(1.0f, Camera); // Distance doesn't matter with an orthographic camera
-				
-				// Subtract the delta to the position
-				Camera.transform.position -= worldDelta;
-				
-				// Store the old size in a temp variable
-				var orthographicSize = Camera.orthographicSize;
+				// Get the fingers we want to use
+				var fingers = LeanTouch.GetFingers(IgnoreGuiFingers, RequiredFingerCount);
 
-				// Scale the size based on the pinch scale
-				orthographicSize *= LeanGesture.GetPinchRatio();
-					
-				// Clamp the size to out min/max values
-				orthographicSize = Mathf.Clamp(orthographicSize, Minimum, Maximum);
+				// Get the pinch ratio of these fingers
+				var pinchRatio = LeanGesture.GetPinchRatio(fingers, WheelSensitivity);
 
-				// Set the new size
-				Camera.orthographicSize = orthographicSize;
+				// Modify the zoom value
+				Zoom *= pinchRatio;
+
+				if (ZoomClamp == true)
+				{
+					Zoom = Mathf.Clamp(Zoom, ZoomMin, ZoomMax);
+				}
+
+				// Set the new zoom
+				SetZoom(Zoom);
+			}
+		}
+
+		protected void SetZoom(float current)
+		{
+			var camera = GetComponent<Camera>();
+
+			if (camera.orthographic == true)
+			{
+				camera.orthographicSize = current;
+			}
+			else
+			{
+				camera.fieldOfView = current;
 			}
 		}
 	}

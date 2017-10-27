@@ -9,6 +9,8 @@ public class AccelBlock : MonoBehaviour
     {
         if (other.attachedRigidbody)
         {
+            GetComponent<ParticleSystem>().Play();
+            
             Vector3 rotationInEuler = transform.rotation.eulerAngles;
             var x = Mathf.Cos(rotationInEuler.z*Mathf.PI/180);
             var y = Mathf.Sin(rotationInEuler.z * Mathf.PI / 180);

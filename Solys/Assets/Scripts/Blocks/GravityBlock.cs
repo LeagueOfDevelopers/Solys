@@ -13,6 +13,7 @@ public class GravityBlock : MonoBehaviour
             var x = Mathf.Cos(rotationInEuler.z*Mathf.PI/180);
             var y = Mathf.Sin(rotationInEuler.z * Mathf.PI / 180);
             other.GetComponent<WheelLogic>().SetGravity(new Vector3(x,y) *Force);
+            GetComponent<ParticleSystem>().Play();
         }
 
     }

@@ -3,14 +3,14 @@ using UnityEngine;
 namespace Lean.Touch
 {
 	// This script can be used to spawn a GameObject via an event
-	public class LeanSpawnGameObject : MonoBehaviour
+	public class LeanSpawn : MonoBehaviour
 	{
 		[Tooltip("The prefab that gets spawned")]
-		public GameObject Prefab;
+		public Transform Prefab;
 
 		[Tooltip("The distance from the finger the prefab will be spawned in world space")]
-		public float FingerDistance = 10.0f;
-		
+		public float Distance = 10.0f;
+
 		public void Spawn()
 		{
 			if (Prefab != null)
@@ -21,9 +21,9 @@ namespace Lean.Touch
 
 		public void Spawn(LeanFinger finger)
 		{
-			if (finger != null && Prefab != null)
+			if (Prefab != null && finger != null)
 			{
-				Instantiate(Prefab, finger.GetWorldPosition(FingerDistance), transform.rotation);
+				Instantiate(Prefab, finger.GetWorldPosition(Distance), transform.rotation);
 			}
 		}
 	}

@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using UnityEngine.SceneManagement;
-using System.Collections.Generic;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 
 public class SelectLevelMenuScript : MonoBehaviour {
 
+
 	public GameObject Content;
 	public GameObject ButtonTemplate;
-	public int FirstSceneId;
+    public GameObject LevelRatingObject;
+
+	public GameObject Title;
 
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before
@@ -16,20 +17,53 @@ public class SelectLevelMenuScript : MonoBehaviour {
 	/// </summary>
 	void Start()
 	{
-		for(int i = FirstSceneId; i<SceneManager.sceneCountInBuildSettings;i++)
-		{
-			GameObject button = Instantiate(ButtonTemplate,Content.transform);
-			Scene scene = SceneManager.GetSceneByBuildIndex(i);
-			button.transform.localScale = new Vector3(1,1,1);
-			button.transform.FindChild("Text").GetComponent<Text>().text = (i-FirstSceneId+1).ToString();
-			button.GetComponent<SelectLevelButton>().id = i;
-		}
+		ClearContent();
+		SetPackTitle();
+		FillContentWithButtons();
+        ShowLastLevelRating();
 		
 	}
 
 	public void BackButtonClick()
 	{
-		SceneManager.LoadScene("Menu");
+        GameObject.Find("Scroll View").GetComponent<LevelSelectAnim>().OpenScene(1);
+	}
+
+    private void ShowLastLevelRating()
+    {
+        
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) BackButtonClick();
+    }
+
+    private void ClearContent()
+	{
+		for (int i = 0; i<Content.transform.childCount; i++)
+		{
+			Destroy(Content.transform.GetChild(i).gameObject);
+		}
+	}
+
+	private void FillContentWithButtons()
+	{
+		int sceneIndex = 1;
+
+		for(int i = SceneDataTransfer.Instance.FirstLevelInPack; i<=SceneDataTransfer.Instance.LastLevelInPack;i++)
+		{
+			GameObject button = Instantiate(ButtonTemplate,Content.transform);
+			button.transform.localScale = new Vector3(1,1,1);
+			button.GetComponent<SelectLevelButton>().SetTitle(sceneIndex.ToString());
+			button.GetComponent<SelectLevelButton>().id = i;
+            sceneIndex++;
+		}
+	}
+
+	private void SetPackTitle()
+	{
+		Title.GetComponent<Text>().text = SceneDataTransfer.Instance.PackTitle;
 	}
 	
 }

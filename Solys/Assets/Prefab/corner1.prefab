@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4940377327637252}
   - component: {fileID: 212894675791170548}
   - component: {fileID: 60362879122191422}
+  - component: {fileID: 114686455065949898}
   m_Layer: 8
   m_Name: corner1
   m_TagString: Wall
@@ -36,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1714974088945788}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -5, y: -3, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -55,11 +56,24 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
-    - - {x: 0.64, y: -0.64}
-      - {x: 0.6164553, y: -0.6163026}
+    - - {x: 0.5007825, y: -0.5044315}
+      - {x: 0.50701094, y: -0.50362444}
       - {x: -0.51030433, y: 0.5194192}
-      - {x: -0.6385912, y: 0.65127015}
-      - {x: -0.64, y: -0.64}
+      - {x: -0.510129, y: 0.52050066}
+      - {x: -0.5143132, y: -0.519567}
+--- !u!114 &114686455065949898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1714974088945788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca9e454b88a02e488e7d38c3eeaab92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
+  isDragable: 0
 --- !u!212 &212894675791170548
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -91,7 +105,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2ae49ef6fd4382f4fac65147841aa041, type: 3}
+  m_Sprite: {fileID: 21300010, guid: d722edbbf8801224c9c55e9d05afeabc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
