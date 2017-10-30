@@ -44,7 +44,6 @@ namespace Lean.Touch
                 // Get the fingers we want to use
                 var fingers = LeanTouch.GetFingers(IgnoreGuiFingers);
                 if (fingers.Count > 1) ChangeToolOnHand(true);
-                if (fingers.Count == 0) ChangeToolOnHand(false);
                 // Get the pinch ratio of these fingers
                 var pinchRatio = LeanGesture.GetPinchRatio(fingers, WheelSensitivity);
 
@@ -83,7 +82,8 @@ namespace Lean.Touch
             }
             else
             {
-                lw.ChangeTool(lastTool);
+                if(lw.tool == 2)
+                    lw.ChangeTool(lastTool);
             }
 
         }

@@ -15,7 +15,18 @@ namespace Lean.Touch
 		protected virtual void OnEnable()
 		{
 			currentZoom = Zoom;
+            LeanTouch.OnFingerUp += OnFingerUp;
 		}
+
+        protected virtual void OnDisable()
+        {
+            LeanTouch.OnFingerUp -= OnFingerUp;
+        }
+
+        public void OnFingerUp(LeanFinger finger)
+        {
+            ChangeToolOnHand(false);
+        }
 
 		protected override void LateUpdate()
 		{
