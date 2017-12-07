@@ -26,7 +26,7 @@ class SceneDataTransfer
         return true;
         }
         */
-        public int CurrentSceneID;
+        //public int CurrentSceneID;
 
     public int FirstLevelInPack;
     public int LastLevelInPack;

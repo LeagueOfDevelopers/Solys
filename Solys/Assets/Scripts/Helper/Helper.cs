@@ -7,33 +7,23 @@ using UnityEngine.UI;
 
 public class Helper : MonoBehaviour {
 
-    private Text tip;
+    public Text tip;
     private GameObject TextForCloud;
     private int currentTip;
     public string[] tips;
     public Vector2[] tipsPositions;
-    private GameObject Cloud;
-    private GameObject clickPanel;
+    public GameObject Cloud;
+    public GameObject clickPanel;
     // Use this for initialization
     void Start ()
     {
-        Cloud = transform.GetChild(0).gameObject;
+        /*Cloud = transform.GetChild(0).gameObject;
         tip = transform.GetChild(1).gameObject.GetComponent<Text>();
-        clickPanel = transform.GetChild(2).gameObject;
+        clickPanel = transform.GetChild(2).gameObject;*/
         Button bt = clickPanel.gameObject.GetComponent<Button>();
         bt.targetGraphic = Cloud.GetComponent<Image>();
         bt.onClick.AddListener(ShowTip);
-        clickPanel.SetActive(false);
-        bool isShowed =
-         PlayerPrefsUtility.GetEncryptedInt("HelperShowedAtLevel" + SceneManager.GetActiveScene().buildIndex) == 1;
-
-        if (tips == null||isShowed)
-        {
-            Cloud.SetActive(false);
-            SetText(" ");
-            return;
-        }
-        ShowTipAgain(); 
+        
     }
     public void ShowTipAgain()
     {
@@ -41,7 +31,7 @@ public class Helper : MonoBehaviour {
         currentTip = 0;
         clickPanel.SetActive(true);
         Cloud.SetActive(true);
-        this.gameObject.SetActive(true);
+        tip.gameObject.SetActive(true);
         ShowTip();
     }
 
@@ -50,10 +40,7 @@ public class Helper : MonoBehaviour {
         tip.resizeTextForBestFit = false;
         if (currentTip >= tips.Length)
         {
-            PlayerPrefsUtility.SetEncryptedInt("HelperShowedAtLevel"+ SceneManager.GetActiveScene().buildIndex,1);
-            Cloud.SetActive(false);
-            SetText(" ");
-            this.gameObject.SetActive(false);
+            CloseTips();
             return;
         }
 
@@ -75,4 +62,12 @@ public class Helper : MonoBehaviour {
         tip.text = textString;
     }
     
+    public void CloseTips()
+    {
+        PlayerPrefsUtility.SetEncryptedInt("HelperShowedAtLevel" + SceneManager.GetActiveScene().buildIndex, 1);
+        Cloud.SetActive(false);
+        clickPanel.SetActive(false);
+        tip.gameObject.SetActive(false);
+        SetText(" ");
+    }
 }
