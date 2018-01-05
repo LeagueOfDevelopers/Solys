@@ -102,4 +102,17 @@ public class WheelLogic : MonoBehaviour
             yield return new WaitForSeconds(TimeInAcceleration);
         }
     }
+
+    public void MoveToPortal(Vector3 pos)
+    {
+        StartCoroutine(SmoothMoveTo(pos));
+    }
+
+    IEnumerator SmoothMoveTo(Vector3 pos)
+    {
+        transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * 5);
+        yield return new WaitForEndOfFrame();
+        if (Vector3.Distance(transform.position, pos) > 0.05)
+            StartCoroutine(SmoothMoveTo(pos));
+    }
 }

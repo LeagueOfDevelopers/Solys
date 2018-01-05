@@ -17,6 +17,7 @@ public class TargetLogic : MonoBehaviour {
 		if(other.tag == "Player" && TargetReached!=null)
 		{
 			TargetReached();
+            other.gameObject.GetComponent<WheelLogic>().MoveToPortal(transform.position);
 		}
 	}
 }
