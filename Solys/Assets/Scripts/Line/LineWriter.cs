@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class LineWriter : MonoBehaviour
     public float DistanceForContinueLine;
     public float LineRemainder { get { return quanityLines / startQuanityLines; } }
     private int lastDots;
+    private bool isOnCooldownAfterChangeTool = false;
 
     public int PositionsAmount
     {
@@ -267,6 +269,7 @@ public class LineWriter : MonoBehaviour
         {
             if (Positions.Count == 0) // Когда только что поставили палец на экран
             {
+                Debug.Log(MainFinger);
                 if (MainFinger == -1)
                     if (!finger.IsOverGui && !isOverDragableObject(finger))
                     {
@@ -306,6 +309,7 @@ public class LineWriter : MonoBehaviour
     }
     public void OnFingerSet(LeanFinger finger)
     {
+        if (isOnCooldownAfterChangeTool) return;
 
         switch (tool)
         {
@@ -434,6 +438,8 @@ public class LineWriter : MonoBehaviour
 
     public void OnFingerUp(LeanFinger finger)
     {
+        if (isOnCooldownAfterChangeTool) return;
+
         if (finger.Index == MainFinger)
         {
             float temporalDistance = DistanceBetweenDots; // Переменная для временного хранения дистанции между точек.
@@ -626,6 +632,7 @@ public class LineWriter : MonoBehaviour
 
     public void ChangeTool(int nextTool)
     {
+        if(nextTool == tool) return;
         switch (nextTool)
         {
             case 1:
@@ -633,6 +640,11 @@ public class LineWriter : MonoBehaviour
                 Camera.main.GetComponent<CameraLogic>().isActive = false;
                 break;
             case 2:
+                GameObject renderer = ListLineRenderers[ListLineRenderers.Count - 1];
+                ListLineRenderers.RemoveAt(ListLineRenderers.Count - 1);
+                Destroy(renderer);
+                Positions.Clear();
+                MainFinger = -1;
                 tool = 2;
                 Camera.main.GetComponent<CameraLogic>().isActive = true;
                 break;
@@ -642,5 +654,17 @@ public class LineWriter : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void SetCooldownOnChangeTool()
+    {
+        StartCoroutine(SetCooldownAfterChangeTool());
+    }
+
+    private IEnumerator SetCooldownAfterChangeTool()
+    {
+        isOnCooldownAfterChangeTool = true;
+        yield return new WaitForSeconds(0.1f);
+        isOnCooldownAfterChangeTool = false;
     }
 }

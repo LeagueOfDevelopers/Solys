@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace Lean.Touch
 {
@@ -25,7 +26,15 @@ namespace Lean.Touch
 
         public void OnFingerUp(LeanFinger finger)
         {
-            ChangeToolOnHand(false);
+            if (IsHandToolActive) StartCoroutine(CheckZoomStop());       
+            Debug.Log("FingerUp " + LeanTouch.Fingers.Count + "IsHandToolActive "+ IsHandToolActive);
+        }
+
+        IEnumerator CheckZoomStop()
+        {
+            yield return new WaitForSeconds(Time.deltaTime*4);
+            if (IsHandToolActive && LeanTouch.Fingers.Count == 0)
+                ChangeToolOnHand(false);
         }
 
 		protected override void LateUpdate()

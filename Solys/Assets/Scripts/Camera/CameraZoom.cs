@@ -36,6 +36,8 @@ namespace Lean.Touch
         [Tooltip("The maximum FOV/Size we want to zoom to")]
         private float ZoomMax = 15.0f;
 
+        protected bool IsHandToolActive = false;
+
         protected virtual void LateUpdate()
         {
             // Make sure the camera exists
@@ -43,7 +45,9 @@ namespace Lean.Touch
             {
                 // Get the fingers we want to use
                 var fingers = LeanTouch.GetFingers(IgnoreGuiFingers);
-                if (fingers.Count > 1) ChangeToolOnHand(true);
+                if (fingers.Count > 1)
+                    ChangeToolOnHand(true);
+
                 // Get the pinch ratio of these fingers
                 var pinchRatio = LeanGesture.GetPinchRatio(fingers, WheelSensitivity);
 
@@ -74,8 +78,9 @@ namespace Lean.Touch
         public void ChangeToolOnHand(bool hand)
         {
             var lw = GameObject.Find("LineWriter").GetComponent<LineWriter>();
-
-            if(hand)
+            lw.SetCooldownOnChangeTool();
+            IsHandToolActive = hand;
+            if (hand)
             {
                 lastTool = (lw.tool == 2) ? lastTool : lw.tool;
                 lw.ChangeTool(2);
@@ -86,6 +91,7 @@ namespace Lean.Touch
                     lw.ChangeTool(lastTool);
             }
 
+            
         }
 
         protected void SetZoom(float current)
