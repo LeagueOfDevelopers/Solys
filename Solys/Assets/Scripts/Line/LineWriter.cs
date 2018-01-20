@@ -217,7 +217,10 @@ public class LineWriter : MonoBehaviour
     {
         if(lastDots>0)
         {
-            dotsForDrawing.RemoveRange(dotsForDrawing.Count - lastDots, lastDots);
+            if (dotsForDrawing.Count > lastDots)
+                dotsForDrawing.RemoveRange(dotsForDrawing.Count - lastDots, lastDots);
+            else
+                dotsForDrawing.Clear();
             lastDots = 0;
         }
         for (int i = LastPoint; i < (Positions.Count / 4) * 4; i += 3)

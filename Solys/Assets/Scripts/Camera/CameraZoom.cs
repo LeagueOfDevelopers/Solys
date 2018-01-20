@@ -18,8 +18,8 @@ namespace Lean.Touch
         [Tooltip("Ignore fingers with StartedOverGui?")]
         public bool IgnoreGuiFingers = true;
 
-        [Tooltip("Allows you to force rotation with a specific amount of fingers (0 = any)")]
-        public int RequiredFingerCount;
+        public bool isSpecialBounds = false;
+        public Vector2 bounds;
 
         [Tooltip("If you want the mouse wheel to simulate pinching then set the strength of it here")]
         [Range(-1.0f, 1.0f)]
@@ -65,8 +65,11 @@ namespace Lean.Touch
                     // Pan the camera based on the world delta
                     var newPos = transform.position - worldDelta * Sensitivity;
 
-                    newPos.x = Mathf.Clamp(newPos.x, -Camera.main.pixelWidth/100, Camera.main.pixelWidth/100);
-                    newPos.y = Mathf.Clamp(newPos.y, -Camera.main.pixelHeight/100, Camera.main.pixelHeight/100);
+                    if (!isSpecialBounds)
+                        bounds = new Vector2(Camera.main.pixelWidth / 100, Camera.main.pixelHeight / 100);
+
+                    newPos.x = Mathf.Clamp(newPos.x, -bounds.x, bounds.x);
+                    newPos.y = Mathf.Clamp(newPos.y, -bounds.y, bounds.y);
                     transform.position = newPos;
                 }
                 // Set the new zoom
