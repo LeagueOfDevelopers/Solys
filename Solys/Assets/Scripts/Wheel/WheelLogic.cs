@@ -13,6 +13,8 @@ public class WheelLogic : MonoBehaviour
     private float TimeInAcceleration;
     private int FrequencyAcceleration;
 
+    private int maxVelocity = 30;
+
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -27,6 +29,12 @@ public class WheelLogic : MonoBehaviour
         GeneralLogic.StopSimulationEvent += StopRigidbodySimulation;
     }
 
+    private void Update()
+    {
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxVelocity);
+        if (Mathf.Abs(transform.position.x) > 150 || Mathf.Abs(transform.position.x) > 150)
+            GeneralLogic.ResetSimulationEvent();
+    }
     /// <summary>
     /// This function is called when the behaviour becomes disabled or inactive.
     /// </summary>
@@ -98,7 +106,7 @@ public class WheelLogic : MonoBehaviour
         for (int i = 1; i <= FrequencyAcceleration; i++)
         {
             rb.velocity = Vector2.Lerp(VelocityAtStartAcceleration,
-                VelocityAtStartAcceleration * StrengthForAcceleration, (float)i / (float)FrequencyAcceleration);
+                VelocityAtStartAcceleration * StrengthForAcceleration, (float)i / (float)FrequencyAcceleration);            
             yield return new WaitForSeconds(TimeInAcceleration);
         }
     }

@@ -643,10 +643,13 @@ public class LineWriter : MonoBehaviour
                 Camera.main.GetComponent<CameraLogic>().isActive = false;
                 break;
             case 2:
-                GameObject renderer = ListLineRenderers[ListLineRenderers.Count - 1];
-                ListLineRenderers.RemoveAt(ListLineRenderers.Count - 1);
-                Destroy(renderer);
-                Positions.Clear();
+                if (ListLineRenderers.Count > 0)
+                {
+                    GameObject renderer = ListLineRenderers[ListLineRenderers.Count - 1];
+                    ListLineRenderers.RemoveAt(ListLineRenderers.Count - 1);
+                    Destroy(renderer);
+                    Positions.Clear();
+                }
                 MainFinger = -1;
                 tool = 2;
                 Camera.main.GetComponent<CameraLogic>().isActive = true;
