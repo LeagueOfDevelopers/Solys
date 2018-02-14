@@ -272,7 +272,6 @@ public class LineWriter : MonoBehaviour
         {
             if (Positions.Count == 0) // Когда только что поставили палец на экран
             {
-                Debug.Log(MainFinger);
                 if (MainFinger == -1)
                     if (!finger.IsOverGui && !isOverDragableObject(finger))
                     {

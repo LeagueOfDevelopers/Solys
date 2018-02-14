@@ -1026,7 +1026,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera: {fileID: 0}
   IgnoreGuiFingers: 1
-  RequiredFingerCount: 0
+  isSpecialBounds: 0
+  bounds: {x: 0, y: 0}
   WheelSensitivity: 0
   isActive: 0
   Dampening: 10
@@ -3898,17 +3899,17 @@ Prefab:
     - target: {fileID: 224294094402961992, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224294094402961992, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224856190986433236, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224501515983601984, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
@@ -3923,7 +3924,7 @@ Prefab:
     - target: {fileID: 224501515983601984, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 58.5
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 224501515983601984, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
@@ -3943,11 +3944,26 @@ Prefab:
     - target: {fileID: 224523778602134828, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 58.5
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 224523778602134828, guid: 8c4550cd9176c0d4ea7467965b43fe66,
         type: 2}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114948794712563472, guid: 8c4550cd9176c0d4ea7467965b43fe66,
+        type: 2}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224856190986433236, guid: 8c4550cd9176c0d4ea7467965b43fe66,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224856190986433236, guid: 8c4550cd9176c0d4ea7467965b43fe66,
+        type: 2}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -4,13 +4,22 @@ using UnityEngine.Advertisements;
 public class PlayButton : MonoBehaviour {
 
 
-	public void OnClick()
-	{
+    public void OnClick(bool isPlayPressed)
+    {
+        if (isPlayPressed)
+            PlayPressed();
+        else
+            ReplayPressed();
+
+    }
+
+    private void PlayPressed()
+    {
         if (PrefsDriver.GetPower() > 0)
             GeneralLogic.StartSimulationEvent();
         else
             ShowAd();
-	}
+    }
 
     void ShowAd()
     {
@@ -31,5 +40,10 @@ public class PlayButton : MonoBehaviour {
             PrefsDriver.AddPower();
 
         }
+    }
+
+    private void ReplayPressed()
+    {
+        GeneralLogic.ResetSimulationEvent();
     }
 }

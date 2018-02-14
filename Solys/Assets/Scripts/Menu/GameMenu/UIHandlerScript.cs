@@ -40,6 +40,6 @@ public class UIHandlerScript : MonoBehaviour {
 	private void StartExitAnim()
 	{
 		fade.GetComponent<Animator>().SetBool("Exit", true);
-		slider.GetComponent<Animator>().SetBool("Exit", true);
+        slider.GetComponent<Animator>().SetTrigger("Exit");
 	}
 }
