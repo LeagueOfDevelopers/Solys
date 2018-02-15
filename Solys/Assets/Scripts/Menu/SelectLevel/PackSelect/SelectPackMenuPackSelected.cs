@@ -13,8 +13,14 @@ public class SelectPackMenuPackSelected : MonoBehaviour {
         SceneDataTransfer.Instance.PackTitle = PackTitle;
         isPackRoute = true;
         GetComponent<Animator>().SetBool("Exit", true);
+        WriteContentScrollPos();
     }
 
+    private void WriteContentScrollPos()
+    {
+        GameObject obj = transform.FindChild("Viewport").FindChild("Content").gameObject;
+        PrefsDriver.SetScrollPosForPackSelect(obj.GetComponent<RectTransform>().localPosition.x);
+    }
 
     public void AnimationEnd()
     {
