@@ -13,6 +13,7 @@ public class PowerLabel : MonoBehaviour {
 	}
     private void OnEnable()
     {
+        SetBuyPanelVisibility(false);
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         if (BuyPanel && IsNeedToShowBuyPanel())
@@ -29,15 +30,24 @@ public class PowerLabel : MonoBehaviour {
     private bool IsNeedToShowBuyPanel()
     {
         int power = PrefsDriver.GetPower();
-        bool buyShowed = SceneDataTransfer.Instance.BuyShowed;
-        return (!buyShowed && power < 10) || power == 0;
+        //bool buyShowed = SceneDataTransfer.Instance.BuyShowed;
+        return (power < 10);
     }
 
     private void ShowBuyPanel()
     {
+        SetBuyPanelVisibility(true);
         SceneDataTransfer.Instance.BuyShowed = true;
         BuyPanel.GetComponent<Animator>().SetTrigger("Show");
     }
+
+    private void SetBuyPanelVisibility(bool mode)
+    {
+        Image[] renderers = BuyPanel.GetComponentsInChildren<Image>();
+        foreach (Image r in renderers)
+            r.enabled = mode;
+    }
+
 
     public void StartSimulation()
     {
