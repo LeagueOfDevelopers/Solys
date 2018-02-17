@@ -116,14 +116,14 @@ public static class PrefsDriver {
         PlayerPrefsUtility.SetEncryptedInt("MusicMuted", mute ? 1 : 0);
     }
 
-    public static void SetScrollPosForLevelSelect(float pos)
+    public static void SetScrollPosForLevelSelect(string pack, float pos)
     {
-        PlayerPrefsUtility.SetEncryptedFloat("ScrollPosLevelSelect", pos);
+        PlayerPrefsUtility.SetEncryptedFloat("ScrollPosLevelSelect"+pack, pos);
     }
 
-    public static float GetScrollPosForLevelSelect()
+    public static float GetScrollPosForLevelSelect(string pack)
     {
-        return PlayerPrefsUtility.GetEncryptedFloat("ScrollPosLevelSelect", 0);
+        return PlayerPrefsUtility.GetEncryptedFloat("ScrollPosLevelSelect"+pack, 0);
     }
 
     public static void SetScrollPosForPackSelect(float pos)

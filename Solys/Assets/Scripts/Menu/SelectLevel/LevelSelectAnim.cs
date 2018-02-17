@@ -20,6 +20,7 @@ public class LevelSelectAnim : MonoBehaviour {
     private void WriteContentScrollPos()
     {
         GameObject obj = transform.FindChild("Viewport").FindChild("Content").gameObject;
-        PrefsDriver.SetScrollPosForLevelSelect(obj.GetComponent<RectTransform>().localPosition.x);
+        PrefsDriver.SetScrollPosForLevelSelect(SceneDataTransfer.Instance.FirstLevelInPack.ToString(), 
+            obj.GetComponent<RectTransform>().localPosition.x);
     }
 }

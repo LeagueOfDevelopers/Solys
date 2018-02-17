@@ -217,7 +217,7 @@ Prefab:
     - target: {fileID: 224089697881464316, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -241
       objectReference: {fileID: 0}
     - target: {fileID: 224089697881464316, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
@@ -277,7 +277,7 @@ Prefab:
     - target: {fileID: 224083358305402452, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 224486163125443098, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
@@ -297,7 +297,7 @@ Prefab:
     - target: {fileID: 224486163125443098, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 224441760699704150, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
@@ -317,7 +317,7 @@ Prefab:
     - target: {fileID: 224441760699704150, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 224613673800820742, guid: 87b7c5c5cc3d69140b7c5332653d8ef9,
         type: 2}
@@ -679,7 +679,18 @@ MonoBehaviour:
   m_VerticalScrollbarSpacing: -3
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 349093334}
+        m_MethodName: StopScroll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &349093334
