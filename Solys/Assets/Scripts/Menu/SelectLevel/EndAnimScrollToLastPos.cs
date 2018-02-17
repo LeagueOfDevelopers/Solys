@@ -12,7 +12,7 @@ public class EndAnimScrollToLastPos : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(stateInfo.normalizedTime > 0.4f && isNotMoving )
+        if(stateInfo.normalizedTime > 0.7f && isNotMoving )
         {
             isNotMoving = false;
             animator.gameObject.GetComponent<ScrollMoveHandler>().ScrollToLastPoint();

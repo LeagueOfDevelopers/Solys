@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScrollMoveHandler : MonoBehaviour {
 
     public bool isPackMenu;
+    
 
 	public void ScrollToLastPoint()
     {
@@ -14,7 +15,12 @@ public class ScrollMoveHandler : MonoBehaviour {
             FindContentAndScroll(PrefsDriver.GetScrollPosForLevelSelect(SceneDataTransfer.Instance.FirstLevelInPack.ToString()));
     }
 
-    
+    void Update()
+    {
+        if (Input.touchCount > 0 || Input.GetMouseButton(0))
+            StopAllCoroutines();
+    }
+
     /// <summary>
     /// </summary>
     /// <param name="pos"></param>
@@ -25,14 +31,15 @@ public class ScrollMoveHandler : MonoBehaviour {
         StartCoroutine(SmoothMoving(content,pos));
     }
 
+    
     IEnumerator SmoothMoving(GameObject content, float pos)
     {
         Debug.Log(content.GetComponent<RectTransform>().localPosition.x);
         yield return new WaitForEndOfFrame();
         Vector3 current = content.GetComponent<RectTransform>().localPosition;
-        current.x = Mathf.Lerp(current.x, pos, Time.deltaTime*10);
+        current.x = Mathf.Lerp(current.x, pos, Time.deltaTime);
         content.GetComponent<RectTransform>().localPosition = current;
-        if (Mathf.Abs(current.x - pos) > 10)
+        if (Mathf.Abs(current.x - pos) > 100)
             StartCoroutine(SmoothMoving(content, pos));
             
     }
