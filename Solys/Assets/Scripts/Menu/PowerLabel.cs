@@ -16,7 +16,7 @@ public class PowerLabel : MonoBehaviour {
         SetBuyPanelVisibility(false);
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
-        if (BuyPanel && IsNeedToShowBuyPanel())
+        if (BuyPanel != null && IsNeedToShowBuyPanel())
             ShowBuyPanel();
 
     }
@@ -43,6 +43,7 @@ public class PowerLabel : MonoBehaviour {
 
     private void SetBuyPanelVisibility(bool mode)
     {
+        if (BuyPanel == null) return;
         Image[] renderers = BuyPanel.GetComponentsInChildren<Image>();
         foreach (Image r in renderers)
             r.enabled = mode;
