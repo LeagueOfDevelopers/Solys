@@ -6,30 +6,33 @@ public class PlayButton : MonoBehaviour {
 
     void Start()
     {
-        if (Advertisement.isSupported)
-        {
+        
+        if (!Advertisement.isInitialized && PrefsDriver.GetPower() < 5)
             Advertisement.Initialize(AdsButton.gameId, true);
-        }
+
     }
 
     public void OnClick(bool isPlayPressed)
     {
+        int power = PrefsDriver.GetPower();
+
         if (isPlayPressed)
-            PlayPressed();
+            PlayPressed(power);
         else
             ReplayPressed();
 
+        if(!Advertisement.isInitialized && power<5)
+            Advertisement.Initialize(AdsButton.gameId, true);
+
     }
 
-    private void PlayPressed()
-    {
-        int power = PrefsDriver.GetPower();
+    private void PlayPressed(int power)
+    {      
         if (power > 0)
             GeneralLogic.StartSimulationEvent();
         else
             ShowAd();
         
-
     }
 
     void ShowAd()
@@ -48,7 +51,6 @@ public class PlayButton : MonoBehaviour {
         if (result == ShowResult.Finished)
         {
             PrefsDriver.AddPower();
-            Advertisement.Initialize(AdsButton.gameId, true);
             GeneralLogic.StartSimulationEvent();
 
         }
