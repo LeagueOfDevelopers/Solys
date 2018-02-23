@@ -2,23 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TeleportBlock : MonoBehaviour {
+public class TeleportBlock : MonoBehaviour
+{
 
-	public GameObject ExitBlock;
+    public GameObject ExitBlock;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.attachedRigidbody)
         {
-            Vector2 direction = new Vector2(ExitBlock.transform.position.x - transform.position.x, ExitBlock.transform.position.y - transform.position.y);
-            var velocitySetting = GetComponent<ParticleSystem>().velocityOverLifetime;
-            velocitySetting.x = direction.x/3;
-            velocitySetting.y = direction.y/3;
-            var triggerSetting = GetComponent<ParticleSystem>().trigger;
-            triggerSetting.SetCollider(0, ExitBlock.GetComponent<Collider2D>());
-            GetComponent<ParticleSystem>().Play();
-            ExitBlock.GetComponent<ParticleSystem>().Play();
+            
+            PlayAnim(gameObject);
+            PlayAnim(ExitBlock);
             other.transform.position = ExitBlock.transform.position;
         }
 
+    }
+
+    private void PlayAnim(GameObject obj)
+    {
+        Transform ps = obj.transform.Find("PS");
+        Debug.Log(ps);
+        if (ps)
+        {
+
+            ps.gameObject.GetComponent<ParticleSystem>().Play();
+        }
+        else
+        {
+            ParticleSystem innerPS = obj.GetComponent<ParticleSystem>();
+            if (innerPS)
+                innerPS.Play();
+        }
     }
 }

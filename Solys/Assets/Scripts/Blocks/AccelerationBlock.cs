@@ -13,18 +13,32 @@ public class AccelerationBlock : MonoBehaviour
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.attachedRigidbody)
         {
-            GetComponent<ParticleSystem>().Play();
+            PlayAnim();
             other.gameObject.GetComponent<WheelLogic>().AddVelocity(AccelStrength,FrequencyAcceleration,TimeInAcceleration);
         }
 
+    }
+
+    private void PlayAnim()
+    {
+        Transform ps = transform.Find("PS");
+        Debug.Log(ps);
+        if (ps)
+        {
+
+            ps.gameObject.GetComponent<ParticleSystem>().Play();
+        }
+        else
+        {
+            ParticleSystem innerPS = GetComponent<ParticleSystem>();
+            if (innerPS)
+                innerPS.Play();
+        }
     }
 }

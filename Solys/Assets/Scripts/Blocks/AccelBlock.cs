@@ -9,7 +9,7 @@ public class AccelBlock : MonoBehaviour
     {
         if (other.attachedRigidbody)
         {
-            GetComponent<ParticleSystem>().Play();
+            PlayAnim();
             
             Vector3 rotationInEuler = transform.rotation.eulerAngles;
             var x = Mathf.Cos(rotationInEuler.z*Mathf.PI/180);
@@ -17,5 +17,22 @@ public class AccelBlock : MonoBehaviour
             other.GetComponent<WheelLogic>().AddForce(new Vector3(x,y) *AccelForce);
         }
 
+    }
+
+    private void PlayAnim()
+    {
+        Transform ps = transform.Find("PS");
+        Debug.Log(ps);
+        if (ps)
+        {
+
+            ps.gameObject.GetComponent<ParticleSystem>().Play();
+        }
+        else
+        {
+            ParticleSystem innerPS = GetComponent<ParticleSystem>();
+            if (innerPS)
+                innerPS.Play();
+        }
     }
 }
