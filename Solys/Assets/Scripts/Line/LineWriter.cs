@@ -141,7 +141,7 @@ public class LineWriter : MonoBehaviour
             dotsForDrawing.Add(ExpectLine[i]);
         }
 
-        ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
+        ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().positionCount =
             Positions.ToArray().Length;
         ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
             .SetPositions(Positions.ToArray());
@@ -163,7 +163,7 @@ public class LineWriter : MonoBehaviour
             CollidersPositions.Add(finger.GetWorldPosition(10, Camera.current));
             // для коллайдера надо минимум две точки, поэтому создаем две!
             CollidersPositions.Add(finger.GetWorldPosition(10, Camera.current));
-            ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions
+            ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().positionCount
                 =
                 Positions.ToArray().Length;
             ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
@@ -257,7 +257,7 @@ public class LineWriter : MonoBehaviour
                 // Все точки для отрисовки мы добавляем в лист точек коллайдера
                 CollidersPositions.Add(dotsForDrawing[i]);
 
-            ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions
+            ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().positionCount
                 = dotsForDrawing.ToArray().Length;
             ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
                 .SetPositions(dotsForDrawing.ToArray());
@@ -381,7 +381,7 @@ public class LineWriter : MonoBehaviour
                         {
                             lineRenderer = GameObject.Instantiate(LineRenderer);
                             lineRenderer.transform.parent = transform;
-                            lineRenderer.GetComponent<LineRenderer>().numPositions =
+                            lineRenderer.GetComponent<LineRenderer>().positionCount =
                                 FirstArrayForLine.ToArray().Length;
                             lineRenderer.GetComponent<LineRenderer>()
                                 .SetPositions(FirstArrayForLine.ToArray());
@@ -393,7 +393,7 @@ public class LineWriter : MonoBehaviour
                         {
                             lineRenderer = GameObject.Instantiate(LineRenderer);
                             lineRenderer.transform.parent = transform;
-                            lineRenderer.GetComponent<LineRenderer>().numPositions =
+                            lineRenderer.GetComponent<LineRenderer>().positionCount =
                                 SecondArrayForLine.ToArray().Length;
                             lineRenderer.GetComponent<LineRenderer>()
                                 .SetPositions(SecondArrayForLine.ToArray());
@@ -462,7 +462,7 @@ public class LineWriter : MonoBehaviour
                     CollidersPositions.Add(ExpectLine[i]);
 
                 }
-                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().numPositions =
+                ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>().positionCount =
                     Positions.ToArray().Length;
                 ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<LineRenderer>()
                     .SetPositions(Positions.ToArray());

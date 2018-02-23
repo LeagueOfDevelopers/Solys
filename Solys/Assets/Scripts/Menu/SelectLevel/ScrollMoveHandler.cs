@@ -26,7 +26,7 @@ public class ScrollMoveHandler : MonoBehaviour {
     /// <param name="pos"></param>
     private void FindContentAndScroll(float pos)
     {
-        GameObject content = transform.FindChild("Viewport").FindChild("Content").gameObject;
+        GameObject content = transform.Find("Viewport").Find("Content").gameObject;
         //Debug.Log(content);
         StartCoroutine(SmoothMoving(content,pos));
     }
