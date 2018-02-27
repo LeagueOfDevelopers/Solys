@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 
-public static class HelperTextData{
+public static class HelperTextData
+{
 
     public static string[] GetRussian(int index)
     {
-        
 
-        switch(index)
+
+        switch (index)
         {
             case 3:
                 return new string[] {
                     "Добро пожаловать в Solus! Нажмите на эту подсказку для продолжения.",
-                    "Нарисуйте линию, что бы диск попал в портал.",
-                    "После этого запустите симуляцию нажав на кнопку в левом нижнем углу.",
-                    "Вы можете использовать ластик что бы исправить небольшие недочёты",
-                    "Нажмите на ластик трижды что бы удалить все линии"
+                    "Нарисуйте линию, чтобы диск попал в портал.",
+                    "После этого запустите симуляцию, нажав на кнопку в левом нижнем углу.",
+                    "Вы можете использовать ластик, чтобы исправить небольшие недочёты",
+                    "Нажмите на ластик трижды, чтобы удалить все линии"
                 };
             case 5:
                 return new string[]{
@@ -34,7 +35,7 @@ public static class HelperTextData{
                 };
             case 8:
                 return new string[] {
-                    "Испоьзуйте два пальца что бы перемещать камеру."
+                    "Испоьзуйте два пальца, чтобы перемещать камеру."
                 };
             case 10:
                 return new string[] {
@@ -60,9 +61,9 @@ public static class HelperTextData{
             default:
                 return new string[0];
         }
-            
-        
-        
+
+
+
     }
 
 }
