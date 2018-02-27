@@ -84,12 +84,12 @@ public static class PrefsDriver {
         else
         {
             PlayerPrefsUtility.SetEncryptedInt("StartPowerValueUsed", 1);
-            PlayerPrefsUtility.SetEncryptedInt("CurrentPower", 70);
+            PlayerPrefsUtility.SetEncryptedInt("CurrentPower", 40);
             return 60;
         }
     }
 
-    public static void AddPower(int count = 30)
+    public static void AddPower(int count = 20)
     {
         PlayerPrefsUtility.SetEncryptedInt("CurrentPower", count + GetPower());
     }
