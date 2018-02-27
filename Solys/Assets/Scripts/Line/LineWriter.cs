@@ -45,7 +45,6 @@ public class LineWriter : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        
         Wheel = GameObject.Find("Wheel");
         Positions = new List<Vector3>();
         CollidersPositions = new List<Vector2>();
@@ -86,9 +85,9 @@ public class LineWriter : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SmoothQuantityChange());
         lastDots = 0;
         quanityLines = startQuanityLines;
+        quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
     }
     public string FoundLinesEndsNear(ref float minDistance, Vector2 PosNow,bool isFingerUpAction)
     {
@@ -171,7 +170,8 @@ public class LineWriter : MonoBehaviour
                 .SetPositions(Positions.ToArray());
             ListLineRenderers[ListLineRenderers.Count - 1].GetComponent<EdgeCollider2D>().points =
                 CollidersPositions.ToArray();
-            UpdateQuanityLines();
+            quanityLines -= lineCost;
+            quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
             MainFinger = finger.Index;
             LastPoint = 3;
             dotsForDrawing = new List<Vector3>();
@@ -250,7 +250,8 @@ public class LineWriter : MonoBehaviour
                 CalculateRemainder(finger);
             }
 
-            UpdateQuanityLines();
+            quanityLines -= (Mathf.Abs(dotsForDrawing.Count - CollidersPositions.Count)) * lineCost;
+            quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
             CollidersPositions.Clear(); //Сброс листа точек для коллайдера
             for (int i = 0; i < dotsForDrawing.Count; i++)
                 // Все точки для отрисовки мы добавляем в лист точек коллайдера
@@ -367,7 +368,8 @@ public class LineWriter : MonoBehaviour
                         SecondArrayForLine.Add(Expectline[ii]);
                         SecondArrayForLineForCollider.Add(Expectline[ii]);
                     }
-                    UpdateQuanityLines();
+                    quanityLines += lineCost * (Expectline.Length - (FirstArrayForLine.Count + SecondArrayForLine.Count));
+                    quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
 
                     Destroy(ListLineRenderers[i]);
                     ListLineRenderers.RemoveAt(i);
@@ -516,7 +518,7 @@ public class LineWriter : MonoBehaviour
         Debug.Log("LineWriter Now Enabled");
         isEnabled = true;
         quanityLines = startQuanityLines;
-        
+        quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
     }
 
     private List<Vector3> GetAdditionalPoints(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3) //Метод для получения дополнительных точек среди 4 точек.
@@ -669,34 +671,5 @@ public class LineWriter : MonoBehaviour
         isOnCooldownAfterChangeTool = true;
         yield return new WaitForSeconds(0.1f);
         isOnCooldownAfterChangeTool = false;
-    }
-
-    private void UpdateQuanityLines()
-    {
-        //(Mathf.Abs(dotsForDrawing.Count - CollidersPositions.Count)) * lineCost;
-        if (ListLineRenderers.Count == 0)
-        {
-            quanityLines = startQuanityLines;
-            //quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
-            return;
-        }
-        float tempQuantity = 0; ;
-        foreach (GameObject line in ListLineRenderers)
-        {
-            int lenght = line.GetComponent<LineRenderer>().positionCount;
-            tempQuantity += lenght * lineCost;
-        }
-
-        quanityLines = startQuanityLines - tempQuantity;
-        //quanityUI.GetComponent<Slider>().value = quanityLines / startQuanityLines;
-    }
-
-    IEnumerator SmoothQuantityChange()
-    {
-        float current = quanityUI.GetComponent<Slider>().value;
-        float target = quanityLines / startQuanityLines;
-        quanityUI.GetComponent<Slider>().value = Mathf.Lerp(current, target, Time.deltaTime*10);
-        yield return new WaitForEndOfFrame();
-        StartCoroutine(SmoothQuantityChange());
     }
 }
