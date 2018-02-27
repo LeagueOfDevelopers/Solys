@@ -113,6 +113,7 @@ public class WheelLogic : MonoBehaviour
 
     public void MoveToPortal(Vector3 pos)
     {
+        StopRigidbodySimulation();
         StartCoroutine(SmoothMoveTo(pos));
     }
 

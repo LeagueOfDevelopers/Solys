@@ -5,8 +5,6 @@ public static class HelperTextData
 
     public static string[] GetRussian(int index)
     {
-
-
         switch (index)
         {
             case 3:

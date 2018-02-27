@@ -75,7 +75,6 @@ public class GeneralLogic : MonoBehaviour {
 
 	private void TargetReached()
 	{
-		StopSimulation();
 		OpenEndLevelMenu();
 	}
 

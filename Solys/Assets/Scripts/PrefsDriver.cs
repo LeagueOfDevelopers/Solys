@@ -64,6 +64,7 @@ public static class PrefsDriver {
 
     public static void BuyPack(int firstScene)
     {
+        UnityEngine.Analytics.Analytics.CustomEvent("Pack " + firstScene.ToString() + " bought");
         PlayerPrefsUtility.SetEncryptedInt("BoughtPack" + firstScene, 1);
     }
 

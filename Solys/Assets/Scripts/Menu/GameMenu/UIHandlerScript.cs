@@ -32,7 +32,6 @@ public class UIHandlerScript : MonoBehaviour {
 
 	public void TargetReached()
 	{
-		GeneralLogic.StopSimulationEvent();
 		StartExitAnim();
 		destination = direction.SelectLevel;
 	}
