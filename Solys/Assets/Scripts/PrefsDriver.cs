@@ -82,16 +82,26 @@ public static class PrefsDriver {
         if (PlayerPrefsUtility.GetEncryptedInt("StartPowerValueUsed", 0) == 1)
             return PlayerPrefsUtility.GetEncryptedInt("CurrentPower", 0);
         else
-        {
-            PlayerPrefsUtility.SetEncryptedInt("StartPowerValueUsed", 1);
-            PlayerPrefsUtility.SetEncryptedInt("CurrentPower", 40);
-            return 60;
-        }
+            return AddStartPower();
     }
 
-    public static void AddPower(int count = 20)
+    private static int AddStartPower()
+    {
+        int startPower = RemoteSettings.GetInt("StartPowerValue", 30);
+        PlayerPrefsUtility.SetEncryptedInt("StartPowerValueUsed", 1);
+        PlayerPrefsUtility.SetEncryptedInt("CurrentPower", startPower);
+        return startPower;
+    }
+
+    public static void AddPower(int count)
     {
         PlayerPrefsUtility.SetEncryptedInt("CurrentPower", count + GetPower());
+    }
+
+    public static void AddPower()
+    {
+        int power = RemoteSettings.GetInt("PowerByAds", 20);
+        PlayerPrefsUtility.SetEncryptedInt("CurrentPower", power + GetPower());
     }
 
     public static bool SpendPower()
