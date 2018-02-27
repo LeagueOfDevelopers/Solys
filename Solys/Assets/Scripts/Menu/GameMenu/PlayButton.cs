@@ -62,6 +62,6 @@ public class PlayButton : MonoBehaviour {
 
     private void ReplayPressed()
     {
-        GeneralLogic.ResetSimulationEvent();
+        GeneralLogic.StopSimulationEvent();
     }
 }

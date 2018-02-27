@@ -26,7 +26,7 @@ public class WheelLogic : MonoBehaviour
         StopRigidbodySimulation();
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
-        GeneralLogic.StopSimulationEvent += StopRigidbodySimulation;
+        GeneralLogic.StopSimulationEvent += ResetSimulation;
     }
 
     private void Update()
@@ -43,7 +43,7 @@ public class WheelLogic : MonoBehaviour
         SetGravity(normalGravity);
         GeneralLogic.StartSimulationEvent -= StartSimulation;
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
-        GeneralLogic.StopSimulationEvent -= StopRigidbodySimulation;
+        GeneralLogic.StopSimulationEvent -= ResetSimulation;
     }
 
     public void StartSimulation()
