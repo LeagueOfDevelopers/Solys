@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public static class PrefsDriver {
     const string keyForAvailableStars = "AvailableStars";
@@ -64,7 +65,8 @@ public static class PrefsDriver {
 
     public static void BuyPack(int firstScene)
     {
-        UnityEngine.Analytics.Analytics.CustomEvent("Pack " + firstScene.ToString() + " bought");
+        UnityEngine.Analytics.Analytics.CustomEvent("Pack bought",
+            new Dictionary<string, object> { { "pack", firstScene } });
         PlayerPrefsUtility.SetEncryptedInt("BoughtPack" + firstScene, 1);
     }
 
