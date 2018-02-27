@@ -398,6 +398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224523778602134828}
   - component: {fileID: 114288883247236544}
+  - component: {fileID: 114219248559405622}
   m_Layer: 5
   m_Name: Erase
   m_TagString: Untagged
@@ -710,6 +711,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114219248559405622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1896806866742958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1184210157, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!114 &114239284147122900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -906,12 +919,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114059390100728166}
-        m_MethodName: valueChange
-        m_Mode: 3
+        m_MethodName: FullResetClickCounter
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1232,7 +1245,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114059390100728166}
         m_MethodName: valueChange
-        m_Mode: 3
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

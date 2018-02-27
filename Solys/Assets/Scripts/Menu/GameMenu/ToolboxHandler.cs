@@ -1,29 +1,45 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class ToolboxHandler : MonoBehaviour {
 
     private GameObject writer;
     private int fullClearCounter = 0;
+
 	// Use this for initialization
 	void Start () {
         writer = GameObject.Find("LineWriter");
         Debug.Log(writer.name);
 	}
 	
-	public void valueChange(int tool)
+	
+
+    public void valueChange(bool isWriter)
     {
-        if (tool == 1)
+        Debug.Log(isWriter);
+        if (isWriter)
         {
-            fullClearCounter++;
-            if (fullClearCounter > 2)
-            {
-                GeneralLogic.ResetSimulationEvent();
-                fullClearCounter = 0;
-            }
+            fullClearCounter = 0;
+            writer.GetComponent<LineWriter>().ChangeTool(0);
         }
         else
-            fullClearCounter = 0;
+            writer.GetComponent<LineWriter>().ChangeTool(1);           
 
-        writer.GetComponent<LineWriter>().ChangeTool(tool);
+    }
+
+    public void FullResetClickCounter()
+    {
+        fullClearCounter++;
+        if (fullClearCounter > 2)
+        {
+            ClearAll();
+        }
+    }
+
+    private void ClearAll()
+    {
+        transform.Find("Writer").GetComponent<Toggle>().isOn = true;
+        fullClearCounter = 0;
+        GeneralLogic.ResetSimulationEvent();
     }
 }
