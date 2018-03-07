@@ -40,6 +40,11 @@ public static class PrefsDriver {
         PlayerPrefsUtility.SetEncryptedInt(keyForAvailableStars, stars+ PlayerPrefsUtility.GetEncryptedInt("AvailableStars",0));
     }
 
+    public static void SetAvailableStars(int stars)
+    {
+        PlayerPrefsUtility.SetEncryptedInt(keyForAvailableStars, stars);
+    }
+
     public static int[] SetStarsForLevelRange(int startLevel, int count)
     {
         int[] result = new int[count];
@@ -99,6 +104,11 @@ public static class PrefsDriver {
     public static void AddPower(int count)
     {
         PlayerPrefsUtility.SetEncryptedInt("CurrentPower", count + GetPower());
+    }
+
+    public static void SetPower(int count)
+    {
+        PlayerPrefsUtility.SetEncryptedInt("CurrentPower", count);
     }
 
     public static void AddPower()
