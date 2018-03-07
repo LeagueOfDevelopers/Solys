@@ -9,10 +9,10 @@ using GooglePlayGames.BasicApi.SavedGame;
 
 public class SaveGameData : MonoBehaviour {
 
-    void OpenSavedGame(string filename)
+    void OpenSavedGame()
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
-        savedGameClient.OpenWithAutomaticConflictResolution(filename, DataSource.ReadCacheOrNetwork,
+        savedGameClient.OpenWithAutomaticConflictResolution("Save", DataSource.ReadCacheOrNetwork,
             ConflictResolutionStrategy.UseLongestPlaytime, OnSavedGameOpened);
     }
 

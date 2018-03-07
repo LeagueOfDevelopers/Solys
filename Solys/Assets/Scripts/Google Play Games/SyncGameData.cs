@@ -10,72 +10,48 @@ using UnityEngine;
 
 public class SyncGameData : MonoBehaviour {
 
+    public bool isNeedToLoad = true;
+
 	// Use this for initialization
 	void Start () {
-        Debug.Log(JsonUtility.ToJson(GetSaveData()));
+        //OpenSavedGame();
 	}
 
 
-
-    public JsonSave GetSaveData()
+    void OpenSavedGame()
     {
-        JsonSave save = new JsonSave();
-        save.availableStars = PrefsDriver.GetAvailableStars();
-        save.power = PrefsDriver.GetPower();
-        save.startPowerUsed = PrefsDriver.GetStartPowerUsed();
-
-        List<int> starsForLevels_levels = new List<int>();
-        List<int> starsForLevels_stars = new List<int>();
-        List<int> packBought = new List<int>();
-        List<int> packGroupUnlocked = new List<int>();
-
-        for (int i = 3; i < SceneManager.sceneCountInBuildSettings; i++)
-        {
-            int stars = PrefsDriver.GetStarsForLevel(i);
-            bool isPackBought = PrefsDriver.IsPackBought(i);
-            if (stars > 0)
-            {
-                starsForLevels_levels.Add(i);
-                starsForLevels_stars.Add(stars);
-            }
-            if (isPackBought)
-                packBought.Add(i);
-        }
-
-        for (int i = 0; i < 30; i++)
-        {
-            if (PrefsDriver.IsPackGroupUnlocked(i))
-                packGroupUnlocked.Add(i);
-        }
-
-        save.starsForLevel_levels = starsForLevels_levels.ToArray();
-        save.starsForLevel_stars = starsForLevels_stars.ToArray();
-        save.packBought = packBought.ToArray();
-        save.packGroupUnlocked = packGroupUnlocked.ToArray();
-
-        return save;
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+        savedGameClient.OpenWithAutomaticConflictResolution("Save", DataSource.ReadCacheOrNetwork,
+            ConflictResolutionStrategy.UseLongestPlaytime, OnSavedGameOpened);
     }
 
-    public void LoadData(JsonSave save)
+    public void OnSavedGameOpened(SavedGameRequestStatus status, ISavedGameMetadata game)
     {
-        PrefsDriver.SetPower(save.power);
-        PrefsDriver.SetAvailableStars(save.availableStars);
-        PrefsDriver.SetStartPowerUsed(save.startPowerUsed);
-
-        for(int i = 0; i<save.starsForLevel_levels.Length; i++)
-            PrefsDriver.SetStarsForLevel(save.starsForLevel_levels[i],
-                save.starsForLevel_stars[i]);
-
-        foreach (int pack in save.packBought)
+        if (status == SavedGameRequestStatus.Success)
         {
-            PrefsDriver.BuyPack(pack);
+            if (isNeedToLoad)
+                Load();
+            else
+                Save();
+                
         }
-
-        foreach (int group in save.packGroupUnlocked)
+        else
         {
-            PrefsDriver.UnlockPackGroup(group);
+            // handle error
         }
     }
+
+    private void Load()
+    {
+
+    }
+
+    private void Save()
+    {
+
+    }
+
+   
 
 
 }
