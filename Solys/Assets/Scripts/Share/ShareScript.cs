@@ -45,7 +45,7 @@ public class ShareScript : MonoBehaviour {
             AndroidJavaClass uriClass = new AndroidJavaClass("android.net.Uri");
             AndroidJavaObject uriObject = uriClass.CallStatic<AndroidJavaObject>("parse", "file://" + destination);
             intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_STREAM"), uriObject);
-            //intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_TEXT"), "testo");
+            intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_TEXT"), "Играй в Solys вместе со мной!");
             //intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_SUBJECT"), "SUBJECT");
             intentObject.Call<AndroidJavaObject>("setType", "image/jpeg");
             AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
