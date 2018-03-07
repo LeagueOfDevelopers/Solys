@@ -11,6 +11,6 @@ public class JsonSave {
     public int[] starsForLevel_levels;
     public int[] starsForLevel_stars;
     public int[] packGroupUnlocked;
-
+    public int startPowerUsed;
     
 }

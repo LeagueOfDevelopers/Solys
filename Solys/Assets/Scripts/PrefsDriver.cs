@@ -101,6 +101,16 @@ public static class PrefsDriver {
         return startPower;
     }
 
+    public static int GetStartPowerUsed()
+    {
+        return PlayerPrefsUtility.GetEncryptedInt("StartPowerValueUsed", 0);
+    }
+
+    public static void SetStartPowerUsed(int used)
+    {
+        PlayerPrefsUtility.SetEncryptedInt("StartPowerValueUsed", used);
+    }
+
     public static void AddPower(int count)
     {
         PlayerPrefsUtility.SetEncryptedInt("CurrentPower", count + GetPower());

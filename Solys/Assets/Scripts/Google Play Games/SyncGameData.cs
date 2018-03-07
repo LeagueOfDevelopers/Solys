@@ -22,6 +22,7 @@ public class SyncGameData : MonoBehaviour {
         JsonSave save = new JsonSave();
         save.availableStars = PrefsDriver.GetAvailableStars();
         save.power = PrefsDriver.GetPower();
+        save.startPowerUsed = PrefsDriver.GetStartPowerUsed();
 
         List<int> starsForLevels_levels = new List<int>();
         List<int> starsForLevels_stars = new List<int>();
@@ -59,6 +60,7 @@ public class SyncGameData : MonoBehaviour {
     {
         PrefsDriver.SetPower(save.power);
         PrefsDriver.SetAvailableStars(save.availableStars);
+        PrefsDriver.SetStartPowerUsed(save.startPowerUsed);
 
         for(int i = 0; i<save.starsForLevel_levels.Length; i++)
             PrefsDriver.SetStarsForLevel(save.starsForLevel_levels[i],
