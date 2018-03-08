@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1"
+    android:versionName="0.1"
+    android:installLocation="2"
+    package="com.LoD.Solys"
+    platformBuildVersionCode="27"
+    platformBuildVersionName="8.1.0">
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="27" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true" />
+
+    <uses-feature
+        android:glEsVersion="0x20000" />
+
+    <uses-feature
+        android:name="android.hardware.vulkan"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch.distinct"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission
+        android:name="android.permission.GET_TASKS" android:maxSdkVersion="1"  />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission
+        android:name="com.xiaomi.sdk.permission.PAYMENT" />
+
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE" android:maxSdkVersion="1"  />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="1"  />
+
+    <uses-permission
+        android:name="com.xiaomi.permission.AUTH_SERVICE" />
+
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:theme="@ref/0x7f050001"
+        android:label="@ref/0x7f040011"
+        android:icon="@ref/0x7f020001"
+        android:banner="@ref/0x7f020000"
+        android:isGame="true">
+
+        <activity
+            android:label="@ref/0x7f040011"
+            android:name="com.unity3d.player.UnityPlayerActivity"
+            android:launchMode="2"
+            android:screenOrientation="6"
+            android:configChanges="0x40003fff">
+
+            <intent-filter>
+
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+
+                <category
+                    android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="unityplayer.UnityActivity"
+                android:value="true" />
+        </activity>
+
+        <activity
+            android:theme="@ref/0x01030011"
+            android:name="com.google.games.bridge.NativeBridgeActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="59717739353" />
+
+        <meta-data
+            android:name="com.google.android.gms.games.unityVersion"
+            android:value="0.9.50" />
+
+        <activity
+            android:theme="@ref/0x01030010"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true" />
+
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true" />
+
+        <activity
+            android:theme="@ref/0x01030010"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@ref/0x7f070000" />
+
+        <activity
+            android:theme="@ref/0x01030007"
+            android:name="com.unity3d.ads.adunit.AdUnitActivity"
+            android:configChanges="0x40000fff"
+            android:hardwareAccelerated="true" />
+
+        <activity
+            android:theme="@ref/0x01030011"
+            android:name="com.unity3d.ads.adunit.AdUnitTransparentActivity"
+            android:configChanges="0x40000fff"
+            android:hardwareAccelerated="true" />
+
+        <activity
+            android:theme="@ref/0x01030011"
+            android:name="com.unity3d.ads.adunit.AdUnitTransparentSoftwareActivity"
+            android:configChanges="0x40000fff"
+            android:hardwareAccelerated="false" />
+
+        <activity
+            android:theme="@ref/0x01030007"
+            android:name="com.unity3d.ads.adunit.AdUnitSoftwareActivity"
+            android:configChanges="0x40000fff"
+            android:hardwareAccelerated="false" />
+
+        <activity
+            android:theme="@ref/0x01030010"
+            android:name="com.xiaomi.gamecenter.sdk.ui.MiActivity"
+            android:screenOrientation="3"
+            android:configChanges="0x480" />
+
+        <activity
+            android:theme="@ref/0x01030010"
+            android:name="com.xiaomi.gamecenter.sdk.ui.PayListActivity"
+            android:exported="true"
+            android:configChanges="0x480" />
+
+        <activity
+            android:theme="@ref/0x01030010"
+            android:name="com.xiaomi.gamecenter.alipay.HyAlipayActivity"
+            android:exported="true"
+            android:configChanges="0x480" />
+
+        <activity
+            android:theme="@ref/0x01030010"
+            android:name="com.xiaomi.account.openauth.AuthorizeActivity"
+            android:exported="true"
+            android:configChanges="0x480" />
+
+        <activity
+            android:theme="@ref/0x01030010"
+            android:name="com.xiaomi.gamecenter.wxwap.HyWxWappayActivity"
+            android:exported="true"
+            android:configChanges="0x480" />
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:exported="false"
+            android:screenOrientation="3"
+            android:configChanges="0x4e0"
+            android:windowSoftInputMode="0x12" />
+    </application>
+</manifest>
