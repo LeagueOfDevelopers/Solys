@@ -2,6 +2,7 @@
 #import "Unity/UnityInterface.h"
 
 #import "UnityAds/UnityAds.h"
+#import "UnityAds/UADSPurchasing.h"
 #import "UnityAds/UADSMetaData.h"
 
 extern "C" {
@@ -17,14 +18,24 @@ extern "C" {
     typedef void (*UnityAdsDidStartCallback)(const char * placementId);
     typedef void (*UnityAdsDidFinishCallback)(const char * placementId, long rawFinishState);
 
+    typedef void (*UnityAdsPurchasingDidInitiatePurchasingCommandCallback)(const char * eventString);
+    typedef void (*UnityAdsPurchasingGetProductCatalogCallback)();
+    typedef void (*UnityAdsPurchasingGetPurchasingVersionCallback)();
+    typedef void (*UnityAdsPurchasingInitializeCallback)();
+
     static UnityAdsReadyCallback readyCallback = NULL;
     static UnityAdsDidErrorCallback errorCallback = NULL;
     static UnityAdsDidStartCallback startCallback = NULL;
     static UnityAdsDidFinishCallback finishCallback = NULL;
 
+    static UnityAdsPurchasingDidInitiatePurchasingCommandCallback iapCommandCallback = NULL;
+    static UnityAdsPurchasingGetProductCatalogCallback iapCatalogCallback = NULL;
+    static UnityAdsPurchasingGetPurchasingVersionCallback iapVersionCallback = NULL;
+    static UnityAdsPurchasingInitializeCallback iapInitializeCallback = NULL;
+
 }
 
-@interface UnityAdsUnityWrapperDelegate : NSObject <UnityAdsDelegate>
+@interface UnityAdsUnityWrapperDelegate : NSObject <UnityAdsDelegate, UADSPurchasingDelegate>
 @end
 
 @implementation UnityAdsUnityWrapperDelegate
@@ -63,6 +74,32 @@ extern "C" {
     }
 }
 
+- (void)unityAdsPurchasingDidInitiatePurchasingCommand:(NSString *)eventString {
+    if(iapCommandCallback != NULL) {
+        const char * rawEventString = UnityAdsCopyString([eventString UTF8String]);
+        iapCommandCallback(rawEventString);
+        free((void *)rawEventString);
+    }
+}
+
+- (void)unityAdsPurchasingGetProductCatalog {
+    if(iapCatalogCallback != NULL) {
+        iapCatalogCallback();
+    }
+}
+
+- (void)unityAdsPurchasingGetPurchasingVersion {
+    if(iapVersionCallback != NULL) {
+        iapVersionCallback();
+    }
+}
+
+- (void)unityAdsPurchasingInitialize {
+    if(iapInitializeCallback != NULL) {
+        iapInitializeCallback();
+    }
+}
+
 @end
 
 extern "C" {
@@ -73,6 +110,14 @@ extern "C" {
             unityAdsUnityWrapperDelegate = [[UnityAdsUnityWrapperDelegate alloc] init];
         }
         [UnityAds initialize:[NSString stringWithUTF8String:gameId] delegate:unityAdsUnityWrapperDelegate testMode:testMode];
+        [UADSPurchasing initialize:unityAdsUnityWrapperDelegate];
+    }
+
+    void UnityAdsPurchasingDispatchReturnEvent(UnityAdsPurchasingEvent event, const char * payload) {
+        if (payload == NULL) {
+            payload = "";
+        }
+        [UADSPurchasing dispatchReturnEvent:event withPayload:[NSString stringWithUTF8String:payload]];
     }
 
     void UnityAdsShow(const char * placementId) {
@@ -146,4 +191,20 @@ extern "C" {
         finishCallback = callback;
     }
 
+    void UnityAdsSetDidInitiatePurchasingCommandCallback(UnityAdsPurchasingDidInitiatePurchasingCommandCallback callback) {
+        iapCommandCallback = callback;
+    }
+
+    void UnityAdsSetGetProductCatalogCallback(UnityAdsPurchasingGetProductCatalogCallback callback) {
+        iapCatalogCallback = callback;
+    }
+
+    void UnityAdsSetGetVersionCallback(UnityAdsPurchasingGetPurchasingVersionCallback callback) {
+        iapVersionCallback = callback;
+    }
+
+    void UnityAdsSetInitializePurchasingCallback(UnityAdsPurchasingInitializeCallback callback) {
+        iapInitializeCallback = callback;
+    }
 }
+
