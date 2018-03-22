@@ -643,8 +643,11 @@ public class LineWriter : MonoBehaviour
                 if (ListLineRenderers.Count > 0)
                 {
                     GameObject renderer = ListLineRenderers[ListLineRenderers.Count - 1];
-                    ListLineRenderers.RemoveAt(ListLineRenderers.Count - 1);
-                    Destroy(renderer);
+                    if (renderer.GetComponent<LineRenderer>().positionCount < 15)
+                    {
+                        ListLineRenderers.RemoveAt(ListLineRenderers.Count - 1);
+                        Destroy(renderer);
+                    }
                     Positions.Clear();
                 }
                 MainFinger = -1;
