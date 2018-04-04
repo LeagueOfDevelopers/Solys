@@ -221,7 +221,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: cee533bdaf5c01a4091b972ae1bbb654, type: 3}
+    m_Font: {fileID: 12800000, guid: d78cf6aa8fd6fbe43a4c05948de232f7, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: I Pack
+  m_Text: "\u0420\u0430\u0437\u043D\u043E\u0435  I"
 --- !u!114 &114158891043652466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,16 +273,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Title: {fileID: 1405406546292294}
-  FirstScene: 3
-  LastScene: 6
+  FirstScene: 24
+  LastScene: 28
   StarsLabel: {fileID: 1818944492043706}
   ScrollView: {fileID: 0}
   Lock: {fileID: 1148591434706640}
   CostLabel: {fileID: 1564906264345566}
-  PackGroup: 0
-  PackGroupOpen: 0
-  Cost: 0
-  locked: 0
+  PackGroup: 3
+  PackGroupOpen: 5
+  Cost: 10
+  PowerBoostValue: 5
+  locked: 1
 --- !u!114 &114262448935346544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -515,7 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.803}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.722}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -797,7 +798,7 @@ RectTransform:
   m_GameObject: {fileID: 1978700045573824}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0001999, y: 1.0001999, z: 1.0001999}
   m_Children:
   - {fileID: 224658626817390762}
   - {fileID: 224137233081528530}
@@ -810,5 +811,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 180, y: 180}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
