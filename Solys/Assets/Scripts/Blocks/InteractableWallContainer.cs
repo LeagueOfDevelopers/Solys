@@ -14,24 +14,40 @@ public class InteractableWallContainer : MonoBehaviour {
     {
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
         GeneralLogic.StartSimulationEvent += StartSimulation;
+        GeneralLogic.StopSimulationEvent += StopSimulation;
         StopInteractBlock();
+        foreach (Collider2D child in transform.GetComponentsInChildren<Collider2D>())
+            child.enabled = false;
     }
 
     private void OnDisable()
     {
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
         GeneralLogic.StartSimulationEvent -= StartSimulation;
+        GeneralLogic.StopSimulationEvent += StopSimulation;
     }
 
     private void StartSimulation()
     {
         isSimulation = true;
+        foreach (Collider2D child in transform.GetComponentsInChildren<Collider2D>())
+            child.enabled = true;
     }
 
     private void ResetSimulation()
     {
         isSimulation = false;
         isInteracted = false;
+        foreach (Collider2D child in transform.GetComponentsInChildren<Collider2D>())
+            child.enabled = false;
+    }
+
+    private void StopSimulation()
+    {
+        isSimulation = false;
+        isInteracted = false;
+        foreach (Collider2D child in transform.GetComponentsInChildren<Collider2D>())
+            child.enabled = false;
     }
 
     private void Update()
