@@ -500,7 +500,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &247967340
 GameObject:
@@ -1034,7 +1034,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &975516369
 GameObject:
@@ -1129,7 +1129,7 @@ RectTransform:
   - {fileID: 50517565}
   - {fileID: 2053600652}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1648,6 +1648,25 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224350415044212030, guid: 6a3a62f51cd504e48afcdba567db5ad3,
     type: 2}
   m_PrefabInternal: {fileID: 1629993892}
+--- !u!1 &1629993894 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1968967927637494, guid: 6a3a62f51cd504e48afcdba567db5ad3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1629993892}
+--- !u!114 &1629993895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1629993894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee4021ce59f313499a5cab041f02aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phraseName: "\u041D\u0443\u0436\u043D\u043E \u0431\u043E\u043B\u044C\u0448\u0435
+    \u044D\u043D\u0435\u0440\u0433\u0438\u0438?"
+  FallbackText: Need more energy?
 --- !u!1 &1638139945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,6 +1857,94 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1857398690}
+--- !u!1 &1860456236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1860456238}
+  - component: {fileID: 1860456237}
+  m_Layer: 0
+  m_Name: LeanLocalization
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1860456237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1860456236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806f0696300aeac44a0e17efee222854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultLanguage: English
+  DetectLanguage: 1
+  SaveLanguage: 1
+  Languages:
+  - Russian
+  - English
+  Cultures:
+  - Language: Russian
+    Alias: ru
+  - Language: Russian
+    Alias: ru-RU
+  - Language: English
+    Alias: en
+  - Language: English
+    Alias: en-GB
+  - Language: English
+    Alias: en-US
+  - Language: English
+    Alias: en-AU
+  - Language: English
+    Alias: en-CA
+  - Language: English
+    Alias: en-NZ
+  - Language: English
+    Alias: en-IE
+  - Language: English
+    Alias: en-ZA
+  - Language: English
+    Alias: en-JM
+  - Language: English
+    Alias: en-en029
+  - Language: English
+    Alias: en-BZ
+  - Language: English
+    Alias: en-TT
+  - Language: English
+    Alias: en-ZW
+  - Language: English
+    Alias: en-PH
+  Phrases:
+  - Name: "\u041D\u0443\u0436\u043D\u043E \u0431\u043E\u043B\u044C\u0448\u0435 \u044D\u043D\u0435\u0440\u0433\u0438\u0438?"
+    Translations:
+    - Language: Russian
+      Text: "\u041D\u0443\u0436\u043D\u043E \u0431\u043E\u043B\u044C\u0448\u0435 \u044D\u043D\u0435\u0440\u0433\u0438\u0438?"
+      Object: {fileID: 0}
+    - Language: English
+      Text: Need more energy?
+      Object: {fileID: 0}
+--- !u!4 &1860456238
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1860456236}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1869468146
 GameObject:
   m_ObjectHideFlags: 0
