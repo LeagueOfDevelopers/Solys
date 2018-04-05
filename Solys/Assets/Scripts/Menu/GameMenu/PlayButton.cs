@@ -41,7 +41,6 @@ public class PlayButton : MonoBehaviour {
         {
             ShowOptions options = new ShowOptions();
             options.resultCallback = HandleShowResult;
-            //GetComponent<Toggle>().isOn = false;
             Advertisement.Show(AdsButton.placement, options);
         }
     }

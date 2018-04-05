@@ -16,6 +16,7 @@ public class PowerLabel : MonoBehaviour {
         SetBuyPanelVisibility(false);
         GeneralLogic.StartSimulationEvent += StartSimulation;
         GeneralLogic.ResetSimulationEvent += ResetSimulation;
+        GeneralLogic.StopSimulationEvent += ResetSimulation;
         if (BuyPanel != null && IsNeedToShowBuyPanel())
             ShowBuyPanel();
 
@@ -25,6 +26,7 @@ public class PowerLabel : MonoBehaviour {
     {
         GeneralLogic.StartSimulationEvent -= StartSimulation;
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
+        GeneralLogic.StopSimulationEvent -= ResetSimulation;
     }
 
     private bool IsNeedToShowBuyPanel()
