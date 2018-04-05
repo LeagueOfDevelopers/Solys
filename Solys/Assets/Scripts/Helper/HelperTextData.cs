@@ -82,7 +82,7 @@ public static class HelperTextData
                 return new string[]{
                     "The charge scale is spent on drawing lines.",
                     "Your result depends on the amount of charge spent.",
-                    "More charge - more stars!"
+                    "Less charge spent - more stars!"
                 };
             case 6:
                 return new string[] {
