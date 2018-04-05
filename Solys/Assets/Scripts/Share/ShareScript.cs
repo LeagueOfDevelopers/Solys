@@ -14,6 +14,7 @@ public class ShareScript : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
         Share();
+        yield return new WaitForEndOfFrame();
         SceneManager.LoadScene(1);
     }
 	
