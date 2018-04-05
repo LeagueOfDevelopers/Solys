@@ -37,6 +37,7 @@ public class MainMenuScript : MonoBehaviour {
     private void Start()
     {
         ButtonText.transform.parent.gameObject.GetComponent<Button>().interactable = false;
+        Debug.Log(Lean.Localization.LeanLocalization.CurrentLanguage);
     }
 
     private void Update()
