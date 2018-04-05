@@ -38,8 +38,11 @@ public class ToolboxHandler : MonoBehaviour {
 
     private void ClearAll()
     {
-        transform.Find("Writer").GetComponent<Toggle>().isOn = true;
         fullClearCounter = 0;
-        GeneralLogic.ResetSimulationEvent();
+        if (GameObject.Find("Play").GetComponent<Toggle>().isOn == false)
+        {
+            transform.Find("Writer").GetComponent<Toggle>().isOn = true;
+            GeneralLogic.ResetSimulationEvent();
+        }
     }
 }

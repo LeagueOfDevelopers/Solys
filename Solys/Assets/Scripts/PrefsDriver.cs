@@ -95,7 +95,7 @@ public static class PrefsDriver {
 
     private static int AddStartPower()
     {
-        int startPower = RemoteSettings.GetInt("StartPowerValue", 30);
+        int startPower = RemoteSettings.GetInt("StartPowerValue", 20);
         PlayerPrefsUtility.SetEncryptedInt("StartPowerValueUsed", 1);
         PlayerPrefsUtility.SetEncryptedInt("CurrentPower", startPower);
         return startPower;
