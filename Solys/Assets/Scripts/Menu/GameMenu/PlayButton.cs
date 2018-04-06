@@ -4,12 +4,28 @@ using UnityEngine.Advertisements;
 
 public class PlayButton : MonoBehaviour {
 
+    private bool isPlayMode = false;
+
     void Start()
     {
-        
+
+        isPlayMode = false;
         if (!Advertisement.isInitialized && PrefsDriver.GetPower() < 5)
             Advertisement.Initialize(AdsButton.gameId, true);
 
+    }
+
+    public void OnClick()
+    {
+        int power = PrefsDriver.GetPower();
+
+        if (!isPlayMode)
+            PlayPressed(power);
+        else
+            ReplayPressed();
+
+        if (!Advertisement.isInitialized && power < 5)
+            Advertisement.Initialize(AdsButton.gameId, true);
     }
 
     public void OnClick(bool isPlayPressed)
@@ -34,6 +50,7 @@ public class PlayButton : MonoBehaviour {
             ShowAd();
         
     }
+
 
     void ShowAd()
     {
