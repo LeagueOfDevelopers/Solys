@@ -39,7 +39,7 @@ public class ToolboxHandler : MonoBehaviour {
     private void ClearAll()
     {
         fullClearCounter = 0;
-        if (GameObject.Find("Play").GetComponent<Toggle>().isOn == false)
+        if (GameObject.Find("Play").GetComponent<PlayButton>().IsPlaying == false)
         {
             transform.Find("Writer").GetComponent<Toggle>().isOn = true;
             GeneralLogic.ResetSimulationEvent();

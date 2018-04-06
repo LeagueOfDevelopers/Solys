@@ -1,18 +1,36 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Advertisements;
 
 public class PlayButton : MonoBehaviour {
 
+    public Sprite PlaySprite;
+    public Sprite ReplaySprite;
+
+    private Image image;
     private bool isPlayMode = false;
+
+    public bool IsPlaying
+    {
+        get
+        {
+            return isPlayMode;
+        }
+    }
 
     void Start()
     {
-
-        isPlayMode = false;
+        image = GetComponent<Image>();
+        isPlayMode = false; 
         if (!Advertisement.isInitialized && PrefsDriver.GetPower() < 5)
             Advertisement.Initialize(AdsButton.gameId, true);
 
+    }
+
+    private void Update()
+    {
+        image.sprite = isPlayMode ? ReplaySprite : PlaySprite;
     }
 
     public void OnClick()
@@ -43,7 +61,8 @@ public class PlayButton : MonoBehaviour {
     }
 
     private void PlayPressed(int power)
-    {      
+    {
+        isPlayMode = true;
         if (power > 0)
             GeneralLogic.StartSimulationEvent();
         else
@@ -78,6 +97,7 @@ public class PlayButton : MonoBehaviour {
 
     private void ReplayPressed()
     {
+        isPlayMode = false;
         GeneralLogic.StopSimulationEvent();
     }
 }
