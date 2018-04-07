@@ -24,7 +24,7 @@ public class InteractableWallContainer : MonoBehaviour {
     {
         GeneralLogic.ResetSimulationEvent -= ResetSimulation;
         GeneralLogic.StartSimulationEvent -= StartSimulation;
-        GeneralLogic.StopSimulationEvent += StopSimulation;
+        GeneralLogic.StopSimulationEvent -= StopSimulation;
     }
 
     private void StartSimulation()
