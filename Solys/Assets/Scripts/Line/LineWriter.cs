@@ -327,7 +327,7 @@ public class LineWriter : MonoBehaviour
         int j = 0;
         while (j < Expectline.Length)
         {
-            if (Vector2.Distance(PosNow, Expectline[j]) <= EraseSize)
+            if (Vector2.Distance(PosNow, Expectline[j]) <= EraseSize * Camera.main.GetComponent<CameraLogic>().GetZoomMultiplyer)
             {
                 if (indexForStartErase == -1) indexForStartErase = j;
                 else indexForEndErase = j;

@@ -6,15 +6,25 @@ namespace Lean.Touch
 	// This modifies LeanCameraZoom to be smooth
 	public class CameraLogic : CameraZoomAndMove
 	{
-        public bool isActive;
+        public bool isActive; 
 
 		[Tooltip("How quickly the zoom reaches the target value")]
 		public float Dampening = 10.0f;
 
-		private float currentZoom;
+        private float startZoom;
+        private float currentZoom;
+
+        public float GetZoomMultiplyer
+        {
+            get
+            {
+                return Zoom / startZoom;
+            }
+        }
 
 		protected virtual void OnEnable()
 		{
+            startZoom = Zoom;
 			currentZoom = Zoom;
             LeanTouch.OnFingerUp += OnFingerUp;
 		}
