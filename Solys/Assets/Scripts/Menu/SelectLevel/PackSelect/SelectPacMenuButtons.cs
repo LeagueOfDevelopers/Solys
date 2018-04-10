@@ -8,5 +8,8 @@ public class SelectPacMenuButtons : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
-
+    public void OpenSelectPackScene()
+    {
+        SceneManager.LoadScene(1);
+    }
 }
