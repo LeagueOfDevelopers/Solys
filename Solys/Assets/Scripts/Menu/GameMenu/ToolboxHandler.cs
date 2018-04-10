@@ -27,10 +27,10 @@ public class ToolboxHandler : MonoBehaviour {
 
     }
 
-    public void FullResetClickCounter()
+    public void FullResetClickCounter(bool isEraser)
     {
         fullClearCounter++;
-        if (fullClearCounter > 2)
+        if (fullClearCounter > 2 && isEraser)
         {
             ClearAll();
         }
