@@ -66,7 +66,13 @@ public class PlayButton : MonoBehaviour {
         if (power > 0)
             GeneralLogic.StartSimulationEvent();
         else
+            if (PrefsDriver.IsPackGroupUnlocked(3))
             ShowAd();
+        else
+        {
+            PrefsDriver.AddPower(3);
+            GeneralLogic.StartSimulationEvent();
+        }
         
     }
 

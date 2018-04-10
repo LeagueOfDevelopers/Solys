@@ -33,7 +33,7 @@ public class PowerLabel : MonoBehaviour {
     {
         int power = PrefsDriver.GetPower();
         //bool buyShowed = SceneDataTransfer.Instance.BuyShowed;
-        return (power < 10);
+        return (power < 10 && PrefsDriver.IsPackGroupUnlocked(3));
     }
 
     private void ShowBuyPanel()
