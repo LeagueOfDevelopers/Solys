@@ -9,14 +9,14 @@ public class ToolboxHandler : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         writer = GameObject.Find("LineWriter");
-        Debug.Log(writer.name);
+        //Debug.Log(writer.name);
 	}
 	
 	
 
     public void valueChange(bool isWriter)
     {
-        Debug.Log(isWriter);
+        //Debug.Log(isWriter);
         if (isWriter)
         {
             fullClearCounter = 0;

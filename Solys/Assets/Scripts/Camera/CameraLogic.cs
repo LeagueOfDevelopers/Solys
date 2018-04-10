@@ -11,7 +11,7 @@ namespace Lean.Touch
 		[Tooltip("How quickly the zoom reaches the target value")]
 		public float Dampening = 10.0f;
 
-        private float startZoom;
+        private float startZoom = 5.0f;
         private float currentZoom;
 
         public float GetZoomMultiplyer

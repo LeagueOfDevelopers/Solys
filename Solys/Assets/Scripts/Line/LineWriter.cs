@@ -502,7 +502,7 @@ public class LineWriter : MonoBehaviour
         {
             Destroy(ListLineRenderers[i]);
         }
-        ListLineRenderers.Clear();
+        //ListLineRenderers.Clear();
     }
 
     public void ResetSimulation()
@@ -513,10 +513,11 @@ public class LineWriter : MonoBehaviour
             Destroy(ListLineRenderers[i]);
         }
         ListLineRenderers.Clear();
-        Debug.Log("LineWriter Now Enabled");
+        //Debug.Log("LineWriter Now Enabled");
         isEnabled = true;
+        Debug.Log("QUANTITY = " + quanityLines.ToString());
         quanityLines = startQuanityLines;
-        
+
     }
 
     private List<Vector3> GetAdditionalPoints(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3) //Метод для получения дополнительных точек среди 4 точек.
